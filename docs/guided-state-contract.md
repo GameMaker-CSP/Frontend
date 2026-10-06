@@ -59,6 +59,16 @@ parses before calling `applyGameData`.
 The initial helper is a standalone prototype. Connecting it to Continue, Preview,
 and Save is a later integration task with Rohan and Ishan.
 
+`validateGameTitle(value)` is exported from
+`assets/js/game-maker-guided/validation.js`. It returns
+`{ok: true, value: trimmedTitle}` or `{ok: false, errors: [...]}`. Error codes are
+`title_type`, `title_required`, and `title_too_long`; failures return no replacement title.
+Run its checks with Node 22 or newer:
+
+```bash
+node --test tests/game-maker-guided/*.test.mjs
+```
+
 ## Compatibility gaps to address later
 
 - `a11y` is separate from `game` and is **not** in the current save envelope.
