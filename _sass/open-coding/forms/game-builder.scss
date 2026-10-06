@@ -662,3 +662,146 @@
     color: var(--pref-text-color, #fff);
   }
 }
+
+// Guided mode is intentionally scoped to the UESL Game Maker. It shares the
+// existing builder instead of introducing a second editor or styling system.
+.gm-guided {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: clamp(16px, 3vw, 32px);
+  color: #edf3ff;
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    h2 { margin: 0; color: #ffd700; font-size: clamp(1.5rem, 4vw, 2.1rem); }
+  }
+
+  &__eyebrow, &__step-count {
+    margin: 0 0 6px;
+    color: #aabbff;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  &__progress {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0 0 18px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 42px;
+      padding: 5px;
+      border: 1px solid #3e426a;
+      border-radius: 8px;
+      color: #aab0c8;
+      font-size: .72rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    span {
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border-radius: 50%;
+      background: #30355c;
+      color: #fff;
+    }
+
+    .is-current { border-color: #ffd700; color: #fff; background: #2e2800; }
+    .is-current span { background: #ffd700; color: #111; }
+    .is-complete { border-color: #00d98b; color: #d8ffef; }
+    .is-complete span { background: #00d98b; color: #071a13; }
+  }
+
+  &__card {
+    min-height: 250px;
+    padding: clamp(20px, 4vw, 40px);
+    border: 2px solid #3344aa;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #151537, #0d102a);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, .28);
+  }
+
+  &__step h3 { margin: 0 0 12px; color: #fff; font-size: clamp(1.35rem, 3vw, 1.8rem); }
+  &__step > p:not(.gm-guided__step-count) { max-width: 58ch; color: #c7cce4; line-height: 1.6; }
+
+  &__actions, &__choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  &__actions { justify-content: space-between; margin-top: 18px; }
+
+  &__advanced, &__primary, &__secondary, &__choice {
+    min-height: 44px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  &__primary { background: #ffd700; color: #171300; }
+  &__secondary, &__advanced, &__choice { border-color: #5361ae; background: #202451; color: #f4f6ff; }
+  &__choice { flex: 1 1 160px; text-align: left; }
+  &__choice.is-selected { border-color: #ffd700; background: #332e08; }
+  &__advanced { white-space: nowrap; }
+
+  &__label { display: block; margin: 16px 0 7px; color: #e9edff; font-weight: 700; }
+  &__input {
+    width: 100%;
+    max-width: 440px;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 2px solid #5361ae;
+    border-radius: 9px;
+    background: #0e1030;
+    color: #fff;
+    font: inherit;
+  }
+
+  &__check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 13px 0;
+    color: #eef1ff;
+    cursor: pointer;
+
+    input { width: 20px; height: 20px; accent-color: #00d98b; }
+  }
+
+  &__summary { padding: 12px 14px; border-left: 4px solid #00d4ff; background: #101c3d; color: #dbeaff; }
+
+  button:focus-visible, input:focus-visible {
+    outline: 3px solid #00d4ff;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 620px) {
+    padding: 14px 0;
+    &__header { flex-direction: column; }
+    &__progress { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    &__card { min-height: 300px; }
+    &__actions { align-items: stretch; }
+    &__actions button { flex: 1; }
+  }
+}
