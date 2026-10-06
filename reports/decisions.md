@@ -6,3 +6,6 @@
   Use dependency-free modules and Node's built-in test runner.
 - Agree on UI integration and accessibility persistence with the affected owners
   before changing those contracts.
+- The title adapter copies only its two wrappers and shares unchanged nested
+  data. It accepts parsed envelopes and leaves storage and live-state mutation
+  to the existing editor. Envelope guards are not full level-data validation.

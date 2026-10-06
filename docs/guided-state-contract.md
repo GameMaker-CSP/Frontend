@@ -69,6 +69,30 @@ Run its checks with Node 22 or newer:
 node --test tests/game-maker-guided/*.test.mjs
 ```
 
+`configureGameTitle(snapshot, title)` is exported from
+`assets/js/game-maker-guided/state-adapter.js`. It requires a save object with a
+`game.levels` array and a positive safe-integer `nextId`. Success returns
+`{ok: true, value: updatedEnvelope}`; invalid envelopes return
+`invalid_save_envelope` on `savedGame`, and invalid titles reuse the title errors.
+It never parses JSON, writes storage, or applies changes to the live editor.
+
+```js
+import { configureGameTitle } from './assets/js/game-maker-guided/state-adapter.js';
+
+// savedGame is an existing, parsed {game, nextId} envelope.
+const result = configureGameTitle(savedGame, '  Star Adventure  ');
+if (result.ok) {
+  console.log(result.value.game.title); // Star Adventure
+} else {
+  console.log(result.errors); // Keep current editor state; show these corrections.
+}
+```
+
+Only the envelope and game wrappers are copied. Nested data is shared and must
+be treated as read-only. This avoids duplicating levels for a title-only change.
+Successful envelope validation does not establish that nested game data is safe
+to render; full saved-data validation remains a later task.
+
 ## Compatibility gaps to address later
 
 - `a11y` is separate from `game` and is **not** in the current save envelope.
