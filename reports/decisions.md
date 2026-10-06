@@ -9,3 +9,10 @@
 - The title adapter copies only its two wrappers and shares unchanged nested
   data. It accepts parsed envelopes and leaves storage and live-state mutation
   to the existing editor. Envelope guards are not full level-data validation.
+
+- 2026-10-06: preserve the individual starter commit history with a merge.
+  Use a separate locked local Ruby bundle to keep the inherited hosting setup.
+  Load the existing guided styles directly on the editor, independent of the
+  theme's optional custom-style hooks; no visual redesign was introduced.
+- Removed inherited credentials from the current tracked configuration and
+  kept local environment files ignored. Existing history was not rewritten.

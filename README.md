@@ -98,11 +98,14 @@ These are the next logical features in priority order:
 ### Running Locally
 
 ```bash
-bundle install
-make          # serves at http://localhost:4700
+bash run_frontend.sh    # http://localhost:4700
 ```
 
-The site talks to the backend at `http://localhost:8424` in dev. Make sure the backend is running too, or update `pythonURI` in `assets/js/api/config.js`.
+In a separate terminal, run `bash run_backend.sh` from the organization's sibling
+`Backend` folder. Follow [Local teacher demo](docs/LOCAL_DEMO.md) for the login,
+save/load walkthrough, prerequisites, and tests. The historical feature lists
+below describe the inherited project; they are not a verification of every
+cloud service in this fork.
 
 ---
 
@@ -222,7 +225,10 @@ bundle install
 
 ### Running the dev server
 
-Run the backend and frontend separately in their own terminals using their own startup scripts: `bash run_backend.sh` from the `Backend` folder (port 8424), and `make jekyll-serve` from the `Frontend` folder (port 4700).
+For the GameMaker-CSP localhost demo, run `bash run_backend.sh` from `Backend`
+(port 8424) and `bash run_frontend.sh` from `Frontend` (port 4700) in separate
+terminals. The frontend script selects `Gemfile.local` and `_config.local.yml`.
+The inherited Makefile commands below use the original build configuration.
 
 ```bash
 make          # Full build + watch (port 4700)
