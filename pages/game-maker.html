@@ -1002,6 +1002,7 @@ permalink: /game-maker/
     <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
       <span style="font-size:2rem;font-weight:900;letter-spacing:0.08em;color:#fff;text-shadow:0 0 30px rgba(255,255,255,0.25);pointer-events:none;user-select:none;">Game Engine</span>
       <div id="gm-tabs">
+        <button class="gm-tab"               data-mode="guided">🧭 Guided</button>
         <button class="gm-tab active" data-mode="design">🎨 Design</button>
         <button class="gm-tab"        data-mode="play">▶ Play</button>
         <button class="gm-tab"        data-mode="settings">⚙️ Settings</button>
@@ -1041,6 +1042,79 @@ permalink: /game-maker/
       Name your game &amp; character<br>— they'll show up when you play!
     </div>
   </div>
+
+  <!-- ══════════ GUIDED MODE ════════════════════════════════════════════ -->
+  <section id="gm-mode-guided" class="gm-mode gm-guided" aria-labelledby="gm-guided-title">
+    <header class="gm-guided__header">
+      <div>
+        <p class="gm-guided__eyebrow">Guided game builder</p>
+        <h2 id="gm-guided-title">Make your game one choice at a time</h2>
+      </div>
+      <button class="gm-guided__advanced" id="gm-guided-advanced" type="button">Open advanced editor</button>
+    </header>
+
+    <ol class="gm-guided__progress" aria-label="Game creation progress">
+      <li class="is-current" data-guided-progress="0"><span>1</span> Start</li>
+      <li data-guided-progress="1"><span>2</span> Choose</li>
+      <li data-guided-progress="2"><span>3</span> Customize</li>
+      <li data-guided-progress="3"><span>4</span> Accessibility</li>
+      <li data-guided-progress="4"><span>5</span> Preview</li>
+      <li data-guided-progress="5"><span>6</span> Save</li>
+    </ol>
+
+    <div class="gm-guided__card">
+      <section class="gm-guided__step is-current" data-guided-step="0" aria-labelledby="gm-guided-start-title">
+        <p class="gm-guided__step-count">Step 1 of 6</p>
+        <h3 id="gm-guided-start-title">Start your game</h3>
+        <p>We will guide you through a few simple choices. Your work stays available in the advanced editor too.</p>
+      </section>
+
+      <section class="gm-guided__step" data-guided-step="1" aria-labelledby="gm-guided-choose-title" hidden>
+        <p class="gm-guided__step-count">Step 2 of 6</p>
+        <h3 id="gm-guided-choose-title">Choose a background</h3>
+        <p>Select a setting for your game. You can change it later.</p>
+        <div class="gm-guided__choices" role="group" aria-label="Background choices">
+          <button type="button" class="gm-guided__choice" data-guided-background="space">🚀 Deep Space</button>
+          <button type="button" class="gm-guided__choice" data-guided-background="sky">☁️ Sky Kingdom</button>
+          <button type="button" class="gm-guided__choice" data-guided-background="ocean">🌊 Ocean Sky</button>
+        </div>
+      </section>
+
+      <section class="gm-guided__step" data-guided-step="2" aria-labelledby="gm-guided-customize-title" hidden>
+        <p class="gm-guided__step-count">Step 3 of 6</p>
+        <h3 id="gm-guided-customize-title">Customize your game</h3>
+        <label class="gm-guided__label" for="gm-guided-title-input">What is your game called?</label>
+        <input id="gm-guided-title-input" class="gm-guided__input" type="text" maxlength="40" autocomplete="off" placeholder="My Awesome Game">
+      </section>
+
+      <section class="gm-guided__step" data-guided-step="3" aria-labelledby="gm-guided-accessibility-title" hidden>
+        <p class="gm-guided__step-count">Step 4 of 6</p>
+        <h3 id="gm-guided-accessibility-title">Pick accessibility supports</h3>
+        <label class="gm-guided__check"><input id="gm-guided-slow" type="checkbox"> Slow down the game</label>
+        <label class="gm-guided__check"><input id="gm-guided-contrast" type="checkbox"> Use high contrast colors</label>
+        <label class="gm-guided__check"><input id="gm-guided-large" type="checkbox"> Make game characters larger</label>
+      </section>
+
+      <section class="gm-guided__step" data-guided-step="4" aria-labelledby="gm-guided-preview-title" hidden>
+        <p class="gm-guided__step-count">Step 5 of 6</p>
+        <h3 id="gm-guided-preview-title">Preview your choices</h3>
+        <p id="gm-guided-summary" class="gm-guided__summary">Your game is ready to preview.</p>
+        <button id="gm-guided-preview" class="gm-guided__secondary" type="button">Preview game</button>
+      </section>
+
+      <section class="gm-guided__step" data-guided-step="5" aria-labelledby="gm-guided-save-title" hidden>
+        <p class="gm-guided__step-count">Step 6 of 6</p>
+        <h3 id="gm-guided-save-title">Save your game</h3>
+        <p>Your game is ready. Save it now, or use the advanced editor to add more details.</p>
+        <button id="gm-guided-save" class="gm-guided__secondary" type="button">Save my game</button>
+      </section>
+    </div>
+
+    <nav class="gm-guided__actions" aria-label="Guided builder controls">
+      <button id="gm-guided-back" class="gm-guided__secondary" type="button">Back</button>
+      <button id="gm-guided-next" class="gm-guided__primary" type="button">Continue</button>
+    </nav>
+  </section>
 
   <!-- ══════════ DESIGN MODE ════════════════════════════════════════════ -->
   <div id="gm-mode-design" class="gm-mode active">
