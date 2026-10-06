@@ -99,7 +99,7 @@ These are the next logical features in priority order:
 
 ```bash
 bundle install
-make          # serves at http://localhost:4500
+make          # serves at http://localhost:4700
 ```
 
 The site talks to the backend at `http://localhost:8424` in dev. Make sure the backend is running too, or update `pythonURI` in `assets/js/api/config.js`.
@@ -221,6 +221,8 @@ bundle install
 ```
 
 ### Running the dev server
+
+Run the backend and frontend separately in their own terminals using their own startup scripts: `bash run_backend.sh` from the `Backend` folder (port 8424), and `make jekyll-serve` from the `Frontend` folder (port 4700).
 
 ```bash
 make          # Full build + watch (port 4700)

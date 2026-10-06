@@ -1090,6 +1090,7 @@ permalink: /game-maker/
       <section class="gm-guided__step" data-guided-step="3" aria-labelledby="gm-guided-accessibility-title" hidden>
         <p class="gm-guided__step-count">Step 4 of 6</p>
         <h3 id="gm-guided-accessibility-title">Pick accessibility supports</h3>
+        <button id="gm-guided-calm" class="gm-guided__secondary" type="button">Calm: slow mode and reduced motion</button>
         <label class="gm-guided__check"><input id="gm-guided-slow" type="checkbox"> Slow down the game</label>
         <label class="gm-guided__check"><input id="gm-guided-contrast" type="checkbox"> Use high contrast colors</label>
         <label class="gm-guided__check"><input id="gm-guided-large" type="checkbox"> Make game characters larger</label>
@@ -3871,6 +3872,8 @@ async function gmLibDelete(id, name, btn) {
 document.querySelectorAll('.gm-tab').forEach(btn => {
   btn.addEventListener('click', () => {
     const mode = btn.dataset.mode;
+    previewFromGuided = mode === 'play' && document.getElementById('gm-mode-guided').classList.contains('active');
+    document.getElementById('gm-back-btn').textContent = previewFromGuided ? '← Back to guided builder' : '← Back to Editor';
 
     if (mode === 'play') {
       if (!startPlay()) return;
@@ -3897,6 +3900,7 @@ document.querySelectorAll('.gm-tab').forEach(btn => {
 const guidedSteps = [...document.querySelectorAll('[data-guided-step]')];
 const guidedProgress = [...document.querySelectorAll('[data-guided-progress]')];
 let guidedStepIndex = 0;
+let previewFromGuided = false;
 
 function showGuidedStep(index) {
   guidedStepIndex = Math.max(0, Math.min(index, guidedSteps.length - 1));
@@ -3922,6 +3926,7 @@ function updateGuidedSummary() {
     a11y.slowMode && 'slower gameplay',
     a11y.highContrast && 'high contrast',
     a11y.largeSprites && 'larger characters',
+    a11y.reduceMotion && 'reduced motion',
   ].filter(Boolean);
   document.getElementById('gm-guided-summary').textContent =
     `“${game.title || 'My Game'}” uses ${backgroundName}${supports.length ? ` with ${supports.join(', ')}` : ''}.`;
@@ -3974,8 +3979,16 @@ guidedTitle.addEventListener('input', () => {
 syncGuidedSupport('gm-guided-slow', 'gs-slow', 'slowMode');
 syncGuidedSupport('gm-guided-contrast', 'gs-contrast', 'highContrast');
 syncGuidedSupport('gm-guided-large', 'gs-large', 'largeSprites');
-setGuidedBackground(game.background);
+// The starter level is initialized below; rendering it here interrupts setup.
 showGuidedStep(0);
+
+document.getElementById('gm-guided-calm').addEventListener('click', () => {
+  a11y.slowMode = true;
+  a11y.reduceMotion = true;
+  document.getElementById('gs-slow').checked = true;
+  document.getElementById('gs-reduce').checked = true;
+  refreshGuidedUI();
+});
 
 document.getElementById('gm-guided-back').addEventListener('click', () => showGuidedStep(guidedStepIndex - 1));
 document.getElementById('gm-guided-next').addEventListener('click', () => {
@@ -3988,6 +4001,8 @@ document.getElementById('gm-guided-preview').addEventListener('click', () => {
     document.getElementById('gm-guided-summary').textContent = 'Add at least one star in the advanced editor before previewing your game.';
     return;
   }
+  previewFromGuided = true;
+  document.getElementById('gm-back-btn').textContent = '← Back to guided builder';
   startMusic();
   document.querySelectorAll('.gm-tab').forEach(button => button.classList.toggle('active', button.dataset.mode === 'play'));
   document.querySelectorAll('.gm-mode').forEach(panel => panel.classList.remove('active'));
@@ -4015,7 +4030,16 @@ function goBackToDesign() {
   document.getElementById('gm-mode-design').classList.add('active');
   renderEditor();
 }
-document.getElementById('gm-back-btn').addEventListener('click', goBackToDesign);
+document.getElementById('gm-back-btn').addEventListener('click', () => {
+  const returnToGuided = previewFromGuided;
+  goBackToDesign(); // Reuse the existing preview cleanup.
+  previewFromGuided = false;
+  if (returnToGuided) {
+    document.querySelector('.gm-tab[data-mode="guided"]').click();
+    showGuidedStep(4);
+    document.getElementById('gm-guided-preview').focus();
+  }
+});
 
 // Pause / Resume / Stop controls
 document.getElementById('gm-ctrl-play') .addEventListener('click', resumeGame);
@@ -4074,6 +4098,8 @@ document.getElementById('gm-savename-cancel').addEventListener('click', () => gm
 document.getElementById('gm-savename-confirm').addEventListener('click', gmConfirmSave);
 document.getElementById('gm-library-close').addEventListener('click', () => gmCloseModal('gm-library-modal'));
 document.getElementById('gm-play-btn').addEventListener('click', () => {
+  previewFromGuided = false;
+  document.getElementById('gm-back-btn').textContent = '← Back to Editor';
   if (!startPlay()) return;
   startMusic();
   document.querySelectorAll('.gm-tab').forEach(b=>b.classList.remove('active'));
