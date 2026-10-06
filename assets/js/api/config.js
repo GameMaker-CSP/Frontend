@@ -12,7 +12,7 @@ export const DEV_MODE = false;
 export function getDevMode() { return sessionStorage.getItem('devMode') === 'true'; }
 export async function setDevMode(enabled, pythonURIParam) {
     const uri = pythonURIParam || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-        ? 'http://localhost:8424' : 'https://uesl.opencodingsociety.com');
+        ? `http://${location.hostname}:8424` : 'https://uesl.opencodingsociety.com');
     const res = await fetch(`${uri}/api/id`, { credentials: 'include' });
     if (!res.ok) throw new Error('Not authenticated');
     const data = await res.json();
@@ -23,7 +23,7 @@ export async function setDevMode(enabled, pythonURIParam) {
 
 export var pythonURI;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    pythonURI = "http://localhost:8424";  // Same URI for localhost or 127.0.0.1
+    pythonURI = `http://${location.hostname}:8424`;  // Keep cookies on the frontend's hostname.
 } else {
     pythonURI = "https://uesl.opencodingsociety.com";
 
@@ -31,7 +31,7 @@ if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
 
 export var javaURI;
 if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-        javaURI = "http://localhost:8424";
+        javaURI = `http://${location.hostname}:8424`;
 } else {
     javaURI = "https://uesl.opencodingsociety.com";
 }
@@ -60,14 +60,14 @@ export function login(options) {
     document.getElementById(options.message).textContent = "";
 
     // Fetch JWT from the server
-    fetch(options.URL, requestOptions)
+    return fetch(options.URL, requestOptions)
     .then(response => {
         // Trap error response from the Web API
         if (!response.ok) {
             const errorMsg = 'Login error: ' + response.status;
             console.log(errorMsg);
             document.getElementById(options.message).textContent = errorMsg;
-            return response;  // Exit early if response is not OK
+            return;  // Authentication failures must never call the success callback.
         }
         // Success: Proceed with callback
         options.callback();

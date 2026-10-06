@@ -1,0 +1,23 @@
+# Override only local runtime settings; keep the inherited deployment config separate.
+url: "http://localhost:4700"
+baseurl: ""
+host: "127.0.0.1"
+port: 4700
+remote_theme: ""
+theme: minima
+plugins:
+  - jekyll-include-cache
+incremental: false
+exclude:
+  - vendor
+  - Makefile
+  - _notebooks
+  - _docx
+  - venv
+  - tests
+  - reports
+  - docs
+  - scripts
+  - run_frontend.sh
+  - Gemfile.local
+  - Gemfile.local.lock
