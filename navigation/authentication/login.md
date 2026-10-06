@@ -6,93 +6,6 @@ search_exclude: true
 show_reading_time: false
 ---
 
-<style>
-:root {
-  --bg:        #0d1117;
-  --surface:   #161b27;
-  --surface2:  #1e2535;
-  --surface3:  #252d40;
-  --cyan:      #00d4ff;
-  --cyan-dim:  rgba(0,212,255,.12);
-  --purple:    #7c3aed;
-  --text:      #e6edf3;
-  --muted:     #8b949e;
-  --border:    rgba(255,255,255,.07);
-  --r:         12px;
-  --r-lg:      20px;
-  --font-h:    'Oswald', sans-serif;
-  --font-b:    'Inter', sans-serif;
-}
-
-body { background: var(--bg); color: var(--text); font-family: var(--font-b); }
-
-#login-page-wrap {
-  min-height: 70vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 16px;
-}
-
-.login-page-slm-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: clamp(28px,4vw,48px);
-  width: min(460px, 92vw);
-  box-shadow: 0 24px 80px rgba(0,0,0,.7);
-}
-.login-page-slm-tabs {
-  display: flex;
-  gap: 0;
-  margin-bottom: 28px;
-  border-bottom: 1px solid var(--border);
-}
-.login-page-slm-tab {
-  padding: 10px 24px;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  color: var(--muted);
-  font-size: .95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color .2s, border-color .2s;
-  margin-bottom: -1px;
-}
-.login-page-slm-tab.active { color: var(--cyan); border-color: var(--cyan); }
-.login-page-slm-field { margin-bottom: 16px; }
-.login-page-slm-label { display: block; font-size: .82rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-.login-page-slm-input {
-  width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 11px 14px;
-  color: var(--text);
-  font-size: .95rem;
-  font-family: var(--font-b);
-  outline: none;
-  transition: border-color .2s;
-  box-sizing: border-box;
-}
-.login-page-slm-input:focus { border-color: rgba(0,212,255,.5); }
-.login-page-slm-btn {
-  width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 30px;
-  margin-top: 8px;
-  background: linear-gradient(135deg, var(--cyan), var(--purple));
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: opacity .2s, transform .15s;
-}
-.login-page-slm-btn:hover { opacity: .9; transform: scale(1.01); }
-.login-page-slm-err { font-size: .82rem; margin-top: -8px; margin-bottom: 8px; display: none; }
-</style>
 
 <div id="login-page-wrap">
   <div class="login-page-slm-card">
@@ -106,8 +19,8 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-b); }
 
     <!-- tabs -->
     <div class="login-page-slm-tabs" id="login-page-slm-tabs">
-      <button class="login-page-slm-tab active" id="login-page-slm-tab-login" onclick="loginPage_slmSwitchTab('login')">Sign In</button>
-      <button class="login-page-slm-tab" id="login-page-slm-tab-register" onclick="loginPage_slmSwitchTab('register')">Create Account</button>
+      <button class="ocs__btn login-page-slm-tab active" id="login-page-slm-tab-login" onclick="loginPage_slmSwitchTab('login')">Sign In</button>
+      <button class="ocs__btn login-page-slm-tab" id="login-page-slm-tab-register" onclick="loginPage_slmSwitchTab('register')">Create Account</button>
     </div>
 
     <!-- LOGIN FLOW -->
@@ -116,15 +29,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-b); }
         <div class="login-page-slm-field"><label class="login-page-slm-label">User ID</label><input class="login-page-slm-input" id="login-page-slm-uid" type="text" placeholder="your_user_id" autocomplete="username"/></div>
         <div class="login-page-slm-field"><label class="login-page-slm-label">Password</label><input class="login-page-slm-input" id="login-page-slm-pw" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
         <div class="login-page-slm-err" id="login-page-slm-l1-msg" style="display:none;"></div>
-        <button class="login-page-slm-btn" id="login-page-slm-send-otp-btn" onclick="loginPage_slmSendOtp()">Sign In</button>
+        <button class="ocs__btn login-page-slm-btn" id="login-page-slm-send-otp-btn" onclick="loginPage_slmSendOtp()">Sign In</button>
       </div>
       <div id="login-page-slm-l2" style="display:none;">
         <p style="color:var(--muted);font-size:.88rem;margin-bottom:16px;">Enter the 6-digit code sent to your registered email.</p>
         <div id="login-page-slm-dev-otp-box" style="display:none;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--cyan);">Dev mode — code: <strong id="login-page-slm-dev-otp-code" style="letter-spacing:.12rem;"></strong></div>
         <div class="login-page-slm-field"><input class="login-page-slm-input" id="login-page-slm-otp" type="text" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="text-align:center;letter-spacing:.4rem;font-size:1.4rem;"/></div>
         <div class="login-page-slm-err" id="login-page-slm-l2-msg" style="display:none;"></div>
-        <button class="login-page-slm-btn" onclick="loginPage_slmVerifyOtp()">Verify &amp; Sign In</button>
-        <button class="login-page-slm-btn" onclick="loginPage_slmBackToL1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
+        <button class="ocs__btn login-page-slm-btn" onclick="loginPage_slmVerifyOtp()">Verify &amp; Sign In</button>
+        <button class="ocs__btn login-page-slm-btn" onclick="loginPage_slmBackToL1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
       </div>
     </div>
 
@@ -133,15 +46,15 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-b); }
       <div id="login-page-slm-r1">
         <div class="login-page-slm-field"><label class="login-page-slm-label">Email Address</label><input class="login-page-slm-input" id="login-page-slm-r-email" type="email" placeholder="you@email.com" autocomplete="email"/></div>
         <div class="login-page-slm-err" id="login-page-slm-r1-msg" style="display:none;"></div>
-        <button class="login-page-slm-btn" id="login-page-slm-r-send-btn" onclick="loginPage_slmSuSendOtp()">Send Verification Code</button>
+        <button class="ocs__btn login-page-slm-btn" id="login-page-slm-r-send-btn" onclick="loginPage_slmSuSendOtp()">Send Verification Code</button>
       </div>
       <div id="login-page-slm-r2" style="display:none;">
         <p style="color:var(--muted);font-size:.88rem;margin-bottom:16px;">Enter the 6-digit code sent to <strong id="login-page-slm-r-otp-target" style="color:var(--text);"></strong>.</p>
         <div id="login-page-slm-r-dev-otp-box" style="display:none;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--cyan);">Dev mode — code: <strong id="login-page-slm-r-dev-otp-code" style="letter-spacing:.12rem;"></strong></div>
         <div class="login-page-slm-field"><input class="login-page-slm-input" id="login-page-slm-r-otp" type="text" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="text-align:center;letter-spacing:.4rem;font-size:1.4rem;"/></div>
         <div class="login-page-slm-err" id="login-page-slm-r2-msg" style="display:none;"></div>
-        <button class="login-page-slm-btn" onclick="loginPage_slmSuVerifyOtp()">Verify Code</button>
-        <button class="login-page-slm-btn" onclick="loginPage_slmSuBackTo1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
+        <button class="ocs__btn login-page-slm-btn" onclick="loginPage_slmSuVerifyOtp()">Verify Code</button>
+        <button class="ocs__btn login-page-slm-btn" onclick="loginPage_slmSuBackTo1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
       </div>
       <div id="login-page-slm-r3" style="display:none;">
         <p style="color:var(--muted);font-size:.82rem;margin-bottom:14px;">Verified: <span id="login-page-slm-r-verified-email" style="color:#00ff88;"></span></p>
@@ -151,7 +64,7 @@ body { background: var(--bg); color: var(--text); font-family: var(--font-b); }
         <div class="login-page-slm-field" id="login-page-slm-r-parent-field" style="display:none;"><label class="login-page-slm-label">Parent / Guardian Name</label><input class="login-page-slm-input" id="login-page-slm-r-parent" type="text" placeholder="Parent or guardian name"/></div>
         <div class="login-page-slm-field"><label class="login-page-slm-label">Password (min 8 chars)</label><input class="login-page-slm-input" id="login-page-slm-r-pass" type="password" placeholder="••••••••" autocomplete="new-password"/></div>
         <div class="login-page-slm-field"><label class="login-page-slm-label">Confirm Password</label><input class="login-page-slm-input" id="login-page-slm-r-pass2" type="password" placeholder="••••••••"/></div>
-        <button class="login-page-slm-btn" id="login-page-slm-r-create-btn" onclick="loginPage_slmSuCreate()">Create Account</button>
+        <button class="ocs__btn login-page-slm-btn" id="login-page-slm-r-create-btn" onclick="loginPage_slmSuCreate()">Create Account</button>
         <div id="login-page-slm-r3-msg" style="display:none;"></div>
       </div>
     </div>

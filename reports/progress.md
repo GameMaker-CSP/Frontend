@@ -33,3 +33,33 @@
   account load, and playback. The browser reported no console errors.
 - Added `docs/LOCAL_DEMO.md` and updated startup instructions. The capstone's
   remaining features and teammate review remain separate work.
+
+## 2026-10-06: shared OCS implementation
+
+- Done: explicit shared stylesheet loader, theme tokens, native OCS components,
+  static preference styles, and separate page/layout bundles.
+- Done: consolidated canonical/prototype editor CSS; extracted UESL shell,
+  social panels, toolkit, login, app, lesson/post and accessibility-widget CSS.
+  The 11 style blocks in the modified existing files are now zero; historical
+  inline attributes and unrelated old lessons remain outside this migration.
+- Done: converted the infographic and plagiarism includes to OCS while retaining
+  data interfaces and progress hooks. Added clearly labeled component references.
+- Done: 23 frontend tests, three backend tests, local and alternate-baseurl
+  Jekyll builds, desktop/mobile browser checks, login and account save/load/play.
+- Done: ownership/extension guide in `_sass/open-coding/README.md`; startup and
+  demonstration instructions updated in `docs/LOCAL_DEMO.md`.
+- No backend implementation or schema changes were needed. No commits, pushes,
+  hosted deployments, or issue-completion claims are part of this change.
+- All four implementation stages are done; no required work is blocked.
+
+## 2026-10-06: simplify the Sass organization
+
+- Done: consolidated 20 implementation partials into five main files:
+  `_core.scss`, `_site.scss`, `_app.scss`, `_game-maker.scss`, `_lessons.scss`.
+- Done: merged login, small dashboard/lesson navigation, and arena-widget styles
+  into the core and removed their separate stylesheet links/loaders. Total Sass
+  files for this system decreased from 28 to 10 (five sources, five loaders).
+- Done: updated the ownership guide; clean Jekyll build and all 23 frontend
+  checks passed. Compared compiled CSS against a saved pre-change baseline and
+  inspected login, profile, Flask and shared components in the running browser.
+- No backend, startup-script, game behavior, commit, or push changes.

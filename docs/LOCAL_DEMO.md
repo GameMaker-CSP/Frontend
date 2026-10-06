@@ -62,3 +62,21 @@ Local secrets, virtual environments, generated output, and databases stay
 ignored. The backend script creates `.env` only when missing; it preserves
 existing configuration. After changing Python requirements, install them with
 `.venv/bin/python -m pip install -r requirements.txt`.
+
+## Shared OCS styling demo
+
+The same startup commands compile all shared Sass automatically. A Sass edit
+rebuilds the frontend while the script is running; allow the rebuild to finish
+before interacting with a game, because live reload refreshes the page.
+
+- <http://localhost:4700/ocs-components/>: shared controls, Light/Ocean/reset,
+  keyboard focus, and larger text.
+- <http://localhost:4700/ocs-components/lessons/>: illustrative module and case
+  components; these are examples, not actual plagiarism coursework.
+- <http://localhost:4700/python/flask>: the real Flask infographic using OCS.
+
+The style ownership map and extension rules are in
+`_sass/open-coding/README.md`. The local backend supports the core authentication
+and saved-game demo. Its inherited preference-sync endpoint is not present;
+OCS can apply local preferences, but this change does not add cross-device
+preference storage. Do not confuse theme controls with saved gameplay options.

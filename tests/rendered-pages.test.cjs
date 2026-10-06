@@ -32,3 +32,23 @@ test('rendered login scripts coexist without duplicate globals', () => {
   assert.equal(new Set(formIds).size, formIds.length, 'Login and social forms must not share IDs');
   assert.ok(ids.includes('login-page-slm-uid'));
 });
+
+test('shared and page styles ship once with real local assets across the primary routes', () => {
+  for (const route of ['index.html', 'login.html', 'game-maker/index.html', 'game-maker-prototype/index.html', 'ocs-components/index.html', 'ocs-components/lessons/index.html', 'python/flask.html']) {
+    const html = fs.readFileSync(path.join(root, '_site', route), 'utf8');
+    const assets = [...html.matchAll(/<link\b[^>]*href="([^"?]+\.css)"[^>]*>/gi)].map(match => match[1]).filter(href => href.startsWith('/'));
+    assert.equal(assets.filter(href => href === '/assets/css/ocs.css').length, 1, `${route}: OCS must load once`);
+    assert.equal(new Set(assets).size, assets.length, `${route}: no duplicate stylesheet links`);
+    for (const asset of assets) assert.ok(fs.existsSync(path.join(root, '_site', asset)), `${route}: missing ${asset}`);
+  }
+});
+
+test('lesson components render course content and usable navigation without a Tailwind runtime', () => {
+  const flask = fs.readFileSync(path.join(root, '_site/python/flask.html'), 'utf8');
+  for (const title of ['Crash Course', 'Anatomy', 'API creation', 'Jinja UI']) assert.ok(flask.includes(title));
+  const examples = fs.readFileSync(path.join(root, '_site/ocs-components/lessons/index.html'), 'utf8');
+  assert.equal([...examples.matchAll(/data-module="c[1-6]"/g)].length, 6);
+  assert.ok(examples.includes('Planning a shared interface'));
+  assert.ok(!examples.includes('cdn.tailwindcss.com'));
+  assert.ok(examples.includes('ocs__module'));
+});

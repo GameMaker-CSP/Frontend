@@ -9,176 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet"/>
   {% include head-custom.html %}
-  <style>
-    /* ── Design Tokens ─────────────────────────────────────────── */
-    :root {
-      --bg:        #0d1117;
-      --surface:   #161b27;
-      --surface2:  #1e2535;
-      --cyan:      #00d4ff;
-      --purple:    #7c3aed;
-      --text:      #e6edf3;
-      --muted:     #8b949e;
-      --border:    rgba(255,255,255,.07);
-      --font-h:    'Oswald', sans-serif;
-      --font-b:    'Inter', sans-serif;
-      --nav-h:     68px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-b);
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-    img { max-width: 100%; height: auto; display: block; }
-    a { color: inherit; text-decoration: none; }
-    button { font-family: inherit; cursor: pointer; }
-
-    .skip-link {
-      position: absolute; top: -100px; left: 16px; z-index: 10000;
-      background: var(--cyan); color: #000; padding: 10px 18px;
-      border-radius: 0 0 12px 12px; font-weight: 700; font-size: .9rem;
-      transition: top .2s;
-    }
-    .skip-link:focus { top: 0; }
-
-    /* ── Navbar ─────────────────────────────────────────────────── */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      height: var(--nav-h);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(16px, 4vw, 48px);
-      background: rgba(13,17,23,.85);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      transition: background .3s;
-    }
-    #nav.scrolled { background: rgba(13,17,23,.96); }
-    #nav-logo { height: 42px; object-fit: contain; }
-    #nav-links {
-      display: flex; align-items: center; gap: clamp(4px,1.5vw,24px);
-      list-style: none;
-    }
-    #nav-links a {
-      font-size: .92rem; font-weight: 600; color: var(--muted);
-      padding: 6px 4px; border-bottom: 2px solid transparent;
-      transition: color .2s, border-color .2s;
-      white-space: nowrap;
-    }
-    #nav-links a:hover, #nav-links a.active { color: var(--text); border-color: var(--cyan); }
-    .nav-donate {
-      margin-left: 8px; padding: 8px 20px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      border: none; border-radius: 30px;
-      color: #fff; font-size: .88rem; font-weight: 700;
-      transition: opacity .2s, transform .15s;
-    }
-    .nav-donate:hover { opacity: .88; transform: scale(1.04); }
-
-    /* Hamburger */
-    #nav-hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; padding: 4px;
-    }
-    #nav-hamburger span {
-      display: block; width: 24px; height: 2px;
-      background: var(--text); border-radius: 2px;
-      transition: transform .3s, opacity .3s;
-    }
-    #nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    #nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    #nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    @media (max-width: 900px) {
-      #nav-links {
-        display: none; flex-direction: column;
-        position: fixed; inset: var(--nav-h) 0 0 0;
-        background: rgba(13,17,23,.97); padding: 32px 24px; gap: 0;
-        border-top: 1px solid var(--border);
-      }
-      #nav-links.open { display: flex; }
-      #nav-links li { border-bottom: 1px solid var(--border); }
-      #nav-links a { display: block; padding: 16px 0; font-size: 1.1rem; }
-      #nav-hamburger { display: flex; }
-    }
-
-    /* Sign In / Sign Up nav button */
-    .nav-signin-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 18px; border: none; border-radius: 30px;
-      background: linear-gradient(135deg, #00ff88, var(--cyan));
-      color: #000; font-size: .88rem; font-weight: 700; cursor: pointer;
-      transition: opacity .2s, transform .15s;
-      white-space: nowrap;
-    }
-    .nav-signin-btn:hover { opacity: .88; transform: scale(1.04); }
-
-    /* Logged-in user chip in nav */
-    #nav-user-chip {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 5px 14px 5px 5px; border-radius: 30px;
-      background: rgba(0,212,255,.1); border: 1.5px solid rgba(0,212,255,.35);
-      cursor: pointer; transition: background .2s, border-color .2s;
-    }
-    #nav-user-chip:hover { background: rgba(0,212,255,.2); border-color: var(--cyan); }
-    #nav-user-avatar {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      display: flex; align-items: center; justify-content: center;
-      font-size: .75rem; font-weight: 700; color: #fff;
-    }
-    #nav-user-name { font-size: .85rem; font-weight: 700; color: var(--cyan); white-space: nowrap; }
-
-    /* Page body offset for fixed nav */
-    #uesl-app-content { padding-top: var(--nav-h); }
-    body.embed #nav { display: none; }
-    body.embed #uesl-app-content { padding-top: 0; }
-
-    /* ── Sign In / Create Account Modal ─────────────────────────── */
-    #slm-overlay {
-      position: fixed; inset: 0; z-index: 3000;
-      background: rgba(13,17,23,.97);
-      display: none; align-items: center; justify-content: center;
-      backdrop-filter: blur(8px);
-    }
-    #slm-overlay.open { display: flex; }
-    .slm-card {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: 20px; padding: clamp(28px,4vw,48px);
-      width: min(460px, 92vw);
-      box-shadow: 0 24px 80px rgba(0,0,0,.7);
-    }
-    .slm-tabs {
-      display: flex; gap: 0; margin-bottom: 28px;
-      border-bottom: 1px solid var(--border);
-    }
-    .slm-tab {
-      padding: 10px 24px; background: none; border: none; border-bottom: 2px solid transparent;
-      color: var(--muted); font-size: .95rem; font-weight: 600; cursor: pointer;
-      transition: color .2s, border-color .2s; margin-bottom: -1px;
-    }
-    .slm-tab.active { color: var(--cyan); border-color: var(--cyan); }
-    .slm-field { margin-bottom: 16px; }
-    .slm-label { display: block; font-size: .82rem; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
-    .slm-input {
-      width: 100%; background: var(--surface); border: 1px solid var(--border);
-      border-radius: 12px; padding: 11px 14px;
-      color: var(--text); font-size: .95rem; font-family: var(--font-b); outline: none;
-      transition: border-color .2s;
-    }
-    .slm-input:focus { border-color: rgba(0,212,255,.5); }
-    .slm-btn {
-      width: 100%; padding: 13px; border: none; border-radius: 30px; margin-top: 8px;
-      background: linear-gradient(135deg, var(--cyan), var(--purple));
-      color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer;
-      transition: opacity .2s, transform .15s;
-    }
-    .slm-btn:hover { opacity: .9; transform: scale(1.01); }
-    .slm-err { color: #ff6b6b; font-size: .82rem; margin-top: -8px; margin-bottom: 8px; display: none; }
-  </style>
+  <link rel="stylesheet" href="{{ '/assets/css/uesl-app.css' | relative_url }}">
 </head>
 <body>
   <a href="#uesl-app-content" class="skip-link">Skip to content</a>
@@ -204,14 +35,14 @@
            class="nav-donate" target="_blank" rel="noopener">Donate</a>
       </li>
       <li id="nav-auth-item">
-        <button id="nav-signin-btn" class="nav-signin-btn" aria-label="Sign In or Create Account">Sign Up</button>
+        <button id="nav-signin-btn" class="ocs__btn nav-signin-btn" aria-label="Sign In or Create Account">Sign Up</button>
         <div id="nav-user-chip" style="display:none;">
           <div id="nav-user-avatar"></div>
           <span id="nav-user-name"></span>
         </div>
       </li>
     </ul>
-    <button id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <button id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false" class="ocs__btn">
       <span></span><span></span><span></span>
     </button>
   </nav>
@@ -225,13 +56,13 @@
           <img src="https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/efa49c03-11c6-4c97-b21e-05266875502d/UnifiedESL-horizontal.png" style="height:28px;object-fit:contain;" alt="UESL" onerror="this.style.display='none'"/>
           <span style="font-family:var(--font-h);font-size:1.2rem;color:var(--cyan);font-weight:700;">UESL</span>
         </div>
-        <button id="slm-close-btn" aria-label="Close" onclick="document.getElementById('slm-overlay').classList.remove('open');document.body.style.overflow='';" style="background:none;border:none;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer;padding:4px 8px;border-radius:8px;transition:color .2s;" onmouseenter="this.style.color='var(--text)'" onmouseleave="this.style.color='var(--muted)'">✕</button>
+        <button id="slm-close-btn" aria-label="Close" onclick="document.getElementById('slm-overlay').classList.remove('open');document.body.style.overflow='';" style="background:none;border:none;color:var(--muted);font-size:1.5rem;line-height:1;cursor:pointer;padding:4px 8px;border-radius:8px;transition:color .2s;" onmouseenter="this.style.color='var(--text)'" onmouseleave="this.style.color='var(--muted)'" class="ocs__btn">✕</button>
       </div>
 
       <!-- tabs -->
       <div class="slm-tabs" id="slm-tabs">
-        <button class="slm-tab active" id="slm-tab-login" onclick="slmSwitchTab('login')">Sign In</button>
-        <button class="slm-tab" id="slm-tab-register" onclick="slmSwitchTab('register')">Create Account</button>
+        <button class="ocs__btn slm-tab active" id="slm-tab-login" onclick="slmSwitchTab('login')">Sign In</button>
+        <button class="ocs__btn slm-tab" id="slm-tab-register" onclick="slmSwitchTab('register')">Create Account</button>
       </div>
 
       <!-- ── LOGIN FLOW ── -->
@@ -241,7 +72,7 @@
           <div class="slm-field"><label class="slm-label">User ID</label><input class="slm-input" id="slm-uid" type="text" placeholder="your_user_id" autocomplete="username"/></div>
           <div class="slm-field"><label class="slm-label">Password</label><input class="slm-input" id="slm-pw" type="password" placeholder="••••••••" autocomplete="current-password"/></div>
           <div class="slm-err" id="slm-l1-msg" style="display:none;"></div>
-          <button class="slm-btn" id="slm-send-otp-btn" onclick="slmSendOtp()">Sign In</button>
+          <button class="ocs__btn slm-btn" id="slm-send-otp-btn" onclick="slmSendOtp()">Sign In</button>
         </div>
         <!-- Step 2: OTP -->
         <div id="slm-l2" style="display:none;">
@@ -249,8 +80,8 @@
           <div id="slm-dev-otp-box" style="display:none;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--cyan);">Dev mode — code: <strong id="slm-dev-otp-code" style="letter-spacing:.12rem;"></strong></div>
           <div class="slm-field"><input class="slm-input" id="slm-otp" type="text" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="text-align:center;letter-spacing:.4rem;font-size:1.4rem;"/></div>
           <div class="slm-err" id="slm-l2-msg" style="display:none;"></div>
-          <button class="slm-btn" onclick="slmVerifyOtp()">Verify &amp; Sign In</button>
-          <button class="slm-btn" onclick="slmBackToL1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
+          <button class="ocs__btn slm-btn" onclick="slmVerifyOtp()">Verify &amp; Sign In</button>
+          <button class="ocs__btn slm-btn" onclick="slmBackToL1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
         </div>
       </div>
 
@@ -260,7 +91,7 @@
         <div id="slm-r1">
           <div class="slm-field"><label class="slm-label">Email Address</label><input class="slm-input" id="slm-r-email" type="email" placeholder="you@email.com" autocomplete="email"/></div>
           <div class="slm-err" id="slm-r1-msg" style="display:none;"></div>
-          <button class="slm-btn" id="slm-r-send-btn" onclick="slmSuSendOtp()">Send Verification Code</button>
+          <button class="ocs__btn slm-btn" id="slm-r-send-btn" onclick="slmSuSendOtp()">Send Verification Code</button>
         </div>
         <!-- Step 2: OTP verify -->
         <div id="slm-r2" style="display:none;">
@@ -268,8 +99,8 @@
           <div id="slm-r-dev-otp-box" style="display:none;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:.85rem;color:var(--cyan);">Dev mode — code: <strong id="slm-r-dev-otp-code" style="letter-spacing:.12rem;"></strong></div>
           <div class="slm-field"><input class="slm-input" id="slm-r-otp" type="text" placeholder="000000" maxlength="6" inputmode="numeric" autocomplete="one-time-code" style="text-align:center;letter-spacing:.4rem;font-size:1.4rem;"/></div>
           <div class="slm-err" id="slm-r2-msg" style="display:none;"></div>
-          <button class="slm-btn" onclick="slmSuVerifyOtp()">Verify Code</button>
-          <button class="slm-btn" onclick="slmSuBackTo1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
+          <button class="ocs__btn slm-btn" onclick="slmSuVerifyOtp()">Verify Code</button>
+          <button class="ocs__btn slm-btn" onclick="slmSuBackTo1()" style="margin-top:8px;background:none;border:1px solid var(--border);color:var(--muted);">Back</button>
         </div>
         <!-- Step 3: account details -->
         <div id="slm-r3" style="display:none;">
@@ -280,7 +111,7 @@
           <div class="slm-field" id="slm-r-parent-field" style="display:none;"><label class="slm-label">Parent / Guardian Name</label><input class="slm-input" id="slm-r-parent" type="text" placeholder="Parent or guardian name"/></div>
           <div class="slm-field"><label class="slm-label">Password (min 8 chars)</label><input class="slm-input" id="slm-r-pass" type="password" placeholder="••••••••" autocomplete="new-password"/></div>
           <div class="slm-field"><label class="slm-label">Confirm Password</label><input class="slm-input" id="slm-r-pass2" type="password" placeholder="••••••••"/></div>
-          <button class="slm-btn" id="slm-r-create-btn" onclick="slmSuCreate()">Create Account</button>
+          <button class="ocs__btn slm-btn" id="slm-r-create-btn" onclick="slmSuCreate()">Create Account</button>
           <div id="slm-r3-msg" style="display:none;"></div>
         </div>
       </div>

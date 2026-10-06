@@ -1,0 +1,52 @@
+---
+layout: uesl
+title: OCS component reference
+permalink: /ocs-components/
+search_exclude: true
+---
+<div class="ocs__container ocs__stack ocs__reference">
+  <header class="ocs__infograph-header">
+    <h1>Shared OCS components</h1>
+    <p class="ocs__description">The reusable controls and document elements used by this frontend. These examples use the same stylesheet as the game builder and learning pages.</p>
+  </header>
+  <section class="ocs__card ocs__stack" aria-labelledby="ocs-preferences-title">
+    <h2 id="ocs-preferences-title">Preference check</h2>
+    <p>Choose a theme to inspect the shared components. Reset restores the site defaults.</p>
+    <div class="ocs__links">
+      <button class="ocs__btn" type="button" id="ocs-demo-light">Light theme</button>
+      <button class="ocs__btn" type="button" id="ocs-demo-ocean">Ocean theme</button>
+      <button class="ocs__btn" type="button" id="ocs-demo-reset">Reset theme</button>
+    </div>
+    <p id="ocs-demo-status" role="status">Site defaults</p>
+  </section>
+  <section class="ocs__grid cols-2" aria-label="Component examples">
+    <div class="ocs__card ocs__stack">
+      <h2>Controls</h2>
+      <div class="ocs__links"><a class="ocs__btn accent fill" href="{{ '/game-maker/' | relative_url }}">Open game builder</a><button class="ocs__btn" disabled>Disabled action</button></div>
+      <label class="ocs__field">Example game name<input class="ocs__input" maxlength="40" value="My game"></label>
+      <label class="ocs__toggle"><input type="checkbox">Example accessibility option</label>
+      <p class="ocs__description">Labels and focus indicators stay attached to native controls.</p>
+    </div>
+    <div class="ocs__card ocs__stack">
+      <h2>Status and tables</h2>
+      <div class="ocs__links"><span class="ocs__status-pill ocs__status-pill--good">Ready</span><span class="ocs__status-pill ocs__status-pill--warn">Needs review</span></div>
+      <div class="ocs__table-wrap"><table class="ocs__table"><caption>Component ownership</caption><thead><tr><th>Layer</th><th>Responsibility</th></tr></thead><tbody><tr><td>OCS</td><td>Reusable controls</td></tr><tr><td>Game Maker</td><td>Editor composition</td></tr></tbody></table></div>
+    </div>
+  </section>
+  <p><a class="ocs__btn" href="{{ '/ocs-components/lessons/' | relative_url }}">View lesson components</a></p>
+  <aside class="ocs__callout">Keep game behavior in JavaScript and reusable presentation in Sass. See the repository’s OCS guide for extension rules and stylesheet ownership.</aside>
+</div>
+<script>
+document.getElementById('ocs-demo-light').addEventListener('click', () => {
+  window.SitePreferences.applyPreferences({ bg: '#ffffff', text: '#172b3a', accent: '#155586', size: 18 });
+  document.getElementById('ocs-demo-status').textContent = 'Light theme, larger text';
+});
+document.getElementById('ocs-demo-ocean').addEventListener('click', () => {
+  window.SitePreferences.applyPreferences(window.SitePreferences.PRESETS.Ocean);
+  document.getElementById('ocs-demo-status').textContent = 'Ocean theme';
+});
+document.getElementById('ocs-demo-reset').addEventListener('click', () => {
+  window.SitePreferences.resetPreferences();
+  document.getElementById('ocs-demo-status').textContent = 'Site defaults';
+});
+</script>
