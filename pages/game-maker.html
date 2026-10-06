@@ -3887,7 +3887,112 @@ document.querySelectorAll('.gm-tab').forEach(btn => {
     document.getElementById(`gm-mode-${mode}`).classList.add('active');
 
     if (mode==='design') { renderEditor(); }
+    if (mode==='guided') { refreshGuidedUI(); }
   });
+});
+
+/* ── Guided builder ───────────────────────────────────────────────────────
+   This layer writes to the same game and accessibility state as the advanced
+   editor, so changing modes never discards a participant's choices. */
+const guidedSteps = [...document.querySelectorAll('[data-guided-step]')];
+const guidedProgress = [...document.querySelectorAll('[data-guided-progress]')];
+let guidedStepIndex = 0;
+
+function showGuidedStep(index) {
+  guidedStepIndex = Math.max(0, Math.min(index, guidedSteps.length - 1));
+  guidedSteps.forEach((step, stepIndex) => {
+    const active = stepIndex === guidedStepIndex;
+    step.hidden = !active;
+    step.classList.toggle('is-current', active);
+  });
+  guidedProgress.forEach((item, stepIndex) => {
+    item.classList.toggle('is-current', stepIndex === guidedStepIndex);
+    item.classList.toggle('is-complete', stepIndex < guidedStepIndex);
+  });
+  document.getElementById('gm-guided-back').disabled = guidedStepIndex === 0;
+  document.getElementById('gm-guided-next').textContent =
+    guidedStepIndex === guidedSteps.length - 1 ? 'Start over' : 'Continue';
+  if (guidedStepIndex === 4) updateGuidedSummary();
+}
+
+function updateGuidedSummary() {
+  const background = document.getElementById('gi-bg-select');
+  const backgroundName = background?.selectedOptions[0]?.textContent || 'your chosen background';
+  const supports = [
+    a11y.slowMode && 'slower gameplay',
+    a11y.highContrast && 'high contrast',
+    a11y.largeSprites && 'larger characters',
+  ].filter(Boolean);
+  document.getElementById('gm-guided-summary').textContent =
+    `“${game.title || 'My Game'}” uses ${backgroundName}${supports.length ? ` with ${supports.join(', ')}` : ''}.`;
+}
+
+function refreshGuidedUI() {
+  guidedTitle.value = document.getElementById('gi-title').value || game.title;
+  document.getElementById('gm-guided-slow').checked = a11y.slowMode;
+  document.getElementById('gm-guided-contrast').checked = a11y.highContrast;
+  document.getElementById('gm-guided-large').checked = a11y.largeSprites;
+  document.querySelectorAll('[data-guided-background]').forEach(button =>
+    button.classList.toggle('is-selected', button.dataset.guidedBackground === game.background)
+  );
+  updateGuidedSummary();
+}
+
+function setGuidedBackground(backgroundId) {
+  game.background = backgroundId;
+  const select = document.getElementById('gi-bg-select');
+  if (select) select.value = backgroundId;
+  document.querySelectorAll('[data-guided-background]').forEach(button =>
+    button.classList.toggle('is-selected', button.dataset.guidedBackground === backgroundId)
+  );
+  syncBgActive();
+  renderEditor();
+}
+
+function syncGuidedSupport(inputId, settingId, settingKey) {
+  const input = document.getElementById(inputId);
+  const setting = document.getElementById(settingId);
+  input.checked = a11y[settingKey];
+  input.addEventListener('change', () => {
+    a11y[settingKey] = input.checked;
+    if (setting) setting.checked = input.checked;
+    if (playState && settingKey === 'largeSprites') playState.player.size = input.checked ? 52 : 40;
+  });
+}
+
+document.querySelectorAll('[data-guided-background]').forEach(button => {
+  button.addEventListener('click', () => setGuidedBackground(button.dataset.guidedBackground));
+});
+
+const guidedTitle = document.getElementById('gm-guided-title-input');
+guidedTitle.value = game.title;
+guidedTitle.addEventListener('input', () => {
+  game.title = guidedTitle.value || 'My Game';
+  document.getElementById('gi-title').value = guidedTitle.value;
+});
+
+syncGuidedSupport('gm-guided-slow', 'gs-slow', 'slowMode');
+syncGuidedSupport('gm-guided-contrast', 'gs-contrast', 'highContrast');
+syncGuidedSupport('gm-guided-large', 'gs-large', 'largeSprites');
+setGuidedBackground(game.background);
+showGuidedStep(0);
+
+document.getElementById('gm-guided-back').addEventListener('click', () => showGuidedStep(guidedStepIndex - 1));
+document.getElementById('gm-guided-next').addEventListener('click', () => {
+  showGuidedStep(guidedStepIndex === guidedSteps.length - 1 ? 0 : guidedStepIndex + 1);
+});
+document.getElementById('gm-guided-advanced').addEventListener('click', goBackToDesign);
+document.getElementById('gm-guided-save').addEventListener('click', saveGame);
+document.getElementById('gm-guided-preview').addEventListener('click', () => {
+  if (!startPlay()) {
+    document.getElementById('gm-guided-summary').textContent = 'Add at least one star in the advanced editor before previewing your game.';
+    return;
+  }
+  startMusic();
+  document.querySelectorAll('.gm-tab').forEach(button => button.classList.toggle('active', button.dataset.mode === 'play'));
+  document.querySelectorAll('.gm-mode').forEach(panel => panel.classList.remove('active'));
+  document.getElementById('gm-mode-play').classList.add('active');
+  _syncPlayCtrl();
 });
 
 // Back to editor button
