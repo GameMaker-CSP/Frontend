@@ -1,0 +1,1097 @@
+<style>
+  #uesl-game-wrapper {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 10px;
+    color: #eee;
+  }
+  #uesl-game-wrapper h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #FFD700;
+    margin-bottom: 6px;
+    text-shadow: 0 0 12px rgba(255,215,0,0.5);
+  }
+  #uesl-game-wrapper .subtitle {
+    text-align: center;
+    color: #aaa;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+  }
+
+  /* Settings Panel */
+  #uesl-settings-panel {
+    background: #1e1e2e;
+    border: 1px solid #444;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: flex-start;
+  }
+  #uesl-settings-panel .setting-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 160px;
+  }
+  #uesl-settings-panel .setting-group label {
+    font-size: 0.85rem;
+    color: #aaa;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  #uesl-settings-panel select {
+    background: #2a2a3e;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+  }
+  .toggle-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00FF88;
+    cursor: pointer;
+  }
+
+  /* Canvas area */
+  #uesl-game-area {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 24px rgba(0,255,136,0.15);
+  }
+  #ueslCanvas {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  /* Controls hint */
+  #uesl-controls-hint {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 0.88rem;
+    color: #888;
+  }
+  #uesl-controls-hint span {
+    background: #2a2a3e;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 2px 8px;
+    margin: 2px;
+    display: inline-block;
+  }
+
+  /* Restart button */
+  #uesl-restart-btn {
+    display: block;
+    margin: 12px auto 0;
+    padding: 10px 30px;
+    background: #00FF88;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  #uesl-restart-btn:hover { background: #00cc6a; }
+
+  /* Accessibility label */
+  .a11y-badge {
+    display: inline-block;
+    background: #005580;
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+
+<div id="uesl-game-wrapper">
+  <h1>🎮 UESL Accessibility Arena</h1>
+  <p class="subtitle">Collect all stars to win! Fully customizable for students with IDDs.
+    <span class="a11y-badge">♿ IDD-Friendly</span>
+  </p>
+
+  <!-- Settings Panel -->
+  <div id="uesl-settings-panel" role="region" aria-label="Game Settings">
+
+    <div class="setting-group">
+      <label for="uesl-diff">Difficulty</label>
+      <select id="uesl-diff" title="Select difficulty level">
+        <option value="easy">🟢 Easy</option>
+        <option value="medium">🟡 Medium</option>
+        <option value="hard">🔴 Hard</option>
+      </select>
+    </div>
+
+    <div class="setting-group">
+      <label>Simplified Controls</label>
+      <label class="toggle-row" title="Reduce game to two-key control (SPACE cycles direction, ENTER moves)">
+        <input type="checkbox" id="uesl-single-btn"> Single-Button Mode
+      </label>
+      <label class="toggle-row" title="Halve game speed to give more reaction time">
+        <input type="checkbox" id="uesl-slow"> 🐌 Slow Mode
+      </label>
+    </div>
+
+    <div class="setting-group">
+      <label>Visual Adjustments</label>
+      <label class="toggle-row" title="Black background, bright yellow &amp; white elements">
+        <input type="checkbox" id="uesl-contrast"> ⚡ High Contrast
+      </label>
+      <label class="toggle-row" title="Enlarge player, NPCs, and stars for visibility">
+        <input type="checkbox" id="uesl-large"> 🔍 Large Sprites
+      </label>
+      <label class="toggle-row" title="Reduce animation transitions to minimise sensory overload">
+        <input type="checkbox" id="uesl-reduce-motion"> 🛑 Reduce Motion
+      </label>
+    </div>
+
+    <div class="setting-group">
+      <label>Game Assistance</label>
+      <label class="toggle-row" title="Arrow guides you to the nearest star; NPCs become friendly helpers">
+        <input type="checkbox" id="uesl-guided"> 🧭 Guided Mode
+      </label>
+    </div>
+
+    <div class="setting-group">
+      <label>Audio &amp; Feedback</label>
+      <label class="toggle-row" title="Enable sound effects and music">
+        <input type="checkbox" id="uesl-audio" checked> 🔊 Sound Effects
+      </label>
+      <label class="toggle-row" title="Show celebration animations when collecting stars">
+        <input type="checkbox" id="uesl-celebrate" checked> 🎉 Celebrations
+      </label>
+    </div>
+
+  </div>
+
+  <!-- Game Canvas -->
+  <div id="uesl-game-area">
+    <canvas id="ueslCanvas" width="800" height="520" aria-label="UESL Accessibility Arena game canvas" role="img"></canvas>
+  </div>
+
+  <div id="uesl-controls-hint">
+    <span>Arrow Keys / WASD</span> move &nbsp;|&nbsp;
+    <span>SPACE</span> cycle direction (single-button) &nbsp;|&nbsp;
+    <span>ENTER</span> move in direction (single-button) &nbsp;|&nbsp;
+    <span>R</span> restart
+  </div>
+
+  <button id="uesl-restart-btn" aria-label="Restart Game">↺ Restart Game</button>
+</div>
+
+<script>
+(function() {
+  // ─── Canvas & Context ─────────────────────────────────────────────────────
+  const canvas = document.getElementById('ueslCanvas');
+  const ctx    = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  // ─── Accessibility Settings ───────────────────────────────────────────────
+  let settings = {
+    difficulty:    'easy',
+    slowMode:      false,
+    highContrast:  false,
+    largeSprites:  false,
+    reduceMotion:  false,
+    guidedMode:    false,
+    audioEnabled:  true,
+    celebrations:  true,
+    singleButton:  false,
+  };
+
+  // ─── Audio (Web Audio API) ────────────────────────────────────────────────
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    return audioCtx;
+  }
+  function playTone(freq, dur, type = 'sine', vol = 0.25) {
+    if (!settings.audioEnabled) return;
+    try {
+      const ac  = getAudioCtx();
+      const osc = ac.createOscillator();
+      const g   = ac.createGain();
+      osc.connect(g); g.connect(ac.destination);
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ac.currentTime);
+      g.gain.setValueAtTime(vol, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + dur);
+      osc.start(); osc.stop(ac.currentTime + dur);
+    } catch(e) {}
+  }
+  function sfxCollect() {
+    playTone(660, 0.08, 'sine');
+    setTimeout(() => playTone(880, 0.12, 'sine'), 80);
+    setTimeout(() => playTone(1100, 0.1,  'sine'), 160);
+  }
+  function sfxHit() { playTone(180, 0.35, 'sawtooth', 0.18); }
+  function sfxWin()  {
+    [523,659,784,1047].forEach((f,i) => setTimeout(() => playTone(f, 0.35, 'sine'), i*160));
+  }
+
+  // ─── Game State ───────────────────────────────────────────────────────────
+  let barriers        = [];
+  let corridorSamples = [];   // spline guide lines for every walkable corridor
+  let stars      = [];
+  let npcs       = [];
+  let totalStars = 0;
+  let score      = 0;
+  let gameOver   = false;
+  let won        = false;
+
+  // Particles for celebration
+  let particles  = [];
+
+  // Hit flash overlay
+  let hitFlash   = 0;
+
+  // Score pop-up list
+  let scorePops  = [];   // [{x,y,alpha,dy,text}]
+
+  // Single-button mode state
+  let sbDir      = 0;    // 0=right 1=down 2=left 3=up
+  let sbMoving   = false;
+
+  // ─── Player ───────────────────────────────────────────────────────────────
+  const player = {
+    x: 80, y: 80,
+    baseSize: 40,
+    get size() { return settings.largeSprites ? 52 : this.baseSize; },
+    vx: 0, vy: 0,
+    baseSpeed: 3.2,
+    get speed() { return this.baseSpeed; },
+    emoji: '🎮',
+  };
+
+  // ─── Keys ─────────────────────────────────────────────────────────────────
+  const keys = {};
+  document.addEventListener('keydown', e => {
+    keys[e.key] = true;
+
+    if (settings.singleButton) {
+      if (e.key === ' ') {
+        sbDir = (sbDir + 1) % 4;
+        e.preventDefault();
+      }
+      if (e.key === 'Enter') {
+        sbMoving = true;
+        e.preventDefault();
+      }
+    }
+    if ((e.key === 'r' || e.key === 'R') && (won || gameOver)) {
+      initLevel();
+    }
+  });
+  document.addEventListener('keyup', e => {
+    delete keys[e.key];
+    if (e.key === 'Enter') sbMoving = false;
+  });
+
+  // ─── Seeded RNG (xorshift32) ─────────────────────────────────────────────
+  function mkRng(seed) {
+    let s = (seed | 0) || 1;
+    return () => {
+      s ^= s << 13; s ^= s >>> 17; s ^= s << 5;
+      return (s >>> 0) / 4294967296;
+    };
+  }
+
+  // ─── Perfect-maze generator (recursive backtracker) ───────────────────────
+  // hWall[r][c] = true  →  solid wall BELOW row r at column c
+  // vWall[r][c] = true  →  solid wall to the RIGHT of column c at row r
+  function generateMaze(cols, rows, seed) {
+    const rng   = mkRng(seed);
+    const hWall = Array.from({length: rows - 1}, () => new Array(cols).fill(true));
+    const vWall = Array.from({length: rows},     () => new Array(cols - 1).fill(true));
+    const vis   = Array.from({length: rows},     () => new Array(cols).fill(false));
+    function carve(r, c) {
+      vis[r][c] = true;
+      const dirs = [[0,1],[1,0],[0,-1],[-1,0]].sort(() => rng() - 0.5);
+      for (const [dr, dc] of dirs) {
+        const nr = r + dr, nc = c + dc;
+        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && !vis[nr][nc]) {
+          if (dr ===  1) hWall[r][c]  = false;
+          if (dr === -1) hWall[nr][c] = false;
+          if (dc ===  1) vWall[r][c]  = false;
+          if (dc === -1) vWall[r][nc] = false;
+          carve(nr, nc);
+        }
+      }
+    }
+    carve(0, 0);
+    return { hWall, vWall };
+  }
+
+  // ─── Convert maze arrays → barrier rectangles ────────────────────────────
+  function mazeToBars(maze, cols, rows, cw, ch, wt, ox, oy, col) {
+    const bars = [];
+    // Horizontal walls (below row r)
+    for (let r = 0; r < rows - 1; r++)
+      for (let c = 0; c < cols; c++)
+        if (maze.hWall[r][c])
+          bars.push({ x: ox + c * cw,         y: oy + (r + 1) * ch - wt, w: cw, h: wt, col, label: null });
+    // Vertical walls (right of column c)
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols - 1; c++)
+        if (maze.vWall[r][c])
+          bars.push({ x: ox + (c + 1) * cw - wt, y: oy + r * ch,          w: wt, h: ch, col, label: null });
+    return bars;
+  }
+
+  // ─── Catmull-Rom spline math (manual — no engine helpers) ────────────────
+  //
+  //  crPt  : position at t ∈ [0,1] between P1 and P2
+  //  crTan : exact derivative (tangent direction) at t
+  //
+  //  Formula:  q(t) = 0.5 × [ 2·P1 + (−P0+P2)·t
+  //                          + (2P0−5P1+4P2−P3)·t²
+  //                          + (−P0+3P1−3P2+P3)·t³ ]
+  function crPt(P0,P1,P2,P3,t) {
+    const t2=t*t, t3=t2*t;
+    return {
+      x: 0.5*((2*P1.x)+(-P0.x+P2.x)*t+(2*P0.x-5*P1.x+4*P2.x-P3.x)*t2+(-P0.x+3*P1.x-3*P2.x+P3.x)*t3),
+      y: 0.5*((2*P1.y)+(-P0.y+P2.y)*t+(2*P0.y-5*P1.y+4*P2.y-P3.y)*t2+(-P0.y+3*P1.y-3*P2.y+P3.y)*t3),
+    };
+  }
+  function crTan(P0,P1,P2,P3,t) {
+    const t2=t*t;
+    return {
+      x: 0.5*((-P0.x+P2.x)+2*(2*P0.x-5*P1.x+4*P2.x-P3.x)*t+3*(-P0.x+3*P1.x-3*P2.x+P3.x)*t2),
+      y: 0.5*((-P0.y+P2.y)+2*(2*P0.y-5*P1.y+4*P2.y-P3.y)*t+3*(-P0.y+3*P1.y-3*P2.y+P3.y)*t2),
+    };
+  }
+
+  // ─── Extract EVERY walkable corridor chain from maze as world-space points ─
+  //
+  //  Builds adjacency from vWall/hWall, then walks between
+  //  dead-ends (degree 1) and junctions (degree ≥ 3), recording
+  //  a world-space centre-point for each cell along the way.
+  //  Returns an array of point-arrays — one per corridor chain.
+  function extractCorridorPaths(maze, cols, rows, CW, CH, OX, OY) {
+    // adj[r][c] = list of [nr,nc] neighbours with NO wall between them
+    const adj = Array.from({length:rows}, (_, r) =>
+      Array.from({length:cols}, (_, c) => {
+        const nb = [];
+        if (c < cols-1 && !maze.vWall[r][c])   nb.push([r, c+1]);
+        if (c > 0      && !maze.vWall[r][c-1])  nb.push([r, c-1]);
+        if (r < rows-1 && !maze.hWall[r][c])    nb.push([r+1, c]);
+        if (r > 0      && !maze.hWall[r-1][c])  nb.push([r-1, c]);
+        return nb;
+      })
+    );
+
+    const ctr  = (r,c) => ({ x: OX + c*CW + CW/2, y: OY + r*CH + CH/2 });
+    const isNode = (r,c) => adj[r][c].length !== 2;  // dead-end or junction
+    const key    = (r,c) => r * 1000 + c;
+
+    const visited = new Set();
+    const paths   = [];
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (!isNode(r,c)) continue;
+        for (const [nr,nc] of adj[r][c]) {
+          // Canonical edge key — skip if we already traced this connection
+          const lo = Math.min(key(r,c), key(nr,nc));
+          const hi = Math.max(key(r,c), key(nr,nc));
+          const ek = lo * 1e6 + hi;
+          if (visited.has(ek)) continue;
+          visited.add(ek);
+
+          // Walk from (r,c) through the corridor until another node
+          const pts = [ctr(r,c)];
+          let pr=r, pc=c, cr_=nr, cc_=nc;
+          while (!isNode(cr_,cc_)) {
+            pts.push(ctr(cr_,cc_));
+            const nxt = adj[cr_][cc_].filter(([a,b]) => a!==pr || b!==pc);
+            if (!nxt.length) break;
+            [pr,pc] = [cr_,cc_];
+            [cr_,cc_] = nxt[0];
+          }
+          pts.push(ctr(cr_,cc_));
+          if (pts.length >= 2) paths.push(pts);
+        }
+      }
+    }
+    return paths;
+  }
+
+  // ─── Sample a corridor path using Catmull-Rom ──────────────────────────────
+  //  Returns [{x, y, nx, ny}] — position + perpendicular normal per sample.
+  function sampleCorridor(pts, minSamples) {
+    const n = pts.length;
+    if (n < 2) return [];
+    const segs   = n - 1;
+    const perSeg = Math.max(6, Math.ceil(minSamples / segs));
+    const ph0 = { x:2*pts[0].x-pts[1].x,       y:2*pts[0].y-pts[1].y };
+    const phN = { x:2*pts[n-1].x-pts[n-2].x,   y:2*pts[n-1].y-pts[n-2].y };
+    const ext = [ph0, ...pts, phN];
+    const out = [];
+    for (let i = 1; i <= segs; i++) {
+      const P0=ext[i-1], P1=ext[i], P2=ext[i+1], P3=ext[i+2];
+      for (let s = 0; s < perSeg; s++) {
+        const t  = s / perSeg;
+        const p  = crPt(P0,P1,P2,P3,t);
+        const d  = crTan(P0,P1,P2,P3,t);
+        const dl = Math.hypot(d.x,d.y) || 1;
+        const tx = d.x/dl, ty = d.y/dl;
+        out.push({ x:p.x, y:p.y, nx:-ty, ny:tx });
+      }
+    }
+    const lp=pts[n-1], pp=pts[n-2];
+    const dx=lp.x-pp.x, dy=lp.y-pp.y, dl=Math.hypot(dx,dy)||1;
+    out.push({ x:lp.x, y:lp.y, nx:-dy/dl, ny:dx/dl });
+    return out;
+  }
+
+  // ─── Level Configs ────────────────────────────────────────────────────────
+  // Grid dimensions are chosen so  cols × CW = 756  and  rows × CH = 476
+  // which fills the 22 px outer-wall inset exactly (no gaps, no overflow).
+  //
+  //  Easy   6 ×  4 cells  126 × 119 px  WT=14  → 112 × 105 px corridors
+  //  Medium 9 ×  7 cells   84 ×  68 px  WT=11  →  73 ×  57 px corridors
+  //  Hard   9 ×  7 cells   84 ×  68 px  WT=11  →  73 ×  57 px corridors (different seed, 3 fast NPCs)
+  const LEVEL_CFGS = {
+    easy: {
+      cols:6, rows:4, CW:126, CH:119, WT:14, seed:42,
+      stars: [[0,5],[1,0],[1,4],[2,2],[3,1],[3,4]],
+      npcRows:[1], speeds:[0.9],
+      emojis:['👾'], npcColors:['#FF4444'],
+    },
+    medium: {
+      cols:9, rows:7, CW:84, CH:68, WT:11, seed:137,
+      stars: [[0,8],[1,0],[2,5],[3,8],[4,2],[5,7],[6,4]],
+      npcRows:[2,5], speeds:[1.3,1.1],
+      emojis:['👾','🤖'], npcColors:['#FF4444','#FF8800'],
+    },
+    hard: {
+      cols:9, rows:7, CW:84, CH:68, WT:11, seed:999,
+      stars: [[0,8],[1,1],[2,6],[3,0],[3,4],[4,7],[5,2],[6,5]],
+      npcRows:[1,3,5], speeds:[2.2,1.9,1.7],
+      emojis:['👾','🤖','🦾'], npcColors:['#FF4444','#FF8800','#FF00FF'],
+    },
+  };
+
+  function buildLevel(diff) {
+    barriers        = [];
+    corridorSamples = [];
+    stars           = [];
+    npcs            = [];
+    particles       = [];
+    scorePops       = [];
+
+    // Canvas outer-border walls
+    const addWall = (x,y,w,h,col) => barriers.push({x,y,w,h,col,label:null});
+    addWall(0,    0,    W, 22, null);
+    addWall(0,    H-22, W, 22, null);
+    addWall(0,    0,   22,  H, null);
+    addWall(W-22, 0,   22,  H, null);
+
+    const cfg = LEVEL_CFGS[diff];
+    const OX = 22, OY = 22;
+    const WC = '#1a3a7a';
+
+    // Build the full maze and add every corridor wall as a physical barrier
+    const maze = generateMaze(cfg.cols, cfg.rows, cfg.seed);
+    mazeToBars(maze, cfg.cols, cfg.rows, cfg.CW, cfg.CH, cfg.WT, OX, OY, WC)
+      .forEach(b => barriers.push(b));
+
+    // ── Build Catmull-Rom spline samples for EVERY walkable corridor ─────────
+    // hw = half the open corridor width (cell size minus wall thickness, halved)
+    const corrHW = Math.floor((Math.min(cfg.CW, cfg.CH) - cfg.WT) / 2) - 1;
+    const rawPaths = extractCorridorPaths(maze, cfg.cols, cfg.rows, cfg.CW, cfg.CH, OX, OY);
+    corridorSamples = rawPaths.map(pts => ({
+      s:  sampleCorridor(pts, Math.max(20, pts.length * 10)),
+      hw: corrHW,
+    }));
+
+    // Stars — placed at the centre of selected cells
+    for (const [r, c] of cfg.stars)
+      stars.push({ x: OX + c * cfg.CW + cfg.CW / 2,
+                   y: OY + r * cfg.CH + cfg.CH / 2,
+                   collected: false });
+
+    // NPCs patrol horizontally across the centre of their row
+    for (let i = 0; i < cfg.npcRows.length; i++) {
+      const ny = OY + cfg.npcRows[i] * cfg.CH + cfg.CH / 2;
+      npcs.push(makeNpc(80, ny, [{x:80,y:ny},{x:W-80,y:ny}],
+                        cfg.speeds[i], cfg.npcColors[i], cfg.emojis[i]));
+    }
+
+    totalStars = stars.length;
+    score      = 0;
+    won        = false;
+    gameOver   = false;
+    hitFlash   = 0;
+
+    // Spawn player in the centre of cell (0,0)
+    player.x = OX + Math.floor(cfg.CW / 2) - Math.floor(player.size / 2);
+    player.y = OY + Math.floor(cfg.CH / 2) - Math.floor(player.size / 2);
+    player.vx = 0;
+    player.vy = 0;
+  }
+
+  function makeNpc(x, y, path, speed, color, emoji) {
+    return { x, y, size: 36, path, pathIdx: 0, speed, color, emoji };
+  }
+
+  // ─── Collision Helpers ────────────────────────────────────────────────────
+  function rectOverlap(ax,ay,aw,ah, bx,by,bw,bh) {
+    return ax < bx+bw && ax+aw > bx && ay < by+bh && ay+ah > by;
+  }
+  function resolveBarrierCollision() {
+    const ps = player.size;
+    for (const b of barriers) {
+      if (!rectOverlap(player.x, player.y, ps, ps, b.x, b.y, b.w, b.h)) continue;
+      const oL = player.x + ps - b.x;
+      const oR = b.x + b.w - player.x;
+      const oT = player.y + ps - b.y;
+      const oB = b.y + b.h - player.y;
+      const minO = Math.min(oL, oR, oT, oB);
+      if      (minO === oL) player.x = b.x - ps;
+      else if (minO === oR) player.x = b.x + b.w;
+      else if (minO === oT) player.y = b.y - ps;
+      else                  player.y = b.y + b.h;
+    }
+    // Canvas clamp
+    player.x = Math.max(22, Math.min(W - 22 - player.size, player.x));
+    player.y = Math.max(22, Math.min(H - 22 - player.size, player.y));
+  }
+
+  // ─── Nearest uncollected star ─────────────────────────────────────────────
+  function nearestStar() {
+    const px = player.x + player.size/2;
+    const py = player.y + player.size/2;
+    let best = null, bestD = Infinity;
+    for (const s of stars) {
+      if (s.collected) continue;
+      const d = Math.hypot(s.x - px, s.y - py);
+      if (d < bestD) { bestD = d; best = s; }
+    }
+    return best;
+  }
+
+  // ─── Particle System ──────────────────────────────────────────────────────
+  function spawnParticles(cx, cy) {
+    if (!settings.celebrations || settings.reduceMotion) return;
+    const colours = ['#FFD700','#FF6B6B','#00FF88','#00BFFF','#FF69B4'];
+    for (let i = 0; i < 18; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const spd   = 2 + Math.random() * 4;
+      particles.push({
+        x: cx, y: cy,
+        vx: Math.cos(angle)*spd,
+        vy: Math.sin(angle)*spd,
+        life: 1,
+        decay: 0.025 + Math.random()*0.02,
+        r: 4 + Math.random()*5,
+        col: colours[Math.floor(Math.random()*colours.length)]
+      });
+    }
+  }
+
+  // ─── Update ───────────────────────────────────────────────────────────────
+  function update() {
+    if (won || gameOver) return;
+
+    const speedScale = settings.slowMode ? 0.45 : 1;
+    const spd = player.speed * speedScale;
+
+    // Input
+    player.vx = 0; player.vy = 0;
+    if (settings.singleButton) {
+      if (sbMoving) {
+        if (sbDir === 0) player.vx =  spd;
+        if (sbDir === 1) player.vy =  spd;
+        if (sbDir === 2) player.vx = -spd;
+        if (sbDir === 3) player.vy = -spd;
+      }
+    } else {
+      if (keys['ArrowLeft']  || keys['a'] || keys['A']) player.vx -= spd;
+      if (keys['ArrowRight'] || keys['d'] || keys['D']) player.vx += spd;
+      if (keys['ArrowUp']    || keys['w'] || keys['W']) player.vy -= spd;
+      if (keys['ArrowDown']  || keys['s'] || keys['S']) player.vy += spd;
+    }
+
+    player.x += player.vx;
+    player.y += player.vy;
+    resolveBarrierCollision();
+
+    // NPC movement
+    for (const npc of npcs) {
+      const nspd = npc.speed * speedScale;
+      const tgt  = npc.path[npc.pathIdx];
+      const dx   = tgt.x - npc.x;
+      const dy   = tgt.y - npc.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 3) {
+        npc.pathIdx = (npc.pathIdx + 1) % npc.path.length;
+      } else {
+        npc.x += (dx/dist)*nspd;
+        npc.y += (dy/dist)*nspd;
+      }
+
+      // NPC-player collision (skip in guided mode)
+      if (!settings.guidedMode) {
+        const ns  = npc.size;
+        const ps  = player.size;
+        const cx  = npc.x + ns/2;
+        const cy  = npc.y + ns/2;
+        const pcx = player.x + ps/2;
+        const pcy = player.y + ps/2;
+        if (Math.abs(cx-pcx) < (ns+ps)/2 && Math.abs(cy-pcy) < (ns+ps)/2) {
+          sfxHit();
+          hitFlash = settings.reduceMotion ? 1 : 28;
+          player.x = 60; player.y = 60; // respawn
+        }
+      }
+    }
+
+    // Star collection
+    const ps  = player.size;
+    const pcx = player.x + ps/2;
+    const pcy = player.y + ps/2;
+    for (const s of stars) {
+      if (s.collected) continue;
+      if (Math.hypot(s.x - pcx, s.y - pcy) < ps * 0.7) {
+        s.collected = true;
+        score++;
+        sfxCollect();
+        spawnParticles(s.x, s.y);
+        scorePops.push({ x: s.x, y: s.y - 10, alpha: 1, dy: -1.2, text: '+1 ⭐' });
+        if (score >= totalStars) {
+          won = true;
+          sfxWin();
+          spawnParticles(pcx, pcy);
+          spawnParticles(W/2, H/2);
+        }
+      }
+    }
+
+    // Update particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy;
+      p.vy += 0.08;
+      p.life -= p.decay;
+      if (p.life <= 0) particles.splice(i, 1);
+    }
+
+    // Update score pops
+    for (let i = scorePops.length - 1; i >= 0; i--) {
+      const sp = scorePops[i];
+      sp.y     += sp.dy;
+      sp.alpha -= 0.025;
+      if (sp.alpha <= 0) scorePops.splice(i, 1);
+    }
+
+    if (hitFlash > 0) hitFlash--;
+  }
+
+  // ─── Draw ─────────────────────────────────────────────────────────────────
+  const WALL_COLOR_NORMAL   = '#16213e';
+  const WALL_COLOR_CONTRAST = '#FFFFFF';
+
+  function draw() {
+    const HC = settings.highContrast;
+    const LG = settings.largeSprites;
+
+    // Background
+    ctx.fillStyle = HC ? '#000000' : '#0d0d1a';
+    ctx.fillRect(0, 0, W, H);
+
+    // Subtle grid (skip in reduce-motion or high-contrast)
+    if (!HC && !settings.reduceMotion) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx <= W; gx += 40) { ctx.beginPath(); ctx.moveTo(gx,0); ctx.lineTo(gx,H); ctx.stroke(); }
+      for (let gy = 0; gy <= H; gy += 40) { ctx.beginPath(); ctx.moveTo(0,gy); ctx.lineTo(W,gy); ctx.stroke(); }
+    }
+
+    // Barriers — corridor walls with rounded corners and depth highlight
+    for (const b of barriers) {
+      const isOuter = !b.col;
+      // Rounded corners only on interior corridor walls
+      const r = isOuter ? 0 : Math.min(5, Math.floor(Math.min(b.w, b.h) / 3));
+
+      if (HC) {
+        ctx.fillStyle = WALL_COLOR_CONTRAST;
+        if (r > 0) { roundRect(ctx, b.x, b.y, b.w, b.h, r); ctx.fill(); }
+        else ctx.fillRect(b.x, b.y, b.w, b.h);
+      } else {
+        // Subtle blue glow on interior corridor walls
+        if (!isOuter && !settings.reduceMotion) {
+          ctx.shadowColor = 'rgba(40,100,220,0.55)';
+          ctx.shadowBlur  = 8;
+        }
+        ctx.fillStyle = b.col || WALL_COLOR_NORMAL;
+        if (r > 0) { roundRect(ctx, b.x, b.y, b.w, b.h, r); ctx.fill(); }
+        else ctx.fillRect(b.x, b.y, b.w, b.h);
+        ctx.shadowBlur = 0;
+
+        // Inner edge highlight for 3D corridor depth
+        if (!isOuter) {
+          ctx.strokeStyle = 'rgba(100,160,255,0.35)';
+          ctx.lineWidth   = 1.5;
+          roundRect(ctx, b.x + 2, b.y + 2, b.w - 4, b.h - 4, Math.max(0, r - 1));
+          ctx.stroke();
+        }
+      }
+    }
+
+    // ── Spline corridor guide lines — drawn along EVERY walkable corridor ─────
+    //
+    //  For each corridor chain extracted from the maze graph:
+    //    • filled ribbon polygon (corridor floor tint)
+    //    • left + right edge glow lines
+    //    • centreline dash
+    //
+    //  Drawn AFTER the wall barriers so the lines only show in open areas.
+    //  No new collision added — purely visual.
+    ctx.save();
+    ctx.lineJoin = 'round';
+    ctx.lineCap  = 'round';
+
+    for (const { s: samps, hw } of corridorSamples) {
+      if (samps.length < 2) continue;
+
+      // ── Floor tint polygon (left edge forward, right edge backward) ────────
+      ctx.fillStyle = HC
+        ? 'rgba(255,255,255,0.07)'
+        : 'rgba(40,90,180,0.18)';
+      ctx.beginPath();
+      ctx.moveTo(samps[0].x + samps[0].nx*hw, samps[0].y + samps[0].ny*hw);
+      for (const p of samps)
+        ctx.lineTo(p.x + p.nx*hw, p.y + p.ny*hw);
+      for (let i=samps.length-1; i>=0; i--)
+        ctx.lineTo(samps[i].x - samps[i].nx*hw, samps[i].y - samps[i].ny*hw);
+      ctx.closePath();
+      ctx.fill();
+
+      // ── Left edge glow line ────────────────────────────────────────────────
+      ctx.strokeStyle = HC ? 'rgba(255,255,0,0.6)' : 'rgba(80,170,255,0.55)';
+      ctx.shadowColor  = HC ? 'rgba(255,255,0,0.4)' : 'rgba(60,140,255,0.5)';
+      ctx.shadowBlur   = settings.reduceMotion ? 0 : 5;
+      ctx.lineWidth    = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(samps[0].x + samps[0].nx*hw, samps[0].y + samps[0].ny*hw);
+      for (const p of samps)
+        ctx.lineTo(p.x + p.nx*hw, p.y + p.ny*hw);
+      ctx.stroke();
+
+      // ── Right edge glow line ───────────────────────────────────────────────
+      ctx.beginPath();
+      ctx.moveTo(samps[0].x - samps[0].nx*hw, samps[0].y - samps[0].ny*hw);
+      for (const p of samps)
+        ctx.lineTo(p.x - p.nx*hw, p.y - p.ny*hw);
+      ctx.stroke();
+
+      // ── Centreline (dashed, subtler) ───────────────────────────────────────
+      ctx.shadowBlur   = 0;
+      ctx.strokeStyle  = HC ? 'rgba(255,255,0,0.3)' : 'rgba(120,200,255,0.3)';
+      ctx.lineWidth    = 1;
+      ctx.setLineDash([5, 6]);
+      ctx.beginPath();
+      ctx.moveTo(samps[0].x, samps[0].y);
+      for (const p of samps) ctx.lineTo(p.x, p.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    ctx.shadowBlur = 0;
+    ctx.restore();
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Stars
+    const starSz = LG ? 30 : 22;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    for (const s of stars) {
+      if (s.collected) continue;
+      ctx.font = `${starSz}px Arial`;
+      if (HC) {
+        // High-contrast: plain yellow circle + star symbol
+        ctx.fillStyle = '#FFFF00';
+        ctx.beginPath(); ctx.arc(s.x, s.y, starSz/2 + 2, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#000';
+        ctx.fillText('★', s.x, s.y + 1);
+      } else {
+        // Glow
+        ctx.shadowColor  = '#FFD700';
+        ctx.shadowBlur   = settings.reduceMotion ? 0 : 10;
+        ctx.fillText('⭐', s.x, s.y);
+        ctx.shadowBlur   = 0;
+      }
+
+      // Guided mode: guide arrow from player → nearest star
+      if (settings.guidedMode && nearestStar() === s) {
+        drawGuideArrow(s);
+      }
+    }
+    ctx.shadowBlur = 0;
+
+    // Particles
+    for (const p of particles) {
+      ctx.globalAlpha = p.life;
+      ctx.fillStyle   = p.col;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // NPCs
+    const npcSz = LG ? 48 : 36;
+    for (const npc of npcs) {
+      const cx = npc.x + npc.size/2;
+      const cy = npc.y + npc.size/2;
+
+      if (HC) {
+        ctx.fillStyle = settings.guidedMode ? '#00AAFF' : '#FF0000';
+        ctx.beginPath(); ctx.arc(cx, cy, npcSz/2, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth   = 3;
+        ctx.stroke();
+      } else {
+        // Soft glow around NPC
+        ctx.shadowColor = settings.guidedMode ? '#00AAFF' : npc.color;
+        ctx.shadowBlur  = settings.reduceMotion ? 0 : 14;
+        ctx.fillStyle   = settings.guidedMode ? '#0077cc' : npc.color;
+        ctx.beginPath(); ctx.arc(cx, cy, npcSz/2, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur  = 0;
+      }
+
+      // Emoji face
+      ctx.font         = `${Math.floor(npcSz*0.55)}px Arial`;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(settings.guidedMode ? '😊' : npc.emoji, cx, cy + 1);
+    }
+
+    // Player
+    const ps  = player.size;
+    const pcx = player.x + ps/2;
+    const pcy = player.y + ps/2;
+
+    if (HC) {
+      ctx.fillStyle = '#FFFF00';
+      ctx.beginPath(); ctx.arc(pcx, pcy, ps/2, 0, Math.PI*2); ctx.fill();
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth   = 3;
+      ctx.stroke();
+    } else {
+      ctx.shadowColor = '#00FF88';
+      ctx.shadowBlur  = settings.reduceMotion ? 0 : 18;
+      ctx.fillStyle   = '#00FF88';
+      ctx.beginPath(); ctx.arc(pcx, pcy, ps/2, 0, Math.PI*2); ctx.fill();
+      ctx.shadowBlur  = 0;
+    }
+    ctx.font         = `${Math.floor(ps*0.55)}px Arial`;
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(player.emoji, pcx, pcy + 1);
+
+    // HUD
+    ctx.shadowBlur = 0;
+    ctx.fillStyle  = HC ? '#FFFFFF' : '#DDDDDD';
+    ctx.font       = `bold ${LG ? 22 : 18}px Arial`;
+    ctx.textAlign  = 'left';
+    ctx.textBaseline = 'top';
+    ctx.fillText(`⭐ ${score} / ${totalStars}`, 32, 30);
+
+    // Active mode badges
+    let badgeY = 56;
+    const badgeFont = `${LG ? 15 : 12}px Arial`;
+    if (settings.slowMode) {
+      drawBadge('🐌 SLOW MODE', 32, badgeY, '#006666', badgeFont); badgeY += 22;
+    }
+    if (settings.guidedMode) {
+      drawBadge('🧭 GUIDED', 32, badgeY, '#005500', badgeFont); badgeY += 22;
+    }
+    if (settings.singleButton) {
+      const dirs = ['→ RIGHT','↓ DOWN','← LEFT','↑ UP'];
+      drawBadge(`🕹️ ${dirs[sbDir]}`, 32, badgeY, '#330066', badgeFont); badgeY += 22;
+    }
+
+    // Score pops
+    ctx.textAlign    = 'center';
+    ctx.textBaseline = 'middle';
+    for (const sp of scorePops) {
+      ctx.globalAlpha = sp.alpha;
+      ctx.font        = `bold ${LG ? 20 : 16}px Arial`;
+      ctx.fillStyle   = '#FFD700';
+      ctx.fillText(sp.text, sp.x, sp.y);
+    }
+    ctx.globalAlpha = 1;
+
+    // Hit flash overlay
+    if (hitFlash > 0) {
+      ctx.fillStyle = `rgba(255,0,0,${hitFlash/35 * 0.55})`;
+      ctx.fillRect(0, 0, W, H);
+    }
+
+    // Win overlay
+    if (won) {
+      ctx.fillStyle = 'rgba(0,0,0,0.72)';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+
+      ctx.font      = `bold ${LG ? 58 : 50}px Arial`;
+      ctx.fillStyle = '#FFD700';
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur  = settings.reduceMotion ? 0 : 24;
+      ctx.fillText('🎉  YOU WIN!  🎉', W/2, H/2 - 50);
+      ctx.shadowBlur = 0;
+
+      ctx.font      = `${LG ? 26 : 22}px Arial`;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillText(`Stars collected: ${score} / ${totalStars}`, W/2, H/2 + 10);
+      ctx.font      = `${LG ? 20 : 16}px Arial`;
+      ctx.fillStyle = '#AAAAAA';
+      ctx.fillText('Press R or click Restart to play again', W/2, H/2 + 50);
+    }
+  }
+
+  // ─── Guide Arrow ──────────────────────────────────────────────────────────
+  function drawGuideArrow(star) {
+    const pcx = player.x + player.size/2;
+    const pcy = player.y + player.size/2;
+    const angle = Math.atan2(star.y - pcy, star.x - pcx);
+    const startDist = player.size * 0.65;
+    const len = Math.max(0, Math.hypot(star.x-pcx, star.y-pcy) - player.size - 10);
+    if (len < 12) return;
+    const arrowLen = Math.min(len, 55);
+
+    const sx = pcx + Math.cos(angle)*startDist;
+    const sy = pcy + Math.sin(angle)*startDist;
+    const ex = sx  + Math.cos(angle)*arrowLen;
+    const ey = sy  + Math.sin(angle)*arrowLen;
+
+    ctx.save();
+    ctx.strokeStyle = settings.highContrast ? '#FFFFFF' : '#88FF88';
+    ctx.lineWidth   = settings.largeSprites ? 4 : 3;
+    ctx.setLineDash([6,4]);
+    ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(ex,ey); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Arrowhead
+    ctx.fillStyle = settings.highContrast ? '#FFFFFF' : '#88FF88';
+    ctx.beginPath();
+    ctx.moveTo(ex, ey);
+    ctx.lineTo(ex - 10*Math.cos(angle-0.45), ey - 10*Math.sin(angle-0.45));
+    ctx.lineTo(ex - 10*Math.cos(angle+0.45), ey - 10*Math.sin(angle+0.45));
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  // ─── HUD badge helper ────────────────────────────────────────────────────
+  function drawBadge(text, x, y, bg, font) {
+    ctx.font = font;
+    ctx.textAlign    = 'left';
+    ctx.textBaseline = 'top';
+    const tw = ctx.measureText(text).width;
+    ctx.fillStyle = bg;
+    roundRect(ctx, x-4, y-2, tw+12, 18, 6);
+    ctx.fill();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(text, x+2, y+1);
+  }
+
+  function roundRect(c,x,y,w,h,r) {
+    c.beginPath();
+    c.moveTo(x+r,y); c.lineTo(x+w-r,y); c.arcTo(x+w,y,x+w,y+r,r);
+    c.lineTo(x+w,y+h-r); c.arcTo(x+w,y+h,x+w-r,y+h,r);
+    c.lineTo(x+r,y+h); c.arcTo(x,y+h,x,y+h-r,r);
+    c.lineTo(x,y+r); c.arcTo(x,y,x+r,y,r);
+    c.closePath();
+  }
+
+  // ─── Init & Loop ──────────────────────────────────────────────────────────
+  function initLevel() {
+    buildLevel(settings.difficulty);
+    sbDir     = 0;
+    sbMoving  = false;
+  }
+
+  function loop() {
+    update();
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // ─── Settings Wiring ──────────────────────────────────────────────────────
+  document.getElementById('uesl-diff').addEventListener('change', e => {
+    settings.difficulty = e.target.value;
+    initLevel();
+  });
+  document.getElementById('uesl-slow').addEventListener('change', e => {
+    settings.slowMode = e.target.checked;
+  });
+  document.getElementById('uesl-contrast').addEventListener('change', e => {
+    settings.highContrast = e.target.checked;
+  });
+  document.getElementById('uesl-large').addEventListener('change', e => {
+    settings.largeSprites = e.target.checked;
+  });
+  document.getElementById('uesl-reduce-motion').addEventListener('change', e => {
+    settings.reduceMotion = e.target.checked;
+    if (e.target.checked) particles = [];
+  });
+  document.getElementById('uesl-guided').addEventListener('change', e => {
+    settings.guidedMode = e.target.checked;
+  });
+  document.getElementById('uesl-audio').addEventListener('change', e => {
+    settings.audioEnabled = e.target.checked;
+  });
+  document.getElementById('uesl-celebrate').addEventListener('change', e => {
+    settings.celebrations = e.target.checked;
+  });
+  document.getElementById('uesl-single-btn').addEventListener('change', e => {
+    settings.singleButton = e.target.checked;
+    sbDir = 0; sbMoving = false;
+  });
+  document.getElementById('uesl-restart-btn').addEventListener('click', () => {
+    initLevel();
+    // Resume AudioContext on user gesture
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  });
+
+  // Resume audio on first canvas interaction
+  canvas.addEventListener('click', () => {
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  }, { once: true });
+
+  // Kick off
+  initLevel();
+  loop();
+})();
+</script>
