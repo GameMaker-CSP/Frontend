@@ -11,25 +11,26 @@ include it directly; app pages use `head-custom.html`; the local/remote Minima
 head uses the same hook. This avoids depending on an optional theme import.
 All entry-point links use `relative_url` so project base paths work.
 
-There are **five implementation files**, grouped by the part of the site they
+There are **four implementation files**, grouped by the part of the site they
 serve. Small components are sections within `_core.scss`, not separate files.
 
 | Source file | Compiled output | Responsibility |
 | --- | --- | --- |
 | `_core.scss` | `ocs.css` | Tokens, buttons/cards/forms, preferences, infographic/module/case components, login, small lesson navigation and arena widget |
-| `_site.scss` | `uesl-site.css` | Full site shell, social panels, content, footer, responsive rules and toolkit |
-| `_app.scss` | `uesl-app.css` | Compact application shell and authentication |
+| `_shell.scss` | `uesl-site.css`, `uesl-app.css` | Shared reset, navigation and authentication; full-site content, social panels, footer and toolkit are included only in the site output |
 | `_game-maker.scss` | `game-maker.css` | Both editors, playback, settings/dialogs, guided flow and OCS integration |
 | `_lessons.scss` | `ocs-lesson-player.css` | Minima course/post shell and submission styles |
 
 Five matching three-line entry points in `assets/css/` tell Jekyll which CSS
-files to produce. Each uses one `@use`; presentation lives only in the five
-files above. This replaces the previous 20 partials and eight loaders with five
-main files and five loaders (28 Sass files → 10).
+files to produce. Each uses one `@use`; presentation lives only in the four
+files above. The app loader uses `@use "open-coding/shell" with ($full-site: false)`;
+the site loader uses the default full-site output. Navigation, reset and login
+rules therefore have one source while preserving each layout's existing colors,
+spacing, focus behavior and mobile menu. Total: four main files and five loaders
+(28 Sass files originally → 10 → 9).
 
-The larger bundles stay separate because the full site, compact app and Minima
-shells have different resets/navigation rules. Loading all of those globally
-would create conflicts. Login and small widgets share the core bundle, so they
+The compiled bundles stay separate because full-site content and Minima layouts
+must not load into the compact app. Login and small widgets share the core bundle, so they
 no longer need separate stylesheet links. The dashboard's layout rules use
 `ocs-lesson-sidebar` / `ocs-lesson-main` to avoid affecting course sidebars;
 arena helper styles are scoped to `#uesl-game-wrapper`.
@@ -117,6 +118,10 @@ Do not present those examples as completed course assignments.
 
 1. Reuse a component first. Add shared presentation to a named section in `_core.scss`; add product layout rules to its existing main file.
 2. Use page-specific selectors only for layout or behavior unique to that page.
+   Group selectors when controls share the same declarations, as the editor
+   does for voice/face controls, canvas frames, panel surfaces and button bases.
+   Keep differences and states beside their component; preserve specificity and
+   cascade order instead of adding overrides or a mixin for every small rule.
 3. Avoid new static inline styles, generated CSS strings, global input rules,
    and a new stylesheet for each tiny variation.
 4. Runtime canvas coordinates, colors chosen in the editor, progress percentages,

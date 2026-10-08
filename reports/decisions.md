@@ -46,3 +46,26 @@
 - Scope the merged dashboard sidebar/main and arena helper selectors so the
   core does not impose dashboard positioning on the Flask course layout.
 - Remove the login-specific body rule because it duplicated the UESL shell.
+
+## 2026-10-07: deduplicate the shell and editor
+
+- Share one `_shell.scss` implementation using the `$full-site` compile-time
+  option. Preserve the five public CSS asset URLs and each layout's existing
+  reset, login colors/radii, mobile overflow and focus-cascade behavior. The
+  compact app continues to omit full-site social/content/toolkit styles.
+- Prefer grouped selectors for identical declarations. Keep distinct component
+  states and values explicit; avoid adding per-control files or generic mixins.
+- Keep core, shell, editor and Minima lessons separate: they serve different
+  surfaces, and concatenating their global rules would change the cascade.
+
+## 2026-10-07: independent template history
+
+- Create an independent template with a fresh baseline and replay only genuine
+  team commits, preserving author identities and the existing merge structure.
+  Retain the Apache license and baseline source attribution. The fresh baseline
+  omits the inherited `.env` and uses the already-sanitized configuration.
+- Retain the old repository as `Frontend-history` instead of GitHub's destructive
+  fork-detachment option. Transfer the existing issues and preserve Kanban IDs;
+  keep the original PR and historical branches accessible in the retained fork.
+- Preserve the published main tree and OCS feature tree exactly. Pending Sass
+  changes stay uncommitted. Keep original local refs under `refs/archive/pre-template/`.

@@ -126,8 +126,9 @@
   align-items: center;
   justify-content: center;
 }
-.gi-emoji-opt:hover { border-color: #FFD700; background: #2a260a; }
+.gi-emoji-opt:hover,
 .gi-emoji-opt.selected { border-color: #FFD700; background: #2a260a; }
+
 #gi-char-name {
   background: #1a1a40;
   border: 2px solid #4455bb;
@@ -156,23 +157,26 @@
   color: #aabbff;
   font-weight: bold;
 }
+.gm-tool-btn,
+.gm-act {
+  border: 2px solid #445;
+  border-radius: 10px;
+  background: #1a1a3e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-align: center;
+}
 .gm-tool-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 8px 4px;
-  border: 2px solid #445;
-  border-radius: 10px;
-  background: #1a1a3e;
   color: #ddeeff;
   font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.15s;
   gap: 3px;
-  text-align: center;
   line-height: 1.2;
-  font-weight: bold;
 }
 .gm-tool-btn .ti { font-size: 1.5rem; }
 .gm-tool-btn:hover { border-color: #88aaff; background: #22224a; color: #fff; }
@@ -180,15 +184,8 @@
 .gm-sep { height: 2px; background: #2a2a50; margin: 4px 0; border-radius: 1px; }
 .gm-act {
   padding: 9px 6px;
-  border: 2px solid #445;
-  border-radius: 10px;
-  background: #1a1a3e;
   color: #cce;
   font-size: 0.92rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.15s;
-  text-align: center;
   width: 100%;
 }
 .gm-act:hover { background: #22224a; color: #fff; border-color: #88aaff; }
@@ -243,23 +240,30 @@
 }
 #gm-remove-level-btn:hover { background: #3a1010; }
 
-#gm-editor-canvas {
+#gm-editor-canvas,
+#gm-play-canvas {
   display: block;
   border: 2px solid #333;
   border-radius: 10px;
-  cursor: crosshair;
-  background: #0d0d1a;
   width: 100%;
   height: auto;
+}
+#gm-editor-canvas {
+  cursor: crosshair;
+  background: #0d0d1a;
 }
 #gm-status-bar { font-size: 0.8rem; color: #777; min-height: 18px; padding: 0 4px; }
 
 /* ─── Properties Panel ──────────────────────────────────────────────────── */
 #gm-props { width: 148px; display: flex; flex-direction: column; gap: 6px; }
-#gm-props-panel {
+#gm-props-panel,
+#gm-hint-box,
+.gm-set-sec {
   background: #141428;
   border: 1px solid #333;
   border-radius: 10px;
+}
+#gm-props-panel {
   padding: 12px;
   font-size: 0.86rem;
 }
@@ -301,9 +305,6 @@
 .gm-del-btn:hover { background:#551515; }
 
 #gm-hint-box {
-  background: #141428;
-  border: 1px solid #333;
-  border-radius: 10px;
   padding: 10px 12px;
   font-size: 0.76rem;
   color: #777;
@@ -388,7 +389,8 @@
 #mp-invite-btn:hover { background: #0a2a1a; }
 #mp-invite-btn.connected { border-color: #FFD700; color: #FFD700; }
 
-#mp-modal-overlay {
+#mp-modal-overlay,
+.gm-modal-backdrop {
   position: fixed; inset: 0; z-index: 9999;
   background: rgba(0,0,0,0.75); display: none;
   align-items: center; justify-content: center;
@@ -464,14 +466,6 @@
   max-width: 700px;
   margin: 0 auto;
 }
-#gm-play-canvas {
-  display: block;
-  border: 2px solid #333;
-  border-radius: 10px;
-  width: 100%;
-  height: auto;
-}
-
 /* HTML overlays on top of play canvas */
 .gm-overlay {
   position: absolute;
@@ -559,18 +553,21 @@
   grid-template-rows: repeat(3, 56px);
   gap: 4px;
 }
-.gm-dpad-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+.gm-dpad-btn,
+.gm-dpad-count-btn {
   border: 2px solid #444;
   background: #1e1e2e;
   color: #fff;
-  font-size: 1.5rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.gm-dpad-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  font-size: 1.5rem;
   transition: background 0.12s, transform 0.08s, border-color 0.12s;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -599,14 +596,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2px solid #444;
-  background: #1e1e2e;
-  color: #fff;
   font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: background 0.12s;
   line-height: 1;
 }
@@ -620,7 +610,8 @@
   color: #FFD700;
 }
 /* Voice Command Bar (kept as secondary) */
-#gm-voice-bar {
+#gm-voice-bar,
+#gm-face-bar {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -631,7 +622,8 @@
   border: 1px solid #222;
   border-radius: 12px;
 }
-#gm-voice-btn {
+#gm-voice-btn,
+#gm-face-btn {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -647,7 +639,8 @@
   flex-shrink: 0;
   white-space: nowrap;
 }
-#gm-voice-btn:hover { border-color: #666; color: #aaa; }
+#gm-voice-btn:hover,
+#gm-face-btn:hover { border-color: #666; color: #aaa; }
 #gm-voice-btn.listening {
   border-color: #FF4444;
   color: #FF4444;
@@ -659,7 +652,8 @@
   0%,100% { box-shadow: 0 0 0 0 rgba(255,68,68,0.5); }
   50%      { box-shadow: 0 0 0 10px rgba(255,68,68,0); }
 }
-#gm-voice-status { font-size: 0.78rem; color: #555; flex: 1; min-width: 100px; }
+#gm-voice-status,
+#gm-face-bar-status { font-size: 0.78rem; color: #555; flex: 1; min-width: 100px; }
 #gm-voice-bubble {
   display: none;
   align-items: center;
@@ -683,34 +677,6 @@
 #gm-voice-examples b { color: #666; }
 
 /* ── Face Cam bar ────────────────────────────────────────────────────────── */
-#gm-face-bar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-  padding: 8px 16px;
-  background: #0d0d1a;
-  border: 1px solid #222;
-  border-radius: 12px;
-}
-#gm-face-btn {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 14px;
-  border: 2px solid #333;
-  border-radius: 24px;
-  background: #1e1e2e;
-  color: #666;
-  font-size: 0.82rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-#gm-face-btn:hover { border-color: #666; color: #aaa; }
 #gm-face-btn.active {
   border-color: #00BFFF;
   color: #00BFFF;
@@ -721,7 +687,7 @@
   0%,100% { box-shadow: 0 0 0 0 rgba(0,191,255,0.5); }
   50%      { box-shadow: 0 0 0 10px rgba(0,191,255,0); }
 }
-#gm-face-bar-status { font-size: 0.78rem; color: #555; flex: 1; min-width: 100px; }
+
 #gm-face-bar-preview {
   border-radius: 8px;
   border: 2px solid #333;
@@ -765,7 +731,7 @@
 // Settings and dialogs
 /* ─── Settings ──────────────────────────────────────────────────────────── */
 #gm-settings-panel { max-width: 600px; display: flex; flex-direction: column; gap: 12px; }
-.gm-set-sec { background: #141428; border: 1px solid #333; border-radius: 10px; padding: 16px 20px; }
+.gm-set-sec { padding: 16px 20px; }
 .gm-set-sec h3 { margin: 0 0 12px; color: #FFD700; font-size: 1rem; }
 .gm-tog {
   display: flex;
@@ -810,11 +776,6 @@
 }
 
 /* ─── Game Library / Save-Name Modals ──────────────────────────────────── */
-.gm-modal-backdrop {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.75); z-index: 9999;
-  align-items: center; justify-content: center;
-}
 .gm-modal-backdrop.open { display: flex; }
 .gm-modal {
   background: #0e0e30; border: 2px solid #3344aa;
@@ -860,11 +821,18 @@
 #gm-chat-sidebar {
   width: 260px; min-width: 200px; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; overflow-x: hidden;
 }
+#gm-chat-search-box,
+#gm-chat-friends-box,
+#gm-chat-main {
+  background: #0e0e30;
+  border: 1.5px solid #3344aa;
+  border-radius: 10px;
+}
 #gm-chat-search-box {
-  background: #0e0e30; border: 1.5px solid #3344aa; border-radius: 10px;
   padding: 10px 12px;
 }
-#gm-chat-search-box h4 { margin: 0 0 8px; font-size: 0.88rem; color: #aabbff; }
+#gm-chat-search-box h4,
+#gm-chat-friends-box h4 { margin: 0 0 8px; font-size: 0.88rem; color: #aabbff; }
 #gm-chat-search-row { display: flex; gap: 6px; }
 #gm-chat-search-input {
   flex: 1; background: #1a1a3e; border: 1px solid #445; border-radius: 6px;
@@ -889,10 +857,9 @@
 .chat-add-btn:hover { background: #047857; }
 .chat-add-btn:disabled { background: #374151; color: #6b7280; cursor: default; }
 #gm-chat-friends-box {
-  max-height: 220px; background: #0e0e30; border: 1.5px solid #3344aa; border-radius: 10px;
-  padding: 10px 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 0;
+  max-height: 220px; padding: 10px 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 0;
 }
-#gm-chat-friends-box h4 { margin: 0 0 8px; font-size: 0.88rem; color: #aabbff; }
+
 .chat-friend-row {
   display: flex; align-items: center; gap: 8px;
   padding: 7px 6px; border-radius: 7px; cursor: pointer;
@@ -917,8 +884,7 @@
 .chat-reject-btn { background: #7f1d1d; color: #fca5a5; margin-left: 3px; }
 
 #gm-chat-main {
-  flex: 1; background: #0e0e30; border: 1.5px solid #3344aa; border-radius: 10px;
-  display: flex; flex-direction: column; overflow: hidden;
+  flex: 1; display: flex; flex-direction: column; overflow: hidden;
 }
 #gm-chat-header {
   padding: 10px 14px; border-bottom: 1px solid #223; background: #0a0a28;

@@ -63,3 +63,38 @@
   checks passed. Compared compiled CSS against a saved pre-change baseline and
   inspected login, profile, Flask and shared components in the running browser.
 - No backend, startup-script, game behavior, commit, or push changes.
+
+## 2026-10-07: remove repeated Sass implementations
+
+- Done: replaced `_site.scss` and `_app.scss` with `_shell.scss`. The existing
+  loaders compile the full-site and compact-app variants from one implementation
+  of resets, navigation, responsive menus and authentication controls.
+- Done: grouped repeated editor declarations for tool/action buttons, canvas
+  frames, panel surfaces, modal backdrops, D-pad controls, voice/face controls
+  and chat headings. Updated the ownership guide without adding dependencies.
+- Implementation Sass decreased from 3,507 to 3,355 lines (152 fewer); four
+  sources plus five loaders now replace the previous five sources/five loaders.
+- Done: final Jekyll build, all 23 frontend tests, compiled-declaration comparison,
+  desktop/mobile computed-style comparison and live sign-in/load/play checks.
+  See `verification.md` for evidence and the scope of the comparisons.
+- All stages are complete. Changes remain uncommitted; no backend or game-save
+  format changes were needed. Historical styles outside OCS remain out of scope.
+
+## 2026-10-07: independent frontend template
+
+- Done: replaced the active GitHub fork with an independent template at the same
+  `GameMaker-CSP/Frontend` URL. Main has one attributed template-import commit
+  followed by the 13 original team commits, retaining their authors and merges.
+- Done: moved issues #1–#7 with their original numbers, assignees, labels and
+  Kanban item IDs/custom fields. All three teammates retain admin access.
+- Done: preserved published main and committed OCS file trees exactly; mapped
+  the four local branches to the new history without changing the pending Sass
+  patch. Published the existing OCS branch as part of preserving the work.
+- Done: retained the original fork and PR #8 at `Frontend-history`, plus local
+  archive refs and a verified Git bundle. Backup archiving was cancelled after
+  automatic approval review rejected that optional availability change.
+- Done: verified GitHub reports `fork: false`, `is_template: true` and exactly
+  RazorCrest00, ishans17321 and myhomies123 as contributors. No work is blocked.
+- Teammates' old clones need fresh checkouts of the replacement repository before
+  pushing; this local checkout is already updated. Other repositories were not
+  converted in this frontend-specific migration.
