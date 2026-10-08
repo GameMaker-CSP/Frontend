@@ -22,7 +22,7 @@ bash run_frontend.sh
 ```
 
 Leave both terminals running. Open <http://localhost:4700/login> and sign in
-with local-only user ID `demo` and password `GameMakerDemo-2026`. Then open
+with local-only user ID `demo` and password `password`. Then open
 <http://localhost:4700/game-maker/>. Use `localhost` consistently for cookies.
 The backend health check is <http://localhost:8424/api/health>.
 
