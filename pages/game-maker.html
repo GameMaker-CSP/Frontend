@@ -49,6 +49,20 @@ permalink: /game-maker/
 }
 .gm-tab:hover { border-color: #aaa; color: #fff; background: #24244a; }
 .gm-tab.active { background: #FFD700; color: #000; border-color: #FFD700; box-shadow: 0 0 16px rgba(255,215,0,0.5); }
+#gm-app :focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+.gm-sr-only {
+  position: absolute !important; width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important; overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  #gm-app *, #gm-app *::before, #gm-app *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
 /* ─── Game Info Bar (title + character) ─────────────────────────────────── */
 #gm-game-info-bar {
@@ -1002,10 +1016,10 @@ permalink: /game-maker/
     <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
       <span style="font-size:2rem;font-weight:900;letter-spacing:0.08em;color:#fff;text-shadow:0 0 30px rgba(255,255,255,0.25);pointer-events:none;user-select:none;">Game Engine</span>
       <div id="gm-tabs">
-        <button class="gm-tab"               data-mode="guided">🧭 Guided</button>
-        <button class="gm-tab active" data-mode="design">🎨 Design</button>
-        <button class="gm-tab"        data-mode="play">▶ Play</button>
-        <button class="gm-tab"        data-mode="settings">⚙️ Settings</button>
+        <button class="gm-tab" aria-pressed="false" data-mode="guided">🧭 Guided</button>
+        <button class="gm-tab active" aria-pressed="true" data-mode="design">🎨 Design</button>
+        <button class="gm-tab" aria-pressed="false" data-mode="play">▶ Play</button>
+        <button class="gm-tab" aria-pressed="false" data-mode="settings">⚙️ Settings</button>
       </div>
     </div>
   </div>
@@ -1090,10 +1104,18 @@ permalink: /game-maker/
       <section class="gm-guided__step" data-guided-step="3" aria-labelledby="gm-guided-accessibility-title" hidden>
         <p class="gm-guided__step-count">Step 4 of 6</p>
         <h3 id="gm-guided-accessibility-title">Pick accessibility supports</h3>
-        <button id="gm-guided-calm" class="gm-guided__secondary" type="button">Calm: slow mode and reduced motion</button>
+        <label class="gm-guided__label" for="gm-guided-profile">Comfort profile</label>
+        <select id="gm-guided-profile" class="gm-guided__input" aria-describedby="gm-guided-profile-help">
+          <option value="balanced">Balanced defaults</option>
+          <option value="calm">Calm: slower play and reduced effects</option>
+          <option value="focus">Focus: higher contrast and larger characters</option>
+        </select>
+        <p id="gm-guided-profile-help" class="gm-guided__summary">Choose a profile, then change any setting below to override that choice.</p>
         <label class="gm-guided__check"><input id="gm-guided-slow" type="checkbox"> Slow down the game</label>
         <label class="gm-guided__check"><input id="gm-guided-contrast" type="checkbox"> Use high contrast colors</label>
         <label class="gm-guided__check"><input id="gm-guided-large" type="checkbox"> Make game characters larger</label>
+        <label class="gm-guided__check"><input id="gm-guided-reduce" type="checkbox"> Reduce motion and visual effects</label>
+        <button id="gm-guided-reset-overrides" class="gm-guided__secondary" type="button">Use profile defaults</button>
       </section>
 
       <section class="gm-guided__step" data-guided-step="4" aria-labelledby="gm-guided-preview-title" hidden>
@@ -1220,18 +1242,19 @@ permalink: /game-maker/
   <!-- ══════════ PLAY MODE ══════════════════════════════════════════════ -->
   <div id="gm-mode-play" class="gm-mode">
     <div id="gm-play-top">
-      <button id="gm-back-btn">← Back to Editor</button>
+      <button id="gm-back-btn" type="button">← Back to Editor</button>
       <div id="gm-play-game-info">
         <h2 id="gm-play-title">My Awesome Game</h2>
         <span id="gm-play-level-info">Level 1 of 1</span>
       </div>
       <div id="gm-play-controls">
-        <button class="gm-pctrl lit" id="gm-ctrl-play"  title="Play">▶</button>
-        <button class="gm-pctrl"     id="gm-ctrl-pause" title="Pause">⏸</button>
-        <button class="gm-pctrl"     id="gm-ctrl-stop"  title="Reset level">⏹</button>
+        <button class="gm-pctrl lit" id="gm-ctrl-play" type="button" aria-label="Resume game" aria-pressed="true" title="Play">▶</button>
+        <button class="gm-pctrl" id="gm-ctrl-pause" type="button" aria-label="Pause game" aria-pressed="false" title="Pause">⏸</button>
+        <button class="gm-pctrl" id="gm-ctrl-stop" type="button" aria-label="Reset level" title="Reset level">⏹</button>
       </div>
       <button id="mp-invite-btn" title="Invite a friend to play together">🎮 Invite Friend</button>
     </div>
+    <p id="gm-play-session-status" class="gm-sr-only" role="status" aria-live="polite"></p>
 
     <div id="mp-status-bar">
       <span class="mp-dot"></span>
@@ -1498,6 +1521,7 @@ if (location.hostname === '127.0.0.1') {
 }
 </script>
 
+<script src="/assets/js/game-maker-accessibility.js"></script>
 <script>
 (function () {
 'use strict';
@@ -1937,8 +1961,12 @@ function stopGame() {
 }
 function _syncPlayCtrl() {
   const paused = !!(playState && playState.paused);
-  document.getElementById('gm-ctrl-play') ?.classList.toggle('lit',  !paused);
-  document.getElementById('gm-ctrl-pause')?.classList.toggle('lit',   paused);
+  const playButton = document.getElementById('gm-ctrl-play');
+  const pauseButton = document.getElementById('gm-ctrl-pause');
+  playButton?.classList.toggle('lit', !paused);
+  pauseButton?.classList.toggle('lit', paused);
+  playButton?.setAttribute('aria-pressed', String(!paused));
+  pauseButton?.setAttribute('aria-pressed', String(paused));
 }
 
 const bgImages = {};
@@ -2827,6 +2855,19 @@ const playKeys   = {};
 let   playState    = null;
 let   playLevelIdx = 0;
 let   playRAF      = null;
+const playSessionTimers = new Set();
+function schedulePlaySessionTimer(callback, delay) {
+  const timer = setTimeout(() => {
+    playSessionTimers.delete(timer);
+    callback();
+  }, delay);
+  playSessionTimers.add(timer);
+  return timer;
+}
+function clearPlaySessionTimers() {
+  for (const timer of playSessionTimers) clearTimeout(timer);
+  playSessionTimers.clear();
+}
 // Expose for co-op handler outside IIFE
 window._gmShowFinalWin = () => showFinalWin();
 window._mpCheckLevelWin = (st) => { const pcx = st.x != null ? st.x + (st.size||40)/2 : 400; mpCheckLevelWin(st, pcx, 260); };
@@ -2852,9 +2893,9 @@ function mpCheckLevelWin(st, pcx, pcy) {
       // Tell partner to advance too
       mpEmitCoopEvent({ type: 'level_done', level: playLevelIdx, next: hasMore ? playLevelIdx+1 : -1 });
       if (hasNextWithStars) {
-        setTimeout(() => { sfxLevelComplete(); showLevelCompleteUI(playLevelIdx, false); }, 1200);
+        schedulePlaySessionTimer(() => { sfxLevelComplete(); showLevelCompleteUI(playLevelIdx, false); }, 1200);
       } else {
-        setTimeout(() => { sfxWin(); showFinalWin(); }, 1400);
+        schedulePlaySessionTimer(() => { sfxWin(); showFinalWin(); }, 1400);
       }
     }
   }
@@ -2877,6 +2918,7 @@ window._gmStartPlay = startPlay; // expose for multiplayer code outside IIFE
 function loadPlayLevel(idx) {
   if (idx >= game.levels.length) { showFinalWin(); return true; }
 
+  clearPlaySessionTimers();
   hideAllOverlays();
   playLevelIdx = idx;
 
@@ -2889,7 +2931,7 @@ function loadPlayLevel(idx) {
   if (playState.totalStars === 0) {
     playState.isEmpty = true;
     // After a brief moment, show the level-complete overlay so player can advance
-    setTimeout(() => {
+    schedulePlaySessionTimer(() => {
       const isLast = playLevelIdx + 1 >= game.levels.length;
       isLast ? showFinalWin() : showLevelCompleteUI(playLevelIdx, true);
     }, 600);
@@ -3869,6 +3911,16 @@ async function gmLibDelete(id, name, btn) {
 ═══════════════════════════════════════════════════════════════════════════ */
 
 // Tabs
+function syncGmTabPressed() {
+  document.querySelectorAll('.gm-tab').forEach(tab =>
+    tab.setAttribute('aria-pressed', String(tab.classList.contains('active')))
+  );
+}
+if (window.MutationObserver) {
+  const tabObserver = new MutationObserver(syncGmTabPressed);
+  document.querySelectorAll('.gm-tab').forEach(tab => tabObserver.observe(tab, { attributes: true, attributeFilter: ['class'] }));
+}
+syncGmTabPressed();
 document.querySelectorAll('.gm-tab').forEach(btn => {
   btn.addEventListener('click', () => {
     const mode = btn.dataset.mode;
@@ -3880,11 +3932,12 @@ document.querySelectorAll('.gm-tab').forEach(btn => {
       startMusic();
       _syncPlayCtrl();
     } else {
-      if (playRAF) { cancelAnimationFrame(playRAF); playRAF=null; }
-      stopMusic();
+      if (document.getElementById('gm-mode-play').classList.contains('active')) stopPlaySession();
+      else stopMusic();
     }
 
     document.querySelectorAll('.gm-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.gm-tab').forEach(b=>b.setAttribute('aria-pressed', String(b === btn)));
     btn.classList.add('active');
     document.querySelectorAll('.gm-mode').forEach(p=>p.classList.remove('active'));
     document.getElementById(`gm-mode-${mode}`).classList.add('active');
@@ -3937,8 +3990,13 @@ function refreshGuidedUI() {
   document.getElementById('gm-guided-slow').checked = a11y.slowMode;
   document.getElementById('gm-guided-contrast').checked = a11y.highContrast;
   document.getElementById('gm-guided-large').checked = a11y.largeSprites;
+  document.getElementById('gm-guided-reduce').checked = a11y.reduceMotion;
   document.querySelectorAll('[data-guided-background]').forEach(button =>
-    button.classList.toggle('is-selected', button.dataset.guidedBackground === game.background)
+    {
+      const selected = button.dataset.guidedBackground === game.background;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    }
   );
   updateGuidedSummary();
 }
@@ -3948,20 +4006,35 @@ function setGuidedBackground(backgroundId) {
   const select = document.getElementById('gi-bg-select');
   if (select) select.value = backgroundId;
   document.querySelectorAll('[data-guided-background]').forEach(button =>
-    button.classList.toggle('is-selected', button.dataset.guidedBackground === backgroundId)
+    {
+      const selected = button.dataset.guidedBackground === backgroundId;
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    }
   );
   syncBgActive();
   renderEditor();
 }
 
-function syncGuidedSupport(inputId, settingId, settingKey) {
+let guidedProfile = 'balanced';
+const guidedOverrides = {};
+function applyGuidedProfile() {
+  const resolved = GameMakerAccessibility.resolveProfile(guidedProfile, guidedOverrides, a11y);
+  for (const key of GameMakerAccessibility.SETTING_KEYS) a11y[key] = resolved[key];
+  for (const [key, settingId] of Object.entries({ slowMode: 'gs-slow', highContrast: 'gs-contrast', largeSprites: 'gs-large', reduceMotion: 'gs-reduce' })) {
+    const setting = document.getElementById(settingId);
+    if (setting) setting.checked = a11y[key];
+  }
+  if (playState) playState.player.size = a11y.largeSprites ? 52 : gameConfig.playerSize;
+  refreshGuidedUI();
+}
+
+function syncGuidedSupport(inputId, settingKey) {
   const input = document.getElementById(inputId);
-  const setting = document.getElementById(settingId);
   input.checked = a11y[settingKey];
   input.addEventListener('change', () => {
-    a11y[settingKey] = input.checked;
-    if (setting) setting.checked = input.checked;
-    if (playState && settingKey === 'largeSprites') playState.player.size = input.checked ? 52 : 40;
+    guidedOverrides[settingKey] = input.checked;
+    applyGuidedProfile();
   });
 }
 
@@ -3976,19 +4049,21 @@ guidedTitle.addEventListener('input', () => {
   document.getElementById('gi-title').value = guidedTitle.value;
 });
 
-syncGuidedSupport('gm-guided-slow', 'gs-slow', 'slowMode');
-syncGuidedSupport('gm-guided-contrast', 'gs-contrast', 'highContrast');
-syncGuidedSupport('gm-guided-large', 'gs-large', 'largeSprites');
+syncGuidedSupport('gm-guided-slow', 'slowMode');
+syncGuidedSupport('gm-guided-contrast', 'highContrast');
+syncGuidedSupport('gm-guided-large', 'largeSprites');
+syncGuidedSupport('gm-guided-reduce', 'reduceMotion');
+document.getElementById('gm-guided-profile').addEventListener('change', event => {
+  guidedProfile = event.target.value;
+  for (const key of GameMakerAccessibility.SETTING_KEYS) delete guidedOverrides[key];
+  applyGuidedProfile();
+});
+document.getElementById('gm-guided-reset-overrides').addEventListener('click', () => {
+  for (const key of GameMakerAccessibility.SETTING_KEYS) delete guidedOverrides[key];
+  applyGuidedProfile();
+});
 // The starter level is initialized below; rendering it here interrupts setup.
 showGuidedStep(0);
-
-document.getElementById('gm-guided-calm').addEventListener('click', () => {
-  a11y.slowMode = true;
-  a11y.reduceMotion = true;
-  document.getElementById('gs-slow').checked = true;
-  document.getElementById('gs-reduce').checked = true;
-  refreshGuidedUI();
-});
 
 document.getElementById('gm-guided-back').addEventListener('click', () => showGuidedStep(guidedStepIndex - 1));
 document.getElementById('gm-guided-next').addEventListener('click', () => {
@@ -4011,8 +4086,10 @@ document.getElementById('gm-guided-preview').addEventListener('click', () => {
 });
 
 // Back to editor button
-function goBackToDesign() {
-  if (playRAF) { cancelAnimationFrame(playRAF); playRAF=null; }
+function stopPlaySession() {
+  if (playRAF) { cancelAnimationFrame(playRAF); playRAF = null; }
+  clearPlaySessionTimers();
+  playState = null;
   stopMusic();
   // Stop mic when leaving play mode
   if (voiceListening && voiceRecognition) {
@@ -4023,7 +4100,14 @@ function goBackToDesign() {
     const ve = document.getElementById('gm-voice-examples');
     if (ve) ve.classList.remove('show');
   }
+  if (window.FaceTracker && typeof window.FaceTracker.stop === 'function') window.FaceTracker.stop();
   hideAllOverlays();
+  _syncPlayCtrl();
+  const status = document.getElementById('gm-play-session-status');
+  if (status) status.textContent = 'Preview stopped. Your editor choices are still available.';
+}
+function goBackToDesign() {
+  stopPlaySession();
   document.querySelectorAll('.gm-tab').forEach(b=>b.classList.remove('active'));
   document.querySelector('.gm-tab[data-mode="design"]').classList.add('active');
   document.querySelectorAll('.gm-mode').forEach(p=>p.classList.remove('active'));
@@ -4038,6 +4122,8 @@ document.getElementById('gm-back-btn').addEventListener('click', () => {
     document.querySelector('.gm-tab[data-mode="guided"]').click();
     showGuidedStep(4);
     document.getElementById('gm-guided-preview').focus();
+  } else {
+    document.querySelector('.gm-tab[data-mode="design"]').focus();
   }
 });
 
@@ -5191,7 +5277,7 @@ function mpConnect() {
     document.getElementById('mp-status-text').textContent = `🎮 Playing "${game_name}" with ${displayName}`;
     document.getElementById('mp-status-bar').classList.add('show');
     // Switch to play mode and start
-    setTimeout(() => {
+      schedulePlaySessionTimer(() => {
       document.querySelectorAll('.gm-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.gm-mode').forEach(m => m.classList.remove('active'));
       document.querySelector('.gm-tab[data-mode="play"]') && document.querySelector('.gm-tab[data-mode="play"]').classList.add('active');
