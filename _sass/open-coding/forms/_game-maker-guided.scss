@@ -140,3 +140,11 @@
     &__actions button { flex: 1; }
   }
 }
+
+.gm-guided__error {
+  color: #ffd7d7;
+  font-weight: 700;
+  min-height: 1.5em;
+}
+.gm-guided__input[aria-invalid="true"] { border-color: #ff9a9a; }
+.gm-guided__step h3:focus { outline: 3px solid #00d4ff; outline-offset: 5px; }
