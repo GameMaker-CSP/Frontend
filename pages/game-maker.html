@@ -1075,18 +1075,16 @@ permalink: /game-maker/
         <p class="gm-guided__step-count">Step 2 of 6</p>
         <h3 id="gm-guided-choose-title">Choose a background</h3>
         <p>Select a setting for your game. You can change it later.</p>
-        <div class="gm-guided__choices" role="group" aria-label="Background choices">
-          <button type="button" class="gm-guided__choice" data-guided-background="space">🚀 Deep Space</button>
-          <button type="button" class="gm-guided__choice" data-guided-background="sky">☁️ Sky Kingdom</button>
-          <button type="button" class="gm-guided__choice" data-guided-background="ocean">🌊 Ocean Sky</button>
-        </div>
+        <div id="gm-guided-themes" class="gm-guided__choices" role="group" aria-label="Background choices" aria-describedby="gm-guided-background-error"></div>
+        <p id="gm-guided-background-error" class="gm-guided__error" role="alert"></p>
       </section>
 
       <section class="gm-guided__step" data-guided-step="2" aria-labelledby="gm-guided-customize-title" hidden>
         <p class="gm-guided__step-count">Step 3 of 6</p>
         <h3 id="gm-guided-customize-title">Customize your game</h3>
         <label class="gm-guided__label" for="gm-guided-title-input">What is your game called?</label>
-        <input id="gm-guided-title-input" class="gm-guided__input" type="text" maxlength="40" autocomplete="off" placeholder="My Awesome Game">
+        <input id="gm-guided-title-input" class="gm-guided__input" type="text" maxlength="40" autocomplete="off" placeholder="My Awesome Game" aria-describedby="gm-guided-title-error">
+        <p id="gm-guided-title-error" class="gm-guided__error" role="alert"></p>
       </section>
 
       <section class="gm-guided__step" data-guided-step="3" aria-labelledby="gm-guided-accessibility-title" hidden>
@@ -1107,7 +1105,10 @@ permalink: /game-maker/
 
       <section class="gm-guided__step" data-guided-step="5" aria-labelledby="gm-guided-save-title" hidden>
         <p class="gm-guided__step-count">Step 6 of 6</p>
-        <h3 id="gm-guided-save-title">Save your game</h3>
+        <h3 id="gm-guided-save-title">Review and save your game</h3>
+        <p id="gm-guided-review" class="gm-guided__summary"></p>
+        <button id="gm-guided-edit" type="button" class="gm-guided__secondary">Edit choices</button>
+        <p>Local saving stores this game in this browser. Account saving also requires a signed-in account and a reachable server. Comfort settings are not included in the inherited save format.</p>
         <p>Your game is ready. Save it now, or use the advanced editor to add more details.</p>
         <button id="gm-guided-save" class="gm-guided__secondary" type="button">Save my game</button>
       </section>
@@ -1500,7 +1501,9 @@ if (location.hostname === '127.0.0.1') {
 }
 </script>
 
-<script>
+<script type="module">
+import { configureGameTitle } from "{{ '/assets/js/game-maker-guided/state-adapter.js' | relative_url }}";
+import { selectGuidedTheme } from "{{ '/assets/js/game-maker-guided/theme-catalog.js' | relative_url }}";
 (function () {
 'use strict';
 
@@ -3878,6 +3881,7 @@ document.querySelectorAll('.gm-tab').forEach(btn => {
     document.getElementById('gm-back-btn').textContent = previewFromGuided ? '← Back to guided builder' : '← Back to Editor';
 
     if (mode === 'play') {
+      if (previewFromGuided && !acceptGuidedTitle(true)) return;
       if (!startPlay()) return;
       startMusic();
       _syncPlayCtrl();
@@ -3892,7 +3896,7 @@ document.querySelectorAll('.gm-tab').forEach(btn => {
     document.getElementById(`gm-mode-${mode}`).classList.add('active');
 
     if (mode==='design') { renderEditor(); }
-    if (mode==='guided') { refreshGuidedUI(); }
+    if (mode==='guided') { refreshGuidedUI(); showGuidedStep(guidedStepIndex); }
   });
 });
 
@@ -3904,7 +3908,7 @@ const guidedProgress = [...document.querySelectorAll('[data-guided-progress]')];
 let guidedStepIndex = 0;
 let previewFromGuided = false;
 
-function showGuidedStep(index) {
+function showGuidedStep(index, moveFocus = true) {
   guidedStepIndex = Math.max(0, Math.min(index, guidedSteps.length - 1));
   guidedSteps.forEach((step, stepIndex) => {
     const active = stepIndex === guidedStepIndex;
@@ -3914,11 +3918,18 @@ function showGuidedStep(index) {
   guidedProgress.forEach((item, stepIndex) => {
     item.classList.toggle('is-current', stepIndex === guidedStepIndex);
     item.classList.toggle('is-complete', stepIndex < guidedStepIndex);
+    if (stepIndex === guidedStepIndex) item.setAttribute('aria-current', 'step');
+    else item.removeAttribute('aria-current');
   });
   document.getElementById('gm-guided-back').disabled = guidedStepIndex === 0;
   document.getElementById('gm-guided-next').textContent =
     guidedStepIndex === guidedSteps.length - 1 ? 'Start over' : 'Continue';
-  if (guidedStepIndex === 4) updateGuidedSummary();
+  updateGuidedSummary();
+  if (moveFocus) {
+    const heading = guidedSteps[guidedStepIndex].querySelector('h3');
+    heading.tabIndex = -1;
+    heading.focus();
+  }
 }
 
 function updateGuidedSummary() {
@@ -3930,8 +3941,9 @@ function updateGuidedSummary() {
     a11y.largeSprites && 'larger characters',
     a11y.reduceMotion && 'reduced motion',
   ].filter(Boolean);
-  document.getElementById('gm-guided-summary').textContent =
-    `“${game.title || 'My Game'}” uses ${backgroundName}${supports.length ? ` with ${supports.join(', ')}` : ''}.`;
+  const summary = `“${game.title || 'My Game'}” uses ${backgroundName}${supports.length ? ` with ${supports.join(', ')}` : ''}.`;
+  document.getElementById('gm-guided-summary').textContent = summary;
+  document.getElementById('gm-guided-review').textContent = summary;
 }
 
 function refreshGuidedUI() {
@@ -3939,21 +3951,44 @@ function refreshGuidedUI() {
   document.getElementById('gm-guided-slow').checked = a11y.slowMode;
   document.getElementById('gm-guided-contrast').checked = a11y.highContrast;
   document.getElementById('gm-guided-large').checked = a11y.largeSprites;
-  document.querySelectorAll('[data-guided-background]').forEach(button =>
-    button.classList.toggle('is-selected', button.dataset.guidedBackground === game.background)
-  );
+  renderGuidedThemes();
   updateGuidedSummary();
 }
 
+function renderGuidedThemes() {
+  const container = document.getElementById('gm-guided-themes');
+  if (!container.children.length) {
+    const result = selectGuidedTheme({ mode: 'collect-stars' });
+    for (const theme of result.options) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'gm-guided__choice';
+      button.dataset.guidedBackground = theme.id;
+      button.addEventListener('click', () => setGuidedBackground(theme.id));
+      container.appendChild(button);
+    }
+  }
+  for (const button of container.children) {
+    const selected = button.dataset.guidedBackground === game.background;
+    const theme = selectGuidedTheme({ id: button.dataset.guidedBackground }).selected;
+    button.textContent = `${theme.label}${selected ? ' — Selected' : ''}`;
+    button.classList.toggle('is-selected', selected);
+    button.setAttribute('aria-pressed', String(selected));
+  }
+}
+
 function setGuidedBackground(backgroundId) {
-  game.background = backgroundId;
-  const select = document.getElementById('gi-bg-select');
-  if (select) select.value = backgroundId;
-  document.querySelectorAll('[data-guided-background]').forEach(button =>
-    button.classList.toggle('is-selected', button.dataset.guidedBackground === backgroundId)
-  );
+  const result = selectGuidedTheme({ id: backgroundId, mode: 'collect-stars' });
+  const error = document.getElementById('gm-guided-background-error');
+  error.textContent = result.ok ? '' : result.errors[0].message;
+  if (!result.ok) return;
+  game.background = result.selected.id;
+  _mazePixels = null;
+  document.getElementById('gi-bg-select').value = game.background;
+  renderGuidedThemes();
   syncBgActive();
   renderEditor();
+  updateGuidedSummary();
 }
 
 function syncGuidedSupport(inputId, settingId, settingKey) {
@@ -3967,22 +4002,30 @@ function syncGuidedSupport(inputId, settingId, settingKey) {
   });
 }
 
-document.querySelectorAll('[data-guided-background]').forEach(button => {
-  button.addEventListener('click', () => setGuidedBackground(button.dataset.guidedBackground));
-});
-
 const guidedTitle = document.getElementById('gm-guided-title-input');
 guidedTitle.value = game.title;
-guidedTitle.addEventListener('input', () => {
-  game.title = guidedTitle.value || 'My Game';
-  document.getElementById('gi-title').value = guidedTitle.value;
-});
+function acceptGuidedTitle(focusError = false) {
+  const result = configureGameTitle({ game, nextId }, guidedTitle.value);
+  const error = document.getElementById('gm-guided-title-error');
+  error.textContent = result.ok ? '' : result.errors[0].message;
+  guidedTitle.setAttribute('aria-invalid', String(!result.ok));
+  if (!result.ok) {
+    if (focusError) { showGuidedStep(2, false); guidedTitle.focus(); }
+    return false;
+  }
+  game.title = result.value.game.title;
+  document.getElementById('gi-title').value = game.title;
+  updateGuidedSummary();
+  return true;
+}
+guidedTitle.addEventListener('input', () => acceptGuidedTitle());
+renderGuidedThemes();
 
 syncGuidedSupport('gm-guided-slow', 'gs-slow', 'slowMode');
 syncGuidedSupport('gm-guided-contrast', 'gs-contrast', 'highContrast');
 syncGuidedSupport('gm-guided-large', 'gs-large', 'largeSprites');
 // The starter level is initialized below; rendering it here interrupts setup.
-showGuidedStep(0);
+showGuidedStep(0, false);
 
 document.getElementById('gm-guided-calm').addEventListener('click', () => {
   a11y.slowMode = true;
@@ -3994,11 +4037,16 @@ document.getElementById('gm-guided-calm').addEventListener('click', () => {
 
 document.getElementById('gm-guided-back').addEventListener('click', () => showGuidedStep(guidedStepIndex - 1));
 document.getElementById('gm-guided-next').addEventListener('click', () => {
+  if (guidedStepIndex >= 2 && !acceptGuidedTitle(true)) return;
   showGuidedStep(guidedStepIndex === guidedSteps.length - 1 ? 0 : guidedStepIndex + 1);
 });
 document.getElementById('gm-guided-advanced').addEventListener('click', goBackToDesign);
-document.getElementById('gm-guided-save').addEventListener('click', saveGame);
+document.getElementById('gm-guided-edit').addEventListener('click', () => showGuidedStep(1));
+document.getElementById('gm-guided-save').addEventListener('click', () => {
+  if (acceptGuidedTitle(true)) saveGame();
+});
 document.getElementById('gm-guided-preview').addEventListener('click', () => {
+  if (!acceptGuidedTitle(true)) return;
   if (!startPlay()) {
     document.getElementById('gm-guided-summary').textContent = 'Add at least one star in the advanced editor before previewing your game.';
     return;
