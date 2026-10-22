@@ -64,7 +64,8 @@ jobs:
           python scripts/split_multi_course_files.py  # Run course splitting
       - name: Build with Jekyll
         run: |
-          bundle exec jekyll build  # Build your Jekyll site
+          bundle exec jekyll build --config _config.yml,_config.pages.yml
+          python scripts/prefix_site_urls.py _site /Frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 

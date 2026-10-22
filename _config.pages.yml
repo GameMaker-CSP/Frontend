@@ -1,0 +1,16 @@
+# This fork deploys at the repository URL, not the inherited school's domain.
+url: "https://gamemaker-csp.github.io"
+baseurl: "/Frontend"
+exclude:
+  - vendor
+  - Makefile
+  - _notebooks
+  - _docx
+  - venv
+  - tests
+  - reports
+  - docs
+  - scripts
+  - run_frontend.sh
+  - Gemfile.local
+  - Gemfile.local.lock
