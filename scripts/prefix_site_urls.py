@@ -9,23 +9,24 @@ from pathlib import Path
 import re
 from urllib.parse import unquote
 
-URL = re.compile(r'''(?P<lead>["'`(])(?P<url>/(?!/)[^"'`\s<>)]*)''')
+QUOTED_URL = re.compile(r'''(?P<quote>["'`])(?P<url>/(?!/)[^"'`\s<>)]*)(?P=quote)''')
+CSS_URL = re.compile(r'''(?P<lead>\burl\(\s*)(?P<url>/(?!/)[^"'`\s<>()]*)(?P<end>\s*\))''')
 EXTENSIONS = {'.html', '.js', '.css', '.json', '.webmanifest', '.svg'}
 
 
 def prefix_urls(text, site, base_path):
-    def replace(match):
-        url = match['url']
+    def prefix(url):
         if url == base_path or url.startswith(base_path + '/'):
-            return match[0]
+            return url
         path = unquote(re.split(r'[?#]', url, maxsplit=1)[0]).lstrip('/')
         target = site / path
         # Extensionless Jekyll routes can also be emitted as route.html.
         if '..' in Path(path).parts or not (target.exists() or target.with_suffix('.html').is_file()):
-            return match[0]
-        return match['lead'] + base_path + url
+            return url
+        return base_path + url
 
-    return URL.sub(replace, text)
+    text = QUOTED_URL.sub(lambda m: m['quote'] + prefix(m['url']) + m['quote'], text)
+    return CSS_URL.sub(lambda m: m['lead'] + prefix(m['url']) + m['end'], text)
 
 
 def main():

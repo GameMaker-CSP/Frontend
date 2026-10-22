@@ -31,5 +31,10 @@ class ProjectUrls(unittest.TestCase):
             const absent='/unknown/path'; const escape='/../assets/a.js';'''
             self.assertEqual(module.prefix_urls(text, Path(directory), '/Frontend'), text)
 
+    def test_javascript_regex_literals_are_not_urls(self):
+        with tempfile.TemporaryDirectory() as directory:
+            text = "const clean = String(x).replace(/</g, '&lt;').replace(/>/g, '&gt;');"
+            self.assertEqual(module.prefix_urls(text, Path(directory), '/Frontend'), text)
+
 if __name__ == '__main__':
     unittest.main()
