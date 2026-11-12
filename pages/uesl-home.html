@@ -1,80 +1,94 @@
 ---
 layout: uesl
-title: "Home"
-description: "Make Friends. Play on a Team. Grow Through Tech. — Unified Esports League"
+title: Home
+description: Get together, play games, and connect with the Unified Esports League community.
 permalink: /
 ---
-
-    <section id="home" aria-labelledby="hero-heading">
-      <div id="hero-bg"></div>
-      <div id="hero-img" role="img" aria-hidden="true"></div>
-      <canvas id="hero-particles" aria-hidden="true"></canvas>
-      <div class="hero-cols">
-        <div class="hero-content">
-          <div class="hero-badge">Now Open Year-Round · Ages 8+</div>
-          <h1 class="hero-h1" id="hero-heading">
-            Make Friends.<br/>
-            Play on a Team.<br/>
-            <span>Grow Through Tech.</span>
-          </h1>
-          <p class="hero-sub">
-            Unified Esports League helps people with intellectual and
-            developmental disabilities build confidence, friendships, and
-            skills through gaming and technology — at no cost to SDRC clients.
-          </p>
-          <div class="hero-btns">
-            <a href="/play/" class="btn-primary">
-              🎮 Play the Game
-            </a>
-            <a href="/about/" class="btn-outline">
-              Learn More ↓
-            </a>
-          </div>
-          <div class="hero-stats" aria-label="Key statistics">
-            <div class="hs-item">
-              <div class="hs-num" data-target="7">0</div>
-              <div class="hs-label">Tech Centers</div>
-            </div>
-            <div class="hs-item">
-              <div class="hs-num" data-target="100" data-suffix="+">0</div>
-              <div class="hs-label">Participants</div>
-            </div>
-            <div class="hs-item">
-              <div class="hs-num" data-target="1" data-colon="3">0</div>
-              <div class="hs-label">Coach Ratio</div>
-            </div>
-            <div class="hs-item">
-              <div class="hs-num" data-target="8" data-suffix="+">0</div>
-              <div class="hs-label">Years & Up</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Our Mission panel — right column of hero -->
-        <div class="hero-mission-panel">
-          <div class="section-label" style="margin-bottom:20px;">Our Mission</div>
-          <div class="value-cards">
-            <div class="vc">
-              <div class="vc-icon">🤝</div>
-              <div class="vc-title">Community</div>
-              <div class="vc-desc">Team-based learning where every player belongs and grows together.</div>
-            </div>
-            <div class="vc">
-              <div class="vc-icon">🧑‍🏫</div>
-              <div class="vc-title">Expert Coaching</div>
-              <div class="vc-desc">Trained coaches provide personalized support at a 1:3 ratio.</div>
-            </div>
-            <div class="vc">
-              <div class="vc-icon">♿</div>
-              <div class="vc-title">Accessibility</div>
-              <div class="vc-desc">Adaptive controls and inclusive tech for every ability level.</div>
-            </div>
-            <div class="vc">
-              <div class="vc-icon">🛠️</div>
-              <div class="vc-title">Real Skills</div>
-              <div class="vc-desc">Confidence, collaboration, and technology fluency that last a lifetime.</div>
-            </div>
-          </div>
-        </div>
+<!-- THESIS: In-person connection leads; creative play continues between gatherings.
+OWN-WORLD: Retain the UESL shell and shared OCS components without new styling.
+STORY: See the community, find a gathering, arrange a visit, then explore Game Maker.
+FIRST VIEWPORT: Invitation and event action on the left; a real group photo on the right.
+FORM: Extend the existing two-column hero and shared content sections. -->
+<section id="home" aria-labelledby="hero-heading">
+  <div class="hero-cols">
+    <div class="hero-content">
+      <p class="section-label">Unified Esports League</p>
+      <h1 class="hero-h1" id="hero-heading">Good games.<br>New friends.<br><span>Time together.</span></h1>
+      <p class="hero-sub">Get together to play, cheer each other on, and belong. UESL brings people with intellectual and developmental disabilities together through gaming and technology.</p>
+      <div class="hero-btns">
+        <a href="{{ '/events/' | relative_url }}" class="ocs__btn fill large">Explore events &amp; gatherings</a>
+        <a href="{{ '/contact/?topic=tour' | relative_url }}" class="ocs__btn large">Arrange a visit</a>
       </div>
+    </div>
+    {% assign hero_photo = site.data.uesl_gallery | first %}
+    <figure class="ocs__stack ocs__grid-cell">
+      <img class="ocs__image-frame" src="{{ hero_photo.image }}?format=1000w" alt="{{ hero_photo.alt | escape }}" width="{{ hero_photo.width }}" height="{{ hero_photo.height }}" fetchpriority="high">
+      <figcaption><a href="{{ '/gallery/' | relative_url }}">Meet the community in photos →</a></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="section ocs__stack" id="gatherings" aria-labelledby="gatherings-heading">
+  <div class="ocs__grid cols-2">
+    <div class="ocs__stack">
+      <h2 class="section-title" id="gatherings-heading">The next time we get together</h2>
+      <p class="ocs__description">Find out what’s happening, ask about a gaming party, or explore a gathering at your venue. The team can help you work out the details.</p>
+      <ul class="ocs__links">
+        <li><a class="ocs__btn" href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a></li>
+        <li><a class="ocs__btn" href="{{ '/contact/?topic=party' | relative_url }}">Ask about hosting</a></li>
+      </ul>
+    </div>
+    {% include uesl-events.html %}
+  </div>
+</section>
+
+<section class="section ocs__stack" id="announcements" aria-labelledby="updates-heading">
+  <h2 class="section-title" id="updates-heading">Community announcements</h2>
+  {% include uesl-announcements.html %}
+  <div><a class="ocs__btn" href="{{ '/announcements/' | relative_url }}">All notices &amp; visit information</a></div>
+</section>
+
+<section class="section ocs__stack" aria-labelledby="photos-heading">
+  <h2 class="section-title" id="photos-heading">This is what together looks like.</h2>
+  {% include uesl-gallery.html %}
+  <div><a class="ocs__btn" href="{{ '/gallery/' | relative_url }}">Explore the gallery</a></div>
+</section>
+
+<section class="section ocs__stack" aria-labelledby="getting-started-heading">
+  <h2 class="section-title" id="getting-started-heading">Your first visit starts here.</h2>
+  <div class="ocs__grid cols-2">
+    <section class="ocs__card ocs__stack">
+      <h3>Find your community</h3>
+      <p class="ocs__description">Explore UESL’s centers in San Diego and Imperial counties. Ask client services about enrollment, eligibility, and a scheduled tour.</p>
+      <ul class="ocs__links">
+        <li><a class="ocs__btn accent" href="{{ '/locations/' | relative_url }}">Find a location</a></li>
+        <li><a class="ocs__btn" href="{{ '/contact/?topic=enrollment' | relative_url }}">Ask about joining</a></li>
+      </ul>
     </section>
+    <section class="ocs__card ocs__stack">
+      <h3>A little help getting started</h3>
+      <p class="ocs__description">Read UESL’s guide with a family member or support person, at your own pace.</p>
+      <ul class="ocs__links">
+        <li><a class="ocs__btn" href="https://www.unifiedesl.com/s/Getting-Started-with-UESL-pmgw.pdf">English guide (PDF)</a></li>
+        <li><a class="ocs__btn" href="https://www.unifiedesl.com/s/Getting-Started-with-UESL-En-Espanol.pdf" lang="es">Guía en español (PDF)</a></li>
+      </ul>
+    </section>
+  </div>
+</section>
+
+<section class="section ocs__stack" id="between-events" aria-labelledby="maker-heading">
+  <div class="ocs__grid cols-2">
+    <div class="ocs__stack">
+      <p class="section-label">Between events</p>
+      <h2 class="section-title" id="maker-heading">Make something to play next time.</h2>
+      <p class="ocs__description">Try Game Maker at home. Build a level, create an open world, or design a race, then bring your ideas to your next get-together.</p>
+    </div>
+    <div class="ocs__stack">
+      <p class="ocs__description">Start small and explore at your own pace. The three builders and their setup guides are together on the Game Maker page.</p>
+      <ul class="ocs__links">
+        <li><a class="ocs__btn accent" href="{{ '/play/' | relative_url }}">Open Game Maker</a></li>
+        <li><a class="ocs__btn" href="{{ '/play/#play-guide' | relative_url }}">How to start</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
