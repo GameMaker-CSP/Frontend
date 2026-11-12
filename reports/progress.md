@@ -98,3 +98,15 @@
 - Teammates' old clones need fresh checkouts of the replacement repository before
   pushing; this local checkout is already updated. Other repositories were not
   converted in this frontend-specific migration.
+
+## 2026-11-12: community-first UESL website
+
+Done: event and party inquiries, dated announcements, attributed community
+photographs, verified location directory, event-first homepage, shared navigation,
+and focused regression checks. Game Maker remains available between events.
+Reused existing OCS components; added no CSS/Sass or dependencies.
+Jekyll build, all 109 frontend tests, actual Liquid rendering checks, and desktop/
+mobile browser verification passed. Fixed a UTC/Pacific event expiry boundary.
+The request is split into seven local commits; earlier account/builder/deployment
+work remains separate and preserved. No push or production deployment.
+See docs/UESL_COMMUNITY.md for content maintenance and known source limitations.

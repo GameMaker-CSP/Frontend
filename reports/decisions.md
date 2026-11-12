@@ -69,3 +69,14 @@
   keep the original PR and historical branches accessible in the retained fork.
 - Preserve the published main tree and OCS feature tree exactly. Pending Sass
   changes stay uncommitted. Keep original local refs under `refs/archive/pre-template/`.
+
+## 2026-11-12: prioritize UESL gatherings and reuse OCS
+
+Use the incumbent visual system for the community surfaces. Events, announcements,
+photos, locations, and visits precede the between-events Game Maker. Keep source
+data in small shared JSON files; reference the official site for live availability.
+Do not invent event dates, prices, participant counts, or registration confirmation.
+Replace the invalid contact endpoint with the official form and a local email-draft
+helper. Remove the simulated newsletter success. Keep externally hosted photos
+attributed. Render all event records so the browser can apply Pacific-time expiry
+even when the build server uses another timezone. No new CSS/Sass or backend API.

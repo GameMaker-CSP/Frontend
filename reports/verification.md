@@ -146,3 +146,21 @@ tests; they do not claim a new browser flow or full corrupted-save recovery.
   also remain under `refs/archive/pre-template/`. The history remote is fetchable
   with pushes disabled locally. The backup repository remains unarchived after
   automatic approval review rejected archiving without an explicit request.
+
+## 2026-11-12: UESL community surfaces
+
+- Jekyll build passed; existing duplicate legacy route warnings remain.
+- Full frontend test suite: 109 passed. Community tests cover hierarchy, local
+  routes/anchors, source attribution, no new inline CSS, draft routing/encoding,
+  and expiry. Real Liquid rendering tests pass for UTC/Pacific boundary records,
+  text escaping, populated lists, and empty schedule fallback.
+- Browser: homepage at 1366px, unclipped nav at 920px, six community pages at
+  390px; no horizontal overflow. Mobile menu opens and navigates correctly.
+- Party inquiry preselection, required-field validation, draft preview, correct
+  recipient, encoded punctuation and stale-draft invalidation verified. No email
+  sent. New pages logged no browser errors. Existing builder tests still pass.
+- Three official remote photos loaded successfully. No images stored in repo.
+- Scoped design detector returned []; independent visual review found the expiry
+  boundary, which was corrected and covered by a real rendering regression check.
+- Screenshots and logs: /private/tmp/uesl-community-20261112/. No CSS/Sass changes
+  or dependency changes in these commits. Production deployment remains paused.
