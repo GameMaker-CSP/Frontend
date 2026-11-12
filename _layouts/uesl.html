@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UESL Hub — Unified Esports League</title>
-  <meta name="description" content="Unified Esports League — Helping people with disabilities grow through their passion for technology. Play, build, and explore with our free game maker."/>
+  <title>{{ page.title | default: "Home" | escape }} — Unified Esports League</title>
+  <meta name="description" content="{{ page.description | default: "Connect with the UESL community through events, games, and shared experiences." | escape }}"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet"/>
@@ -18,7 +18,7 @@
 
   <!-- ── Navbar ───────────────────────────────────────────────── -->
   <nav id="nav" role="navigation" aria-label="Main navigation">
-    <a href="/" aria-label="UESL Home">
+    <a href="{{ '/' | relative_url }}" aria-label="UESL Home">
       <img id="nav-logo"
         src="https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/efa49c03-11c6-4c97-b21e-05266875502d/UnifiedESL-horizontal.png"
         alt="Unified Esports League"
@@ -27,15 +27,7 @@
       <span style="display:none; font-family:var(--font-h); font-size:1.1rem; color:var(--cyan); font-weight:700;">UESL</span>
     </a>
     <ul id="nav-links" role="list">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="/locations/">Locations</a></li>
-      <li><a href="/play/">Play</a></li>
-      <li><a href="/contact/">Contact</a></li>
-      <li>
-        <a href="https://www.paypal.com/donate/?hosted_button_id=UYQT933YT3S32"
-           class="nav-donate" target="_blank" rel="noopener">Donate</a>
-      </li>
+      {% include uesl-community-links.html %}
       <li id="nav-auth-item">
         <button id="nav-social-btn" class="ocs__btn nav-social-btn" aria-label="Open Social Hub" style="display:none;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -88,21 +80,17 @@
           A 501(c)(3) nonprofit — EIN: 88-2591302.
         </p>
         <div class="footer-newsletter">
-          <div class="fn-label">Stay in the loop</div>
-          <div class="fn-row">
-            <input class="fn-input" type="email" placeholder="your@email.com" aria-label="Newsletter email"/>
-            <button class="ocs__btn fn-btn">Subscribe</button>
-          </div>
+          <div class="fn-label">Stay connected</div>
+          <a class="ocs__btn" href="{{ '/announcements/' | relative_url }}">Community announcements</a>
         </div>
       </div>
       <div class="footer-col">
-        <h4>Navigate</h4>
+        <h4>Explore</h4>
         <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/about/">About</a></li>
-          <li><a href="/locations/">Locations</a></li>
-          <li><a href="/play/">Play the Game</a></li>
-          <li><a href="/contact/">Contact</a></li>
+          {% include uesl-community-links.html %}
+          <li><a href="{{ '/announcements/' | relative_url }}">Announcements</a></li>
+          <li><a href="{{ '/locations/' | relative_url }}">Locations</a></li>
+          <li><a href="{{ '/about/' | relative_url }}">About UESL</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -118,16 +106,15 @@
       <div class="footer-col">
         <h4>Contact</h4>
         <ul>
-          <li><a href="tel:6193540733">(619) 354-0733</a></li>
-          <li><a href="tel:8584498478">(858) 449-8478</a></li>
+          <li><a href="tel:+18586332344">(858) 633-2344</a></li>
+          <li><a href="mailto:services@unifiedesl.com">services@unifiedesl.com</a></li>
           <li><a href="mailto:matthew@unifiedesl.com">matthew@unifiedesl.com</a></li>
           <li><a href="mailto:wendy@unifiedesl.com">wendy@unifiedesl.com</a></li>
-          <li><a href="tel:18333338375">Attendance: (833) 333-8375</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2025 Unified Esports League · 501(c)(3) Nonprofit · EIN 88-2591302</span>
+      <span>© {{ site.time | date: '%Y' }} Unified Esports League · 501(c)(3) Nonprofit · EIN 88-2591302</span>
       <span>Built with ♥ for the UESL community · <a href="https://www.unifiedesl.com" target="_blank" rel="noopener">unifiedesl.com</a></span>
     </div>
   </footer>
@@ -269,18 +256,6 @@
       });
     });
 
-    // ── Newsletter no-op (just UI feedback) ─────────────────────
-    document.querySelectorAll('.fn-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const input = btn.previousElementSibling;
-        if (!input.value.includes('@')) {
-          input.focus(); return;
-        }
-        btn.textContent = '✓ Subscribed!';
-        btn.style.background = 'var(--green)';
-        setTimeout(() => { btn.textContent = 'Subscribe'; btn.style.background = ''; }, 3000);
-      });
-    });
 
   })();
   </script>

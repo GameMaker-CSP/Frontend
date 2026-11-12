@@ -25,15 +25,7 @@
       <span style="display:none; font-family:var(--font-h); font-size:1.1rem; color:var(--cyan); font-weight:700;">UESL</span>
     </a>
     <ul id="nav-links" role="list">
-      <li><a href="/uesl-hub/">Home</a></li>
-      <li><a href="/uesl-hub/#about">About</a></li>
-      <li><a href="/uesl-hub/#locations">Locations</a></li>
-      <li><a href="/uesl-hub/#game" class="active">Play</a></li>
-      <li><a href="/uesl-hub/#contact">Contact</a></li>
-      <li>
-        <a href="https://www.paypal.com/donate/?hosted_button_id=UYQT933YT3S32"
-           class="nav-donate" target="_blank" rel="noopener">Donate</a>
-      </li>
+      {% include uesl-community-links.html %}
       <li id="nav-auth-item">
         <button id="nav-signin-btn" class="ocs__btn nav-signin-btn" aria-label="Sign In or Create Account">Sign Up</button>
         <div id="nav-user-chip" style="display:none;">

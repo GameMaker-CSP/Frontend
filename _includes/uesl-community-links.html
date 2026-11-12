@@ -1,0 +1,3 @@
+{% for item in site.data.uesl_navigation %}
+<li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active" aria-current="page"{% endif %}>{{ item.label | escape }}</a></li>
+{% endfor %}

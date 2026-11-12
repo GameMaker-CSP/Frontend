@@ -1,0 +1,7 @@
+[
+  { "label": "Home", "url": "/" },
+  { "label": "Events", "url": "/events/" },
+  { "label": "Gallery", "url": "/gallery/" },
+  { "label": "Game Maker", "url": "/play/" },
+  { "label": "Contact", "url": "/contact/" }
+]
