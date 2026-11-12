@@ -1,0 +1,11 @@
+<div class="ocs__grid cols-2">
+  {% for notice in site.data.uesl_announcements %}
+  <article class="ocs__card ocs__stack" id="{{ notice.id | escape }}">
+    <p>{{ notice.category | escape }}</p>
+    <h3>{{ notice.title | escape }}</h3>
+    <p><time datetime="{{ notice.starts_on | escape }}">{{ notice.dates | escape }}</time></p>
+    <p class="ocs__description">{{ notice.body | escape }}</p>
+    <p class="ocs__description"><a href="{{ notice.source | escape }}">Official UESL notice</a> · Checked {{ notice.verified_on | date: '%b %-d, %Y' }}</p>
+  </article>
+  {% endfor %}
+</div>
