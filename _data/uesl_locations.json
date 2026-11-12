@@ -1,0 +1,9 @@
+[
+  { "city": "San Marcos", "venue": "TERI Campus of Life", "address": "555 Deer Springs Road, San Marcos, CA 92069" },
+  { "city": "Rancho Bernardo", "venue": "Rancho Bernardo High School", "address": "13010 Paseo Lucido, San Diego, CA 92128" },
+  { "city": "El Centro", "venue": "Booker T. Washington Elementary", "address": "223 S 1st St, El Centro, CA 92243" },
+  { "city": "Ramona", "venue": "Ramona High School", "address": "1401 Hanson Lane, Ramona, CA 92065" },
+  { "city": "San Ysidro", "venue": "San Ysidro Middle School, Room 802", "address": "4345 Otay Mesa Road, San Diego, CA 92154" },
+  { "city": "El Cajon", "venue": "St. Madeleine Sophie’s Center", "address": "2119 E Madison Ave, El Cajon, CA 92019" },
+  { "city": "Poway", "venue": "Abraxas High School", "address": "12450 Glen Oak Road, Poway, CA 92064" }
+]
