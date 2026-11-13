@@ -1,68 +1,26 @@
 import {baseurl, fetchOptions, pythonURI, javaURI } from './config.js';
 
-// Update User Data with "Put"
-export function putUpdate(options) {
-    // Modify the options to use the PUT method and include the request body.
-    const requestOptions = {
-        ...fetchOptions, // This will copy all properties from options
-        method: 'PUT', // Override the method property
-        cache: options.cache, // Set the cache property
-        body: JSON.stringify(options.body)
-    };
-
-    // Clear the message area
-
-    // Send PUT request
-    fetch(options.URL, requestOptions)
-        .then(response => {
-            // Trap error response from Web API
-            if (!response.ok) {
-                const errorMsg = 'Error: ' + response.status;
-                console.log(errorMsg);
-                return;
-            }
-            // Success!!!
-            // Call the callback function
-            options.callback();
-        })
-        .catch(error => {
-            // Handle network errors
-            console.log('Possible CORS or Service Down error: ' + error);
-           
-        });
+// Return the request so callers wait for persistence before showing success.
+async function updateUser(options, method) {
+    const response = await fetch(options.URL, {
+        ...fetchOptions,
+        method,
+        body: JSON.stringify(options.body),
+        ...(options.cache ? { cache: options.cache } : {}),
+    });
+    if (!response.ok) {
+        throw new Error(`Profile update failed (${response.status}). Your changes were not confirmed.`);
+    }
+    if (typeof options.callback === 'function') options.callback();
+    return response;
 }
 
+export function putUpdate(options) {
+    return updateUser(options, 'PUT');
+}
 
-
-// Update User Data with "POST" 
 export function postUpdate(options) {
-    // Modify the options to use the POST method and include the request body.
-    const requestOptions = {
-        ...fetchOptions, // This will copy all properties from options
-        method: 'POST', // Override the method property
-        cache: options.cache, // Set the cache property
-        body: JSON.stringify(options.body)
-    };
-
-    // Clear the message area
-    // Send POST request
-    fetch(options.URL, requestOptions)
-        .then(response => {
-            // Trap error response from Web API
-            if (!response.ok) {
-                const errorMsg = 'Error: ' + response.status;
-                console.log(errorMsg);
-                return;
-            }
-            // Success!!!
-            // Call the callback function
-            options.callback();
-        })
-        .catch(error => {
-            // Handle network errors
-            console.log('Possible CORS or Service Down error: ' + error);
-           
-        });
+    return updateUser(options, 'POST');
 }
 
 export async function logoutUser() {

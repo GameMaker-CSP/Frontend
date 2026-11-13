@@ -4,18 +4,14 @@ title: Home
 description: Get together, play games, and connect with the Unified Esports League community.
 permalink: /
 ---
-<!-- THESIS: In-person connection leads; creative play continues between gatherings.
-OWN-WORLD: Retain the UESL shell and shared OCS components without new styling.
-STORY: See the community, find a gathering, arrange a visit, then explore Game Maker.
-FIRST VIEWPORT: Invitation and event action on the left; a real group photo on the right.
-FORM: Extend the existing two-column hero and shared content sections. -->
+<!-- Community gatherings lead; Game Maker continues the experience between events. -->
 <section id="home" aria-labelledby="hero-heading">
-  <div class="hero-cols">
-    <div class="hero-content">
-      <p class="section-label">Unified Esports League</p>
-      <h1 class="hero-h1" id="hero-heading">Good games.<br>New friends.<br><span>Time together.</span></h1>
-      <p class="hero-sub">Get together to play, cheer each other on, and belong. UESL brings people with intellectual and developmental disabilities together through gaming and technology.</p>
-      <div class="hero-btns">
+  <div class="ocs__grid cols-2">
+    <div class="ocs__grid-cell">
+      <p class="ocs__caption">Unified Esports League</p>
+      <h1 class="ocs__section-title" id="hero-heading">Good games. New friends. Time together.</h1>
+      <p class="ocs__description">Get together to play, cheer each other on, and belong. UESL brings people with intellectual and developmental disabilities together through gaming and technology.</p>
+      <div class="ocs__links">
         <a href="{{ '/events/' | relative_url }}" class="ocs__btn fill large">Explore events &amp; gatherings</a>
         <a href="{{ '/contact/?topic=tour' | relative_url }}" class="ocs__btn large">Arrange a visit</a>
       </div>
@@ -28,10 +24,10 @@ FORM: Extend the existing two-column hero and shared content sections. -->
   </div>
 </section>
 
-<section class="section ocs__stack" id="gatherings" aria-labelledby="gatherings-heading">
+<section class="ocs__stack" id="gatherings" aria-labelledby="gatherings-heading">
   <div class="ocs__grid cols-2">
     <div class="ocs__stack">
-      <h2 class="section-title" id="gatherings-heading">The next time we get together</h2>
+      <h2 class="ocs__section-title" id="gatherings-heading">The next time we get together</h2>
       <p class="ocs__description">Find out what’s happening, ask about a gaming party, or explore a gathering at your venue. The team can help you work out the details.</p>
       <ul class="ocs__links">
         <li><a class="ocs__btn" href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a></li>
@@ -42,20 +38,20 @@ FORM: Extend the existing two-column hero and shared content sections. -->
   </div>
 </section>
 
-<section class="section ocs__stack" id="announcements" aria-labelledby="updates-heading">
-  <h2 class="section-title" id="updates-heading">Community announcements</h2>
+<section class="ocs__stack" id="announcements" aria-labelledby="updates-heading">
+  <h2 class="ocs__section-title" id="updates-heading">Community announcements</h2>
   {% include uesl-announcements.html %}
   <div><a class="ocs__btn" href="{{ '/announcements/' | relative_url }}">All notices &amp; visit information</a></div>
 </section>
 
-<section class="section ocs__stack" aria-labelledby="photos-heading">
-  <h2 class="section-title" id="photos-heading">This is what together looks like.</h2>
+<section class="ocs__stack" aria-labelledby="photos-heading">
+  <h2 class="ocs__section-title" id="photos-heading">This is what together looks like.</h2>
   {% include uesl-gallery.html %}
   <div><a class="ocs__btn" href="{{ '/gallery/' | relative_url }}">Explore the gallery</a></div>
 </section>
 
-<section class="section ocs__stack" aria-labelledby="getting-started-heading">
-  <h2 class="section-title" id="getting-started-heading">Your first visit starts here.</h2>
+<section class="ocs__stack" aria-labelledby="getting-started-heading">
+  <h2 class="ocs__section-title" id="getting-started-heading">Your first visit starts here.</h2>
   <div class="ocs__grid cols-2">
     <section class="ocs__card ocs__stack">
       <h3>Find your community</h3>
@@ -76,11 +72,11 @@ FORM: Extend the existing two-column hero and shared content sections. -->
   </div>
 </section>
 
-<section class="section ocs__stack" id="between-events" aria-labelledby="maker-heading">
+<section class="ocs__stack" id="between-events" aria-labelledby="maker-heading">
   <div class="ocs__grid cols-2">
     <div class="ocs__stack">
-      <p class="section-label">Between events</p>
-      <h2 class="section-title" id="maker-heading">Make something to play next time.</h2>
+      <p class="ocs__caption">Between events</p>
+      <h2 class="ocs__section-title" id="maker-heading">Make something to play next time.</h2>
       <p class="ocs__description">Try Game Maker at home. Build a level, create an open world, or design a race, then bring your ideas to your next get-together.</p>
     </div>
     <div class="ocs__stack">

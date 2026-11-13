@@ -11,29 +11,41 @@ include it directly; app pages use `head-custom.html`; the local/remote Minima
 head uses the same hook. This avoids depending on an optional theme import.
 All entry-point links use `relative_url` so project base paths work.
 
-There are **four implementation files**, grouped by the part of the site they
-serve. Small components are sections within `_core.scss`, not separate files.
+The core site styles are grouped into three implementation files. The combined
+builder adds one scoped bundle with imported workbench styles, inherited game
+overlays and shared presentation. Small shared controls remain sections within
+`_core.scss`, not separate files.
 
 | Source file | Compiled output | Responsibility |
 | --- | --- | --- |
-| `_core.scss` | `ocs.css` | Tokens, buttons/cards/forms, preferences, infographic/module/case components, login, small lesson navigation and arena widget |
-| `_shell.scss` | `uesl-site.css`, `uesl-app.css` | Shared reset, navigation and authentication; full-site content, social panels, footer and toolkit are included only in the site output |
+| `_core.scss` | `ocs.css` | Tokens, buttons/cards/forms, preferences and accessibility behavior, infographic/module/case components, login, small lesson navigation and arena widget |
 | `_game-maker.scss` | `game-maker.css` | Both editors, playback, settings/dialogs, guided flow and OCS integration |
 | `_lessons.scss` | `ocs-lesson-player.css` | Minima course/post shell and submission styles |
 
-Five matching three-line entry points in `assets/css/` tell Jekyll which CSS
-files to produce. Each uses one `@use`; presentation lives only in the four
-files above. The app loader uses `@use "open-coding/shell" with ($full-site: false)`;
-the site loader uses the default full-site output. Navigation, reset and login
-rules therefore have one source while preserving each layout's existing colors,
-spacing, focus behavior and mobile menu. Total: four main files and five loaders
-(28 Sass files originally → 10 → 9).
+Community and account pages load only `ocs.css`. The separate UESL site/app skins
+have been deleted. `game-builder.scss` is loaded only by Play and its three frames:
 
-The compiled bundles stay separate because full-site content and Minima layouts
-must not load into the compact app. Login and small widgets share the core bundle, so they
-no longer need separate stylesheet links. The dashboard's layout rules use
-`ocs-lesson-sidebar` / `ocs-lesson-main` to avoid affecting course sidebars;
-arena helper styles are scoped to `#uesl-game-wrapper`.
+| Builder source | Responsibility |
+| --- | --- |
+| `forms/game-builder.scss` | Inherited builder layout primitives |
+| the `open-world` and `racing` project Sass | Inherited drawing overlays, race HUD, garage and results |
+| `_projects/systems/gamebuilder/sass/main.scss` | Imported OpenCS workbench and runner components, scoped to the builder frame |
+| `_builder-shell.scss` | One shared setup/preview/code layout, controls, tabs and responsive rules for all three builders |
+
+The shell imports last so shared presentation wins without duplicating a skin
+in every game. Put common builder styling there; keep canvas-specific rules in
+the `open-world` and `racing` project Sass. Both the inherited and imported runtime engines retain
+their own behavior. Source attribution is recorded in `docs/OPENCS_SOURCE.md`.
+
+`uesl`, `uesl-app`, and `ocs-account` share one OCS site layout. Navigation,
+footer, tools, and social markup live in `_includes/uesl-*.html`; behavior lives in
+`assets/js/uesl-community/`. Native dialogs supply modality, keyboard dismissal,
+and focus restoration. Sign-in and registration use the existing `/login` page.
+There is no second sign-in modal or stylesheet injected by keyboard help.
+
+The builder bundle keeps canvas geometry, code-editor layout and game overlays.
+Core retains the existing reading ruler, high contrast, focus and dyslexia modes;
+these are functional accessibility styles, not a separate UESL skin.
 
 Do not import all of this into the old `minima/custom-styles.scss`, or recreate
 per-component stylesheets. Both editors intentionally share one bundle.
@@ -92,8 +104,8 @@ has readable dark text. Arbitrary user-selected background/text pairs still
 need a contrast check; the system does not silently replace custom choices.
 
 Keep existing scoped `gm-*`, `slm-*`, and UESL selectors for product composition.
-Core component selectors have class specificity so the old universal reset
-cannot erase their padding. Product styles load afterward and can refine them.
+Shared controls use OCS class selectors. Scoped builder styles load afterward
+for canvas layout and runtime states.
 Preferences and reduced-motion styles must continue to work after extensions.
 
 ## Instructional components
@@ -132,3 +144,7 @@ Do not present those examples as completed course assignments.
 
 No new runtime packages, backend schema changes, or game-save format changes
 are required by OCS.
+
+Builder source folders and publication paths are documented in
+[`_projects/README.md`](../../_projects/README.md). Edit each builder’s `sass/main.scss`
+there; `assets/css/game-builder.scss` loads them together with the shared OCS shell.

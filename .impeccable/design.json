@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T21:54:37.438912+00:00",
+  "title": "Design System: UESL OpenCS workspace",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Cyan accent",
+        "canonical": "#00d4ff",
+        "tonalRamp": [
+          "oklch(15.00% 0.14594 219.52)",
+          "oklch(26.43% 0.14594 219.52)",
+          "oklch(37.86% 0.14594 219.52)",
+          "oklch(49.29% 0.14594 219.52)",
+          "oklch(60.71% 0.14594 219.52)",
+          "oklch(72.14% 0.14594 219.52)",
+          "oklch(83.57% 0.14594 219.52)",
+          "oklch(95.00% 0.14594 219.52)"
+        ]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Deep background",
+        "canonical": "#0d1117",
+        "tonalRamp": [
+          "oklch(15.00% 0.01402 258.36)",
+          "oklch(26.43% 0.01402 258.36)",
+          "oklch(37.86% 0.01402 258.36)",
+          "oklch(49.29% 0.01402 258.36)",
+          "oklch(60.71% 0.01402 258.36)",
+          "oklch(72.14% 0.01402 258.36)",
+          "oklch(83.57% 0.01402 258.36)",
+          "oklch(95.00% 0.01402 258.36)"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel",
+        "canonical": "#161b27",
+        "tonalRamp": [
+          "oklch(15.00% 0.02475 266.89)",
+          "oklch(26.43% 0.02475 266.89)",
+          "oklch(37.86% 0.02475 266.89)",
+          "oklch(49.29% 0.02475 266.89)",
+          "oklch(60.71% 0.02475 266.89)",
+          "oklch(72.14% 0.02475 266.89)",
+          "oklch(83.57% 0.02475 266.89)",
+          "oklch(95.00% 0.02475 266.89)"
+        ]
+      },
+      "panel-mid": {
+        "role": "neutral",
+        "displayName": "Raised control surface",
+        "canonical": "#1e2535",
+        "tonalRamp": [
+          "oklch(15.00% 0.03175 266.03)",
+          "oklch(26.43% 0.03175 266.03)",
+          "oklch(37.86% 0.03175 266.03)",
+          "oklch(49.29% 0.03175 266.03)",
+          "oklch(60.71% 0.03175 266.03)",
+          "oklch(72.14% 0.03175 266.03)",
+          "oklch(83.57% 0.03175 266.03)",
+          "oklch(95.00% 0.03175 266.03)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Light text",
+        "canonical": "#e6edf3",
+        "tonalRamp": [
+          "oklch(15.00% 0.01105 243.66)",
+          "oklch(26.43% 0.01105 243.66)",
+          "oklch(37.86% 0.01105 243.66)",
+          "oklch(49.29% 0.01105 243.66)",
+          "oklch(60.71% 0.01105 243.66)",
+          "oklch(72.14% 0.01105 243.66)",
+          "oklch(83.57% 0.01105 243.66)",
+          "oklch(95.00% 0.01105 243.66)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted text",
+        "canonical": "#8b949e",
+        "tonalRamp": [
+          "oklch(15.00% 0.01814 250.92)",
+          "oklch(26.43% 0.01814 250.92)",
+          "oklch(37.86% 0.01814 250.92)",
+          "oklch(49.29% 0.01814 250.92)",
+          "oklch(60.71% 0.01814 250.92)",
+          "oklch(72.14% 0.01814 250.92)",
+          "oklch(83.57% 0.01814 250.92)",
+          "oklch(95.00% 0.01814 250.92)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Quiet border",
+        "canonical": "rgba(255,255,255,.07)",
+        "tonalRamp": [
+          "oklch(15.00% 0.00000 0.00)",
+          "oklch(26.43% 0.00000 0.00)",
+          "oklch(37.86% 0.00000 0.00)",
+          "oklch(49.29% 0.00000 0.00)",
+          "oklch(60.71% 0.00000 0.00)",
+          "oklch(72.14% 0.00000 0.00)",
+          "oklch(83.57% 0.00000 0.00)",
+          "oklch(95.00% 0.00000 0.00)"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Danger rose",
+        "canonical": "#ed6470",
+        "tonalRamp": [
+          "oklch(15.00% 0.16933 17.53)",
+          "oklch(26.43% 0.16933 17.53)",
+          "oklch(37.86% 0.16933 17.53)",
+          "oklch(49.29% 0.16933 17.53)",
+          "oklch(60.71% 0.16933 17.53)",
+          "oklch(72.14% 0.16933 17.53)",
+          "oklch(83.57% 0.16933 17.53)",
+          "oklch(95.00% 0.16933 17.53)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Play headline",
+        "purpose": "Primary page heading."
+      },
+      "title": {
+        "displayName": "Workspace title",
+        "purpose": "Builder header."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Instructions and builder content."
+      },
+      "label": {
+        "displayName": "Control label",
+        "purpose": "Shared view and inherited builder controls."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Editable source text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "temporary-feedback",
+        "value": "0 0.25rem 0.75rem rgba(0, 0, 0, 0.15)",
+        "purpose": "Separate transient action feedback from the workspace."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-state",
+        "value": "150ms",
+        "purpose": "Short border and color changes; disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack-preview-code",
+        "value": "1100px"
+      },
+      {
+        "name": "stack-setup",
+        "value": "900px"
+      },
+      {
+        "name": "compact-chrome",
+        "value": "540px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "OCS button",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Shared bordered text action.",
+      "html": "<button class=\"ds-button\">Hide setup</button>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:.65rem 1rem;border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:var(--ocs-control-radius,8px);background:var(--panel-mid,#1e2535);font-weight:600;line-height:1.3;cursor:pointer;font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);}.ds-button:hover{border-color:var(--pref-accent-color,#00d4ff)}.ds-button:focus-visible{outline:3px solid var(--pref-accent-color,#00d4ff);outline-offset:3px;}.ds-button:disabled{opacity:.55;cursor:not-allowed}"
+    },
+    {
+      "name": "Workbench icon button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "Compact named utility action with a visible SVG.",
+      "html": "<button class=\"ds-icon-button\" aria-label=\"Push Builder to Code\" title=\"Push Builder to Code\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m14 4 8 8-8 8-1.4-1.4 5.6-5.6H2v-2h16.2l-5.6-5.6L14 4z\"/></svg></button>",
+      "css": ".ds-icon-button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:.65rem 1rem;border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:var(--ocs-control-radius,8px);background:var(--panel-mid,#1e2535);font-weight:600;line-height:1.3;cursor:pointer;font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);width:44px;height:44px;padding:8px;background:transparent;transition:border-color .15s,color .15s}.ds-icon-button svg{width:20px;height:20px;fill:currentColor}.ds-icon-button:hover{border-color:var(--pref-accent-color,#00d4ff);color:var(--pref-accent-color,#00d4ff)}.ds-icon-button:focus-visible{outline:3px solid var(--pref-accent-color,#00d4ff);outline-offset:3px;}@media(prefers-reduced-motion:reduce){.ds-icon-button{transition:none}}"
+    },
+    {
+      "name": "View controls",
+      "kind": "button",
+      "refersTo": "view-button",
+      "description": "Shared Game / Code / Split choices.",
+      "html": "<div class=\"ds-views\" aria-label=\"Workspace view\"><button class=\"ds-view\" aria-pressed=\"false\">Game</button><button class=\"ds-view\" aria-pressed=\"false\">Code</button><button class=\"ds-view\" aria-pressed=\"true\">Split</button></div>",
+      "css": ".ds-views{display:flex;gap:6px}.ds-view{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:.65rem 1rem;border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:var(--ocs-control-radius,8px);background:var(--panel-mid,#1e2535);font-weight:600;line-height:1.3;cursor:pointer;font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);flex:1;padding:9px 12px;font-size:.875rem;line-height:1.35;transition:border-color .15s}.ds-view:hover,.ds-view[aria-pressed=\"true\"]{border-color:var(--pref-accent-color,#00d4ff)}.ds-view[aria-pressed=\"true\"]{color:var(--pref-accent-color,#00d4ff)}.ds-view:focus-visible{outline:3px solid var(--pref-accent-color,#00d4ff);outline-offset:3px;}@media(prefers-reduced-motion:reduce){.ds-view{transition:none}}"
+    },
+    {
+      "name": "OCS field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A labeled text field on the control surface.",
+      "html": "<label class=\"ds-field\">Level name<input class=\"ds-input\" value=\"My level\"></label>",
+      "css": ".ds-field{display:grid;gap:8px;font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);}.ds-input{width:100%;min-height:44px;padding:.65rem .8rem;border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:var(--ocs-control-radius,8px);background:var(--panel-mid,#1e2535);font-size:1rem;font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);}.ds-input:focus-visible{outline:3px solid var(--pref-accent-color,#00d4ff);outline-offset:3px;}"
+    },
+    {
+      "name": "Builder modes",
+      "kind": "nav",
+      "description": "Named builders in one selected-state tab row.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\" aria-label=\"Choose a game builder\"><button role=\"tab\" aria-selected=\"true\">OpenCS Workbench</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Open World</button><button role=\"tab\" aria-selected=\"false\" tabindex=\"-1\">Racing</button></div>",
+      "css": ".ds-tabs{display:flex;gap:6px;padding:6px;background:var(--panel,#161b27);border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:12px}.ds-tabs button{min-height:46px;padding:10px 20px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--text-muted,#8b949e);font:600 .95rem/1.3 var(--pref-font-family,Inter,sans-serif);cursor:pointer}.ds-tabs button:hover,.ds-tabs button[aria-selected=\"true\"]{color:var(--pref-text-color,#e6edf3);background:var(--panel-mid,#1e2535)}.ds-tabs button[aria-selected=\"true\"]{border-color:var(--pref-accent-color,#00d4ff)}.ds-tabs button:focus-visible{outline:3px solid var(--pref-accent-color,#00d4ff);outline-offset:3px;}@media(max-width:540px){.ds-tabs{gap:2px;padding:4px}.ds-tabs button{flex:1;padding:10px 8px;font-size:.8125rem}}"
+    },
+    {
+      "name": "Setup panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Flat bordered container for related editing controls.",
+      "html": "<section class=\"ds-panel\"><h2>Level setup</h2><p>Choose a background, player and NPCs.</p></section>",
+      "css": ".ds-panel{padding:20px;border:1px solid var(--ui-border,rgba(255,255,255,.07));border-radius:var(--ocs-radius,12px);background:var(--panel,#161b27);font-family:var(--pref-font-family,Inter,sans-serif);color:var(--pref-text-color,#e6edf3);}.ds-panel h2{margin:0 0 8px;font-size:1.1rem;font-weight:600;line-height:1.4}.ds-panel p{margin:0;color:var(--text-muted,#8b949e);line-height:1.5}"
+    }
+  ],
+  "narrative": {
+    "northStar": "UESL OpenCS workspace",
+    "overview": "The Game Maker uses UESL's existing dark surfaces and cyan accent with the OpenCS workspace format. Named builder modes sit above a practical editing surface: setup, game preview and code. The interface keeps controls compact and legible so students can move between building and running a game.\n\nThis document covers UESL Play, the OpenCS Workbench, Open World and Racing builder frames, and the OCS primitives they share. It does not claim that every inherited historical page follows these rules. Default tokens come from `_sass/open-coding/_core.scss`; shared builder composition comes from `_builder-shell.scss`. User preferences can override theme colors, font and control radius.",
+    "keyCharacteristics": [
+      "One named workspace with three builder modes.",
+      "Dark tonal panels, cyan selected states and visible keyboard focus.",
+      "Inter controls and headings with a monospace code editor.",
+      "Setup, preview and code columns that stack on smaller screens."
+    ],
+    "rules": [
+      {
+        "name": "The Shared Accent Rule",
+        "body": "All three builder frames use the same preference-aware accent for selected controls and keyboard focus.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Workspace Rule",
+        "body": "Keep the same setup, preview, code and view-control arrangement across all three builders.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat Workspace Rule",
+        "body": "Use panel tone and borders to separate persistent editing regions; reserve floating depth for temporary feedback.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do reuse the shared OCS controls and preference-aware theme tokens.",
+      "Do keep setup, preview and code in the same arrangement across builder modes.",
+      "Do preserve visible focus, named controls and responsive stacking.",
+      "Do keep Run / Stop outside the panels that view controls hide."
+    ],
+    "donts": [
+      "Don't introduce an unrelated visual theme for one inherited builder.",
+      "Don't turn gameplay colors or overlays into global interface tokens.",
+      "Don't hide the only way to stop a preview when switching views.",
+      "Don't assume historical pages outside this workspace conform to this document."
+    ]
+  }
+}

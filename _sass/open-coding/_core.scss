@@ -126,6 +126,7 @@ html.user-theme-active #nav {
 }
 
 /* ── Base ── */
+.ocs-site,
 html.user-theme-active body {
   background-color: var(--pref-bg-color) !important;
   color: var(--pref-text-color) !important;
@@ -141,7 +142,7 @@ html.user-theme-active ::-moz-selection { background-color: var(--pref-selection
 html.user-theme-active button,
 html.user-theme-active .btn,
 html.user-theme-active input[type="submit"],
-html.user-theme-active input[type="button"] { border-radius: var(--pref-button-radius) !important; }
+html.user-theme-active input[type="button"] { border-radius: var(--ocs-control-radius) !important; }
 
 /* ── Tailwind backgrounds — mapped to the correct surface level ── */
 html.user-theme-active .bg-neutral-950,
@@ -451,4 +452,38 @@ html.user-theme-active body { top: 0 !important; position: static !important; }
   border-radius: 10px;
   margin-left: 6px;
   vertical-align: middle;
+}
+
+// Existing accessibility behavior, shared with the OCS site layout.
+/* ── Reading ruler ── */
+#reading-ruler {
+  position: fixed; left: 0; right: 0; height: 30px;
+  background: rgba(0,212,255,.09);
+  border-top: 2px solid rgba(0,212,255,.35);
+  border-bottom: 2px solid rgba(0,212,255,.35);
+  pointer-events: none; z-index: 7999; top: 0;
+}
+
+/* ── High contrast mode ── */
+html.tk-high-contrast { --bg:#000; --surface:#0d0d0d; --surface2:#1a1a1a; --surface3:#222; --text:#fff; --muted:#bbb; --cyan:#ff0; --border:rgba(255,255,255,.3); }
+html.tk-high-contrast body { background:#000 !important; color:#fff !important; }
+html.tk-high-contrast a:not([class*="bg-"]):not(.ocs__btn) { color:#ff0 !important; }
+html.tk-high-contrast .bg-neutral-900, html.tk-high-contrast .bg-neutral-800,
+html.tk-high-contrast .bg-neutral-700 { background:#111 !important; }
+html.tk-high-contrast button:not(#uesl-chat-btn) { border:1.5px solid #fff !important; }
+
+/* ── Focus mode ── */
+html.tk-focus #nav { opacity:.15; transition:opacity .3s; }
+html.tk-focus #nav:hover { opacity:1; }
+html.tk-focus footer { opacity:.08; transition:opacity .3s; pointer-events:none; }
+html.tk-focus .lesson-sidebar { opacity:.12; transition:opacity .3s; }
+
+/* ── Dyslexia font ── */
+html.tk-dyslexia, html.tk-dyslexia body,
+html.tk-dyslexia p, html.tk-dyslexia li, html.tk-dyslexia td,
+html.tk-dyslexia h1, html.tk-dyslexia h2, html.tk-dyslexia h3,
+html.tk-dyslexia h4, html.tk-dyslexia h5, html.tk-dyslexia h6,
+html.tk-dyslexia label, html.tk-dyslexia input, html.tk-dyslexia textarea {
+  font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
+  letter-spacing: .04em; word-spacing: .1em; line-height: 1.7 !important;
 }

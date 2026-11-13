@@ -1,0 +1,11 @@
+.git
+.env
+.env.*
+_site
+.bundle
+vendor
+node_modules
+.venv
+venv
+.DS_Store
+.jekyll-cache

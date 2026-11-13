@@ -1,0 +1,175 @@
+// Builder geometry and runtime states; site controls use the shared OCS core.
+.uesl-builder-panel[hidden] { display: none; }
+.uesl-builder-panel iframe { display: block; width: 100%; height: 1050px; border: 0; background: var(--pref-bg-color); }
+.uesl-builder-root {
+  margin: 0;
+  background: var(--pref-bg-color);
+  color: var(--pref-text-color);
+  font: 400 1rem/1.5 var(--pref-font-family, system-ui);
+  *, *::before, *::after { box-sizing: border-box; }
+  button, input, select, textarea { font-family: inherit; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible, a:focus-visible {
+    outline: 3px solid var(--pref-accent-color);
+    outline-offset: 3px;
+  }
+  [hidden] { display: none !important; }
+  .uesl-builder-return { max-width: 1544px; padding: 16px 20px 0; margin: 0 auto; }
+  .uesl-builder-content { display: flow-root; width: 100%; max-width: 1544px; margin: 0 auto; padding: 20px; }
+  .ocs__gamebuilder-system.ocs__container { padding: 0; }
+  .ocs__builder-workbench-header, .ocs__gamebuilder-workbench-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 16px;
+    h1, h2 { font: 600 1.2rem/1.4 var(--pref-font-family); margin: 0; }
+  }
+  .ocs__card { padding: 20px; }
+  .ocs__btn-icon { display: inline-flex; flex: 0 0 20px; width: 20px; height: 20px; }
+  .ocs__btn-icon svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+  .ocs__gamebuilder-workspace, .creator-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    align-items: start;
+    gap: 16px;
+    height: auto;
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+  }
+  .col-asset { display: block; width: auto !important; min-width: 0; max-height: none; }
+  #left-panel-resize { display: none; }
+  .col-main { min-width: 0; min-height: 0; }
+  .main-content { display: flex; flex-direction: column; gap: 16px; }
+  .col-main.view-split .main-content { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  .glass-panel {
+    display: flex; flex-direction: column; overflow: hidden; min-height: 0;
+    border: 1px solid var(--ui-border); border-radius: 12px; background: var(--panel);
+    backdrop-filter: none; box-shadow: none;
+  }
+  .col-main .panel-code { order: 1; flex: none !important; min-width: 0; height: 620px; }
+  .col-main .panel-game { order: 0; flex: none !important; min-width: 0; height: 620px; }
+  .col-main.view-game .panel-code, .col-main.view-code .panel-game { display: none !important; }
+  .panel-header {
+    flex-shrink: 0; min-height: 64px; padding: 12px 16px; gap: 12px;
+    background: var(--panel); border-bottom: 1px solid var(--ui-border);
+    color: var(--pref-text-color); font-size: .95rem; font-weight: 600; text-transform: none; letter-spacing: normal;
+    flex-wrap: wrap;
+  }
+  .panel-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .step-indicator { font-size: .75rem; color: var(--text-muted); }
+  .view-controls {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; padding: 0; border: 0; background: none;
+  }
+  .view-controls .view-btn { flex: 1; }
+  .view-controls > .uesl-builder-run-controls { flex-basis: 100%; padding: 8px 0 0; }
+  .uesl-builder-run-controls {
+    display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+    min-height: 56px; padding: 0 0 12px; margin: 0;
+    border: 0; background: transparent;
+  }
+  .ocs__gamebuilder-runner > .game-runner-container {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 0 16px; margin: 0;
+    > .view-controls, > .uesl-builder-run-controls { grid-column: 1 / -1; }
+    > .editor-container, > .output-container {
+      min-width: 0; height: 620px; margin: 0; overflow: hidden;
+      border: 1px solid var(--ui-border); border-radius: 12px; background: var(--panel);
+    }
+    > .editor-container { grid-column: 2; grid-row: 3; display: flex; flex-direction: column; }
+    > .output-container { grid-column: 1; grid-row: 3; display: flex; flex-direction: column; }
+    > .output-container .control-panel { min-height: 64px; border: 0; border-bottom: 1px solid var(--ui-border); }
+    > .output-container .game-output { flex: 1; min-height: 0; }
+    .gameContainer { height: 100%; min-height: 0; }
+    .editor-textarea { flex: 1; min-height: 100px; resize: none; border: 0; border-radius: 0; }
+    .editor-container > .control-panel:last-child { flex-wrap: wrap; border: 0; border-top: 1px solid var(--ui-border); border-radius: 0; }
+    &[data-view="game"] { grid-template-columns: minmax(0, 1fr); > .editor-container { display: none; } }
+    &[data-view="code"] { grid-template-columns: minmax(0, 1fr); > .output-container { display: none; } > .editor-container { grid-column: 1; } }
+  }
+  .icon-btn, .view-btn, .draw-btn, .add-item-btn, .creator-layout .btn, #gb-save-btn, #gb-mp-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    width: auto !important; min-width: 44px; min-height: 44px; height: auto !important;
+    padding: 9px 12px !important; border: 1px solid var(--ui-border); border-radius: 8px;
+    color: var(--pref-text-color); background: var(--panel-mid); font-size: .875rem;
+    font-weight: 600; line-height: 1.35; text-transform: none; letter-spacing: normal;
+    cursor: pointer; box-shadow: none; transition: border-color .15s;
+    &:hover { border-color: var(--pref-accent-color); background: var(--panel-mid); color: var(--pref-text-color); }
+    &:disabled { opacity: .5; cursor: not-allowed; }
+    &.active, &[aria-pressed="true"] { border-color: var(--pref-accent-color); color: var(--pref-accent-color); box-shadow: none; background: var(--panel-mid); }
+  }
+  .icon-btn:hover::after { display: none; }
+  .scroll-form { padding: 18px; max-height: 680px; overflow: auto; }
+  .ocs__gamebuilder-builder { max-height: 746px; overflow: auto; }
+  .ocs__gamebuilder-panel-header .ocs__section-title { font-size: 1.1rem; }
+  .ocs__gamebuilder-panel-header { position: relative; }
+  .ocs__gamebuilder-panel-actions { position: static; }
+  .ocs__gamebuilder-panel-actions .ocs__gamebuilder-action-feedback {
+    left: 0; right: 0; width: auto; max-width: none; white-space: normal;
+  }
+  .asset-group {
+    padding: 0 0 20px; margin: 0 0 20px; background: transparent;
+    border: 0; border-bottom: 1px solid var(--ui-border); border-radius: 0;
+    &:last-child { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+  }
+  .group-title { font-size: .9rem; margin-bottom: 14px; font-weight: 600; color: var(--pref-text-color); letter-spacing: normal; }
+  .creator-layout label { font-size: .875rem; margin: 0 0 6px; color: var(--text-muted); }
+  .creator-layout input:not([type="checkbox"]):not([type="range"]):not([type="color"]), .creator-layout select {
+    min-height: 44px; padding: 10px 12px !important; margin-bottom: 14px;
+    color: var(--pref-text-color); background: var(--panel-mid); border: 1px solid var(--ui-border);
+    border-radius: 8px; font-size: .875rem; line-height: 1.4;
+  }
+  .creator-layout input[type="range"] { min-height: 30px; padding: 0 !important; accent-color: var(--pref-accent-color); }
+  .creator-layout input[type="checkbox"] { width: 18px; height: 18px; min-height: 18px; accent-color: var(--pref-accent-color); }
+  .creator-layout input[type="color"] { min-width: 44px; min-height: 44px; padding: 4px !important; }
+  .creator-layout select option { background: var(--panel-mid); color: var(--pref-text-color); }
+  .creator-layout input::placeholder { color: var(--text-muted); opacity: 1; }
+  .editor-container { position: relative; flex: 1; min-height: 0; background: var(--pref-bg-color); }
+  .code-layer, .editor-textarea {
+    color: var(--pref-text-color); background: var(--pref-bg-color); caret-color: var(--pref-accent-color);
+    font: 400 .8125rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+    padding: 16px; resize: vertical; border: 0;
+  }
+  .game-frame, .game-output, .gameContainer { min-height: 0; }
+  .game-frame > .game-output, .game-frame .gameContainer { width: 100%; height: 100%; }
+  .help-panel { position: static; max-width: none; margin: 12px; padding: 14px; background: var(--panel-mid); border-color: var(--ui-border); color: var(--pref-text-color); font-size: .875rem; }
+  .draw-toolbar { gap: 8px; }
+  .draw-btn { width: 100% !important; justify-content: flex-start; text-align: start; }
+  .ocs__builder-status { min-height: 1.5em; margin-right: auto; font-size: .875rem; color: var(--text-muted); }
+  &.is-setup-collapsed .creator-layout { grid-template-columns: minmax(0, 1fr); }
+  &.is-setup-collapsed .col-asset { display: none; }
+  .ocs__gamebuilder-workspace.is-builder-collapsed { grid-template-columns: minmax(0, 1fr); }
+}
+.uesl-embedded {
+  .uesl-builder-return { display: none; }
+  .uesl-builder-content { padding: 0 0 8px; }
+  .ocs__builder-workbench-header p { display: none; }
+}
+
+@media (max-width: 1100px) {
+  .uesl-builder-root {
+    .col-main.view-split .main-content { display: flex; flex-direction: column; }
+    .col-main .panel-game, .col-main .panel-code { height: 500px; }
+    .ocs__gamebuilder-runner > .game-runner-container {
+      grid-template-columns: minmax(0, 1fr);
+      > .editor-container, > .output-container { grid-column: 1; height: 500px; }
+      > .output-container { grid-row: 3; margin-bottom: 16px; }
+      > .editor-container { grid-row: 4; }
+    }
+  }
+}
+@media (max-width: 900px) {
+  .uesl-builder-root {
+    .ocs__gamebuilder-workspace, .creator-layout { grid-template-columns: minmax(0, 1fr); }
+    .col-asset { max-height: none; }
+    .scroll-form { max-height: 360px; }
+    .ocs__gamebuilder-builder { max-height: 560px; overflow: auto; }
+    .col-main .panel-game { height: 440px; }
+    .col-main .panel-code { height: 340px; }
+    .ocs__gamebuilder-runner .gameContainer { --gr-canvas-height: 380px; }
+  }
+}
+@media (max-width: 540px) {
+  .uesl-builder-root .uesl-builder-content { padding: 12px; }
+  .uesl-embedded .uesl-builder-content { padding: 0 0 8px; }
+  .uesl-builder-root .ocs__builder-workbench-header, .uesl-builder-root .ocs__gamebuilder-workbench-header { gap: 8px; h1, h2 { font-size: 1rem; } }
+  .uesl-builder-root .panel-header { padding: 12px; }
+  .uesl-builder-root .ocs__card { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uesl-builder-root * { scroll-behavior: auto; transition-duration: 0s; }
+}

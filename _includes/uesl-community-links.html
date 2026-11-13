@@ -1,3 +1,3 @@
 {% for item in site.data.uesl_navigation %}
-<li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active" aria-current="page"{% endif %}>{{ item.label | escape }}</a></li>
+<li><a class="ocs__btn{% if page.url == item.url %} accent{% endif %}" href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label | escape }}</a></li>
 {% endfor %}

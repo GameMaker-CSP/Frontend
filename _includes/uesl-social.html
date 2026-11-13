@@ -1,0 +1,68 @@
+<dialog id="social-overlay" class="ocs__card" aria-labelledby="social-title">
+  <div class="ocs__container ocs__stack">
+    <div class="ocs__links">
+      <h2 id="social-title" class="ocs__section-title">UESL Social</h2>
+      <span id="suc-name" class="ocs__badge"></span>
+      <button id="social-logout-btn" class="ocs__btn">Sign out</button>
+      <button id="social-close-btn" class="ocs__btn">Close Social Hub</button>
+    </div>
+    <label class="ocs__field" for="social-msg-search">Find a conversation<input class="ocs__input" id="social-msg-search" type="search" placeholder="Search friends or groups"></label>
+    <div id="social-body" class="ocs__grid cols-2">
+      <aside id="social-sidebar" class="ocs__stack" aria-label="Conversations">
+        <section class="ocs__stack">
+          <h3>Friend requests <span id="req-badge" class="ocs__badge" hidden></span></h3>
+          <div id="request-list" class="ocs__stack"><p id="req-empty" class="ocs__description">No pending requests.</p></div>
+        </section>
+        <section class="ocs__stack">
+          <div class="ocs__links"><h3>Direct messages</h3><button class="ocs__btn" id="open-add-friend">Add friend</button></div>
+          <div id="friend-list" class="ocs__stack" role="list"></div>
+        </section>
+        <section class="ocs__stack">
+          <div class="ocs__links"><h3>Group chats</h3><button class="ocs__btn" id="open-create-group">Create group</button></div>
+          <div id="group-list" class="ocs__stack" role="list"></div>
+        </section>
+        <p class="ocs__caption">Online: <span id="online-count">0</span></p>
+      </aside>
+      <section id="social-chat" class="ocs__stack" aria-label="Messages">
+        <div id="chat-empty"><h3>No conversation selected</h3><p class="ocs__description">Choose a friend or group, or add someone to start chatting.</p></div>
+        <div id="chat-header" class="ocs__links" hidden><span id="chat-friend-avatar" class="ocs__badge"></span><div><h3 id="chat-friend-name"></h3><p id="chat-friend-status" class="ocs__caption"></p></div></div>
+        <div id="chat-messages" class="ocs__stack" hidden aria-live="polite" aria-label="Chat messages"></div>
+        <div id="emoji-picker" class="ocs__links" hidden></div>
+        <input type="file" id="img-file-input" accept="image/*" hidden aria-label="Choose a chat image">
+        <div id="chat-input-row" class="ocs__stack" hidden>
+          <label class="ocs__field" for="chat-input">Message<textarea class="ocs__input" id="chat-input" rows="3" placeholder="Send a message…"></textarea></label>
+          <div class="ocs__links"><button class="ocs__btn" id="emoji-toggle-btn" aria-expanded="false" aria-controls="emoji-picker">Emoji</button><button class="ocs__btn" id="img-upload-btn">Add image</button><button class="ocs__btn accent" id="chat-send-btn">Send message</button></div>
+        </div>
+      </section>
+    </div>
+  </div>
+</dialog>
+<dialog id="add-friend-modal" class="ocs__card" aria-labelledby="add-friend-title">
+  <div class="ocs__stack">
+    <h2 id="add-friend-title" class="ocs__section-title">Add a friend</h2>
+    <label class="ocs__field" for="afm-input">Username<input class="ocs__input" id="afm-input" type="search" placeholder="Search by username"></label>
+    <button class="ocs__btn" id="afm-search-btn">Search</button>
+    <div id="afm-results" class="ocs__stack" role="status"></div>
+    <button class="ocs__btn" id="afm-close-btn">Cancel</button>
+  </div>
+</dialog>
+<dialog id="create-group-modal" class="ocs__card" aria-labelledby="group-title">
+  <div class="ocs__stack">
+    <h2 id="group-title" class="ocs__section-title">Create a group chat</h2>
+    <label class="ocs__field" for="cgm-name-input">Group name<input class="ocs__input" id="cgm-name-input" type="text" maxlength="40"></label>
+    <fieldset><legend>Add friends</legend><div id="cgm-friend-checkboxes" class="ocs__stack"></div></fieldset>
+    <p id="cgm-msg" class="ocs__callout" role="alert" hidden></p>
+    <div class="ocs__links"><button class="ocs__btn accent" id="cgm-create-btn">Create group</button><button class="ocs__btn" id="cgm-cancel-btn">Cancel</button></div>
+  </div>
+</dialog>
+<dialog id="img-lightbox" class="ocs__card" aria-label="Full size chat image">
+  <button id="img-lightbox-close" class="ocs__btn">Close image</button>
+  <img class="ocs__image-frame" id="img-lightbox-img" alt="Full size image">
+</dialog>
+<dialog id="invite-toast" class="ocs__card" aria-labelledby="it-title">
+  <div class="ocs__stack">
+    <h2 id="it-title" class="ocs__section-title">Game invite</h2>
+    <p id="it-sub"></p>
+    <div class="ocs__links"><a class="ocs__btn accent" id="it-join-btn" href="#" target="_blank" rel="noopener">Join game</a><button class="ocs__btn" id="it-dismiss-btn">Not now</button></div>
+  </div>
+</dialog>

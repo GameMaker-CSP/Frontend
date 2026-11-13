@@ -1,0 +1,6 @@
+- title: Login
+  url: /login
+- title: Survey
+  url: /survey
+- title: Profile
+  url: /profile

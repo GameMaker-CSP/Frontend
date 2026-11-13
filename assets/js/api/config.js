@@ -11,8 +11,7 @@ export const baseurl = "{{ site.baseurl }}";
 export const DEV_MODE = false;
 export function getDevMode() { return sessionStorage.getItem('devMode') === 'true'; }
 export async function setDevMode(enabled, pythonURIParam) {
-    const uri = pythonURIParam || (location.hostname === 'localhost' || location.hostname === '127.0.0.1'
-        ? `http://${location.hostname}:8424` : 'https://uesl.opencodingsociety.com');
+    const uri = pythonURIParam || pythonURI;
     const res = await fetch(`${uri}/api/id`, { credentials: 'include' });
     if (!res.ok) throw new Error('Not authenticated');
     const data = await res.json();
@@ -21,20 +20,11 @@ export async function setDevMode(enabled, pythonURIParam) {
     sessionStorage.setItem('devMode', enabled ? 'true' : 'false');
 }
 
-export var pythonURI;
-if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    pythonURI = `http://${location.hostname}:8424`;  // Keep cookies on the frontend's hostname.
-} else {
-    pythonURI = "https://uesl.opencodingsociety.com";
-
-}
-
-export var javaURI;
-if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-        javaURI = `http://${location.hostname}:8424`;
-} else {
-    javaURI = "https://uesl.opencodingsociety.com";
-}
+export const pythonURI = "{{ site.api_same_origin | default: false }}" === "true"
+    ? location.origin
+    : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? `http://${location.hostname}:8424` : 'https://uesl.opencodingsociety.com');
+export const javaURI = pythonURI;
 
 export const fetchOptions = {
     method: 'GET',  // Default method is GET

@@ -1,0 +1,24 @@
+{% comment %}
+Keep the newer editor source available while Play uses the inherited builder.
+This layout intentionally does not render the page's editor content.
+{% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play — UESL</title>
+  <link rel="canonical" href="{{ '/play/' | relative_url }}">
+  <noscript><meta http-equiv="refresh" content="0; url={{ '/play/' | relative_url }}#game-builder"></noscript>
+  <script>
+    const destination = new URL({{ '/play/' | relative_url | jsonify }}, window.location.origin);
+    destination.search = window.location.search;
+    destination.searchParams.delete('embed');
+    destination.hash = 'game-builder';
+    window.location.replace(destination.href);
+  </script>
+</head>
+<body>
+  <p>The game builder is on the <a href="{{ '/play/' | relative_url }}#game-builder">Play page</a>.</p>
+</body>
+</html>

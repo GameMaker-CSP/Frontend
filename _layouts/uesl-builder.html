@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>window.GAMEMAKER_API_ORIGIN = {{ site.api_same_origin | default: false | jsonify }} ? location.origin : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? 'http://' + location.hostname + ':8424' : 'https://uesl.opencodingsociety.com');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.builder_label | default: page.title }} — UESL Game Maker</title>
+  <script>document.documentElement.classList.toggle('uesl-embedded', new URLSearchParams(location.search).get('embed') === '1');</script>
+  {% include ocs-styles.html %}
+  <link rel="stylesheet" href="{{ '/assets/css/game-builder.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="{{ '/assets/js/user-preferences.js' | relative_url }}"></script>
+</head>
+<body class="uesl-builder-root" data-builder-kind="{{ page.builder_kind }}">
+  <nav class="uesl-builder-return" aria-label="UESL navigation">
+    <a class="ocs__btn" href="{{ '/play/' | relative_url }}?builder={{ page.builder_kind }}#game-builder">← Back to UESL Play</a>
+  </nav>
+  <main class="uesl-builder-content">{{ content }}</main>
+  <script type="module" src="{{ '/assets/js/uesl-builders/embed.mjs' | relative_url }}"></script>
+</body>
+</html>

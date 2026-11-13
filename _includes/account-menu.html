@@ -1,0 +1,8 @@
+{% comment %}Data-driven account navigation using the existing OCS links/buttons grammar.{% endcomment %}
+<nav aria-label="Account menu">
+  <ul class="ocs__links">
+    {% for item in site.data.account_menu %}
+    <li><a class="ocs__btn{% if page.permalink == item.url %} accent fill{% endif %}" href="{{ item.url | relative_url }}"{% if page.permalink == item.url %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
