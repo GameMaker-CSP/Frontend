@@ -44,3 +44,10 @@ test('successful authentication invokes its callback', async () => {
   await api.login({ URL: '/api/authenticate', method: 'POST', body: {}, message: 'error', callback: () => { success = true; } });
   assert.equal(success, true);
 });
+
+test('Docker deployment sends API requests to the frontend origin', () => {
+  const context = { location: {hostname: 'localhost', origin: 'http://localhost:8431'} };
+  vm.createContext(context);
+  vm.runInContext(source.replace('{{ site.api_same_origin | default: false }}', 'true') + '\nthis.uri = pythonURI;', context);
+  assert.equal(context.uri, 'http://localhost:8431');
+});

@@ -1,0 +1,17 @@
+<!-- Adapted for UESL on 2026-10-12; see docs/OPENCS_SOURCE.md. -->
+<div class="editor-container">
+  <div class="panel-header">Code runner</div>
+  {% if include.top_controls %}
+  <div class="control-panel">
+    {{ include.top_controls }}
+  </div>
+  {% endif %}
+
+  <textarea class="editor-textarea" aria-label="Game JavaScript code" spellcheck="false"></textarea>
+
+  {% if include.bottom_controls %}
+  <div class="control-panel">
+    {{ include.bottom_controls }}
+  </div>
+  {% endif %}
+</div>

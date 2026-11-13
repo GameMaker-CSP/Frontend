@@ -1,72 +1,59 @@
 ---
 layout: uesl
-title: "Play"
-description: "Build & Play Your Own Game — Accessible game maker for UESL students."
+title: Play
+description: Build a level, create a world, or design a race in the UESL Game Maker.
 permalink: /play/
+builder_workspace: true
 ---
 
-    <section id="game" class="section" aria-labelledby="game-heading">
-      <div class="game-intro fade-in">
-        <div>
-          <div class="section-label">Interactive</div>
-          <h2 class="section-title" id="game-heading">Build &amp; Play Your Own Game</h2>
-          <p class="section-sub">
-            Design custom levels, choose your character, and play — right here in the browser.
-            Built specifically for UESL students with accessibility-first controls.
-          </p>
-          <div style="margin-top:28px;">
-            <a href="#game" class="btn-primary" style="display:inline-flex">🕹️ Jump In</a>
-          </div>
-        </div>
-        <div class="game-features">
-          <div class="gf-item">
-            <div class="gf-icon">🎨</div>
-            <div>
-              <div class="gf-title">Level Designer</div>
-              <div class="gf-desc">Place platforms, enemies, coins, and goals with a simple drag-and-drop editor.</div>
-            </div>
-          </div>
-          <div class="gf-item">
-            <div class="gf-icon">🎮</div>
-            <div>
-              <div class="gf-title">Play Mode</div>
-              <div class="gf-desc">Jump right in with keyboard, D-pad, or on-screen touch controls.</div>
-            </div>
-          </div>
-          <div class="gf-item">
-            <div class="gf-icon">😶</div>
-            <div>
-              <div class="gf-title">Face Tracking</div>
-              <div class="gf-desc">Control your character with head movements — no hands required.</div>
-            </div>
-          </div>
-          <div class="gf-item">
-            <div class="gf-icon">🎙️</div>
-            <div>
-              <div class="gf-title">Voice Commands</div>
-              <div class="gf-desc">Say "jump", "left", "right" — fully voice-navigable gameplay.</div>
-            </div>
-          </div>
-          <div class="gf-item">
-            <div class="gf-icon">💾</div>
-            <div>
-              <div class="gf-title">Save &amp; Share</div>
-              <div class="gf-desc">Save up to 20 games to your browser, export as JSON, or start fresh any time.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+<section class="ocs__stack" aria-labelledby="game-heading">
+  <div class="ocs__links">
+    <div>
+      <h1 id="game-heading">Game Maker</h1>
+      <p>Build a level, make it your own, and play.</p>
+    </div>
+    <a class="ocs__btn" href="#play-guide">How to start</a>
+  </div>
 
-      <!-- Embedded game maker / dashboard tabs -->
-      <div class="game-frame-wrap fade-in" aria-label="Game maker application">
-        <div class="game-frame-header" aria-hidden="true">
-          <div class="gfh-label">UESL Game Builder v1.2 — Design · Play · Accessibility Controls</div>
-        </div>
-        <iframe
-          src="{{ site.baseurl }}/gamebuilderv1-2?embed=1"
-          title="UESL Game Builder v1.2 — Design and play your own accessible platformer"
-          allow="camera; microphone"
-          loading="lazy"
-        ></iframe>
+  <div id="game-builder" class="ocs__stack" data-builder-switcher>
+    <div class="ocs__links" role="tablist" aria-label="Choose a game builder">
+      <button class="ocs__btn" id="tab-workbench" type="button" role="tab" aria-selected="true" aria-controls="panel-workbench" data-builder="workbench">OpenCS Workbench</button>
+      <button class="ocs__btn" id="tab-open-world" type="button" role="tab" aria-selected="false" aria-controls="panel-open-world" tabindex="-1" data-builder="open-world">Open World</button>
+      <button class="ocs__btn" id="tab-racing" type="button" role="tab" aria-selected="false" aria-controls="panel-racing" tabindex="-1" data-builder="racing">Racing</button>
+    </div>
+
+    <section id="panel-workbench" class="uesl-builder-panel" role="tabpanel" aria-labelledby="tab-workbench" data-builder-panel="workbench">
+      <div class="ocs__links">
+        <p>Set up your level, push it to code, then press Run. Your workspace is saved in this browser.</p>
+        <a href="{{ '/gamebuilder/v2/' | relative_url }}" target="_blank" rel="noopener">Open full window ↗</a>
       </div>
+      <iframe id="uesl-workbench" title="OpenCS Workbench — level setup, code and preview" data-src="{{ '/gamebuilder/v2/' | relative_url }}?embed=1"></iframe>
     </section>
+    <section id="panel-open-world" class="uesl-builder-panel" role="tabpanel" aria-labelledby="tab-open-world" data-builder-panel="open-world" hidden>
+      <div class="ocs__links">
+        <p>Choose a background and player, confirm each step, then add levels and play. Accessibility controls are in Settings.</p>
+        <a href="{{ '/gamebuilderv1-2' | relative_url }}" target="_blank" rel="noopener">Open full window ↗</a>
+      </div>
+      <iframe id="uesl-game-builder" title="Open World — inherited level builder and accessibility controls" data-src="{{ '/gamebuilderv1-2' | relative_url }}?embed=1" allow="camera; microphone"></iframe>
+    </section>
+    <section id="panel-racing" class="uesl-builder-panel" role="tabpanel" aria-labelledby="tab-racing" data-builder-panel="racing" hidden>
+      <div class="ocs__links">
+        <p>Design your car, choose a track and start a race. Steer with WASD or arrow keys; Space drifts and Shift boosts.</p>
+        <a href="{{ '/car-racing-builder' | relative_url }}" target="_blank" rel="noopener">Open full window ↗</a>
+      </div>
+      <iframe id="uesl-racing-builder" title="Racing — car setup, custom code and race preview" data-src="{{ '/car-racing-builder' | relative_url }}?embed=1"></iframe>
+    </section>
+    <noscript><p>Open <a href="{{ '/gamebuilder/v2/' | relative_url }}">the workbench</a>, <a href="{{ '/gamebuilderv1-2' | relative_url }}">Open World</a> or <a href="{{ '/car-racing-builder' | relative_url }}">Racing</a> to begin. JavaScript is required to build and play games.</p></noscript>
+  </div>
+
+  <details id="play-guide" class="ocs__stack">
+    <summary class="ocs__btn">Choose a builder &amp; keep your work</summary>
+    <div class="ocs__grid cols-3">
+      <div><h2>OpenCS Workbench</h2><p>Choose a background, player, NPCs and barriers. <strong>Push →</strong> generates code; <strong>Pull ←</strong> reads supported changes back into the setup. Use Run, Pause and Stop above the editor. Save a return point or export a workspace JSON backup from its toolbar.</p></div>
+      <div><h2>Open World</h2><p>The inherited multi-level builder includes maze backgrounds, characters, drawing tools and accessibility settings. Level drafts stay in this browser. Export Code makes a separate copy. Account Save/Load still needs backend support.</p></div>
+      <div><h2>Racing</h2><p>Keep the inherited cars, tracks, weather and performance controls. Run starts a race; Stop returns to the track preview. Garage progress stays in this browser.</p></div>
+      <p class="ocs__description">Each builder keeps its own format. Switching tabs preserves your open work and stops the preview. Browser saves stay on this device and address; export a backup before clearing browser data.</p>
+    </div>
+  </details>
+</section>
+<script type="module" src="{{ '/assets/js/uesl-builders/play.mjs' | relative_url }}"></script>

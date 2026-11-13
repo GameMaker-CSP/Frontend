@@ -1,38 +1,29 @@
-<div>
+<div class="ocs__container ocs__infograph">
   {% assign data = site.data[page.infoGraph] %}
-  <div class="container">
+  <div class="ocs__stack">
     <!-- Header Section -->
-    <div class="p-6 rounded-lg shadow-md">
-      <h1 class="text-5xl mb-4">{{ data.Title }}</h1>
-      <p class="text-lg mb-4">{{ data.Description }}</p>
+    <div class="ocs__infograph-header">
+      <h1 class="ocs__section-title">{{ data.Title }}</h1>
+      <p class="ocs__description">{{ data.Description }}</p>
     </div>
 
     <!-- Rows Section -->
-    <div id="rows" class="grid gap-4 p-6">
+    <div id="rows" class="ocs__stack">
       {% for topic in data.Topics %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 items-center p-4 rounded-lg shadow-md">
+        <div class="ocs__card ocs__infograph-topic">
           <!-- Image Column -->
-          <div class="text-center relative module-image-col">
-            <a href="{{ site.baseurl }}{{ topic.link }}" class="block relative group">
-              <img src="{{ site.baseurl }}/images/{{ topic.image }}" alt="{{ topic.alt }}" class="rounded-lg mx-auto h-40 object-cover">
-              
-              <!-- Always visible emoji in upper left -->
-              <div class="absolute top-2 left-2 text-2xl bg-white bg-opacity-90 rounded-full w-8 h-8 flex items-center justify-center shadow-lg">
-                📖
-              </div>
-              
-              <!-- Hover overlay with "Click to Read" -->
-              <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
-                <div class="text-white text-center">
-                  <div class="text-sm font-semibold">Click to Read</div>
-                </div>
-              </div>
+          <div class="ocs__infograph-image module-image-col">
+            <a href="{{ site.baseurl }}{{ topic.link }}" class="ocs__infograph-image">
+              {% assign image_path = '/images/' | append: topic.image | replace: '//', '/' %}
+              {% assign image_file = site.static_files | where: 'path', image_path | first %}
+              {% if image_file %}<img src="{{ image_path | relative_url }}" alt="{{ topic.alt }}" class="ocs__image-frame">{% endif %}
+              <span class="ocs__btn accent">Read {{ topic.title }}</span>
             </a>
           </div>
           <!-- Key Points Column -->
           <div class="module-keypoints-col">
-            <h3 class="text-xl font-semibold mb-2">{{ topic.title }}</h3>
-            <ul class="list-disc list-inside">
+            <h3 class="ocs__section-title">{{ topic.title }}</h3>
+            <ul>
               <!-- Loop through kepoints within Topic -->
               {% for point in topic.keyPoints %}
                 <li>{{ point }}</li>
@@ -41,8 +32,8 @@
           </div>
           <!-- Description Column -->
           <div class="module-desc-col">
-            <h3 class="text-xl font-semibold mb-2">{{ topic.subtitle }}</h3>
-            <p class="text-sm">{{ topic.description }}</p>
+            <h3 class="ocs__section-title">{{ topic.subtitle }}</h3>
+            <p class="ocs__description">{{ topic.description }}</p>
           </div>
         </div>
       {% endfor %}

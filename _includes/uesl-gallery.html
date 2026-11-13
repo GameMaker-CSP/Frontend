@@ -1,0 +1,10 @@
+<div class="ocs__grid cols-3">
+  {% for photo in site.data.uesl_gallery %}
+  <figure class="ocs__stack ocs__grid-cell">
+    <a href="{{ photo.image | escape }}" target="_blank" rel="noopener" aria-label="View full photo: {{ photo.title | escape }} (new tab)">
+      <img class="ocs__image-frame" src="{{ photo.image | escape }}?format=750w" alt="{{ photo.alt | escape }}" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy" decoding="async">
+    </a>
+    <figcaption><strong>{{ photo.title | escape }}</strong><br><a href="{{ photo.source | escape }}">Photo: Unified Esports League</a></figcaption>
+  </figure>
+  {% endfor %}
+</div>

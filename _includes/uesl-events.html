@@ -1,0 +1,22 @@
+{% assign events = site.data.uesl_events | sort: 'starts_at' %}
+{% assign today = site.time | date: '%Y-%m-%d' %}
+{% assign event_count = 0 %}
+<div class="ocs__stack" data-events-list>
+  {% for event in events %}
+  {% if event.ends_on >= today %}
+  {% assign event_count = event_count | plus: 1 %}
+  {% endif %}
+  <article class="ocs__card ocs__stack{% if event.ends_on < today %} ocs__hidden{% endif %}" data-event-end="{{ event.ends_on | escape }}">
+    <h3>{{ event.title | escape }}</h3>
+    <p><time datetime="{{ event.starts_at | escape }}">{{ event.when | escape }}</time> · {{ event.location | escape }}</p>
+    <p class="ocs__description">{{ event.description | escape }}</p>
+    <div><a class="ocs__btn accent" href="{{ event.url | escape }}">Event details &amp; registration</a></div>
+  </article>
+  {% endfor %}
+  <div class="ocs__callout{% if event_count > 0 %} ocs__hidden{% endif %}" data-events-empty>
+    <p><strong>Looking for the next get-together?</strong></p>
+    <p class="ocs__description">No confirmed event dates are listed here yet. Ask the UESL team about upcoming gatherings and availability before making plans.</p>
+    <a class="ocs__btn" href="{{ '/contact/?topic=event' | relative_url }}">Ask about the next event</a>
+  </div>
+</div>
+<script type="module" src="{{ '/assets/js/uesl-community/events.mjs' | relative_url }}"></script>

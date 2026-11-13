@@ -1,0 +1,31 @@
+<header class="ocs__container ocs__stack">
+  <div class="ocs__links">
+    <a href="{{ '/' | relative_url }}" aria-label="UESL Home"><img class="ocs__image-frame" width="180" src="https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/efa49c03-11c6-4c97-b21e-05266875502d/UnifiedESL-horizontal.png" alt="Unified Esports League"></a>
+    <a href="#main">Skip to content</a>
+  </div>
+  <nav id="nav" aria-label="Main navigation">
+    <ul id="nav-links" class="ocs__links">
+      {% include uesl-community-links.html %}
+      <li><a id="nav-signin-btn" class="ocs__btn" href="{{ '/login' | relative_url }}">Login</a></li>
+      <li><button id="nav-social-btn" class="ocs__btn" type="button" hidden>Social</button></li>
+      <li id="nav-user-chip" hidden>{% include account-menu.html %}</li>
+    </ul>
+  </nav>
+  <details id="toolkit-menu">
+    <summary id="uesl-chat-btn" class="ocs__btn">Accessibility &amp; help</summary>
+    <div class="ocs__links">
+      <button class="ocs__btn" id="toolkit-tts"><span class="tk-label">Read selection</span></button>
+      <button class="ocs__btn" id="toolkit-dyslexia" aria-pressed="false">Dyslexia font</button>
+      <button class="ocs__btn" id="toolkit-high-contrast" aria-pressed="false">High contrast</button>
+      <button class="ocs__btn" id="toolkit-focus" aria-pressed="false">Focus mode</button>
+      <button class="ocs__btn" id="toolkit-font-up">Larger text</button>
+      <button class="ocs__btn" id="toolkit-font-down">Smaller text</button>
+      <button class="ocs__btn" id="toolkit-ruler" aria-pressed="false">Reading ruler</button>
+      <button class="ocs__btn" id="toolkit-shortcuts">Keyboard shortcuts</button>
+      <button class="ocs__btn" id="toolkit-summarize">Summarize page</button>
+      <button class="ocs__btn" id="toolkit-chatbot">Ask UESL Coach</button>
+      <button class="ocs__btn" id="toolkit-friends">Active friends</button>
+      <button class="ocs__btn" id="toolkit-revert"><span>Reset preferences</span></button>
+    </div>
+  </details>
+</header>

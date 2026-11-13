@@ -1,0 +1,5 @@
+# Open World artwork
+
+Edit the images and JSON manifests here. Jekyll publishes them at `/images/gamebuilder/`
+to preserve existing saved/exported game code. Keep published image paths stable.
+These are required game assets, not workspace screenshots.

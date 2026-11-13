@@ -1,0 +1,29 @@
+[
+  {
+    "id": "play-together",
+    "title": "A game to gather around",
+    "alt": "A group seated together watching a game on a projected screen.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729311924-C6ZI8KZG6XQI7XELIJRA/IMG_9057.jpeg",
+    "width": 750,
+    "height": 562,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "racing-seat",
+    "title": "Take the wheel",
+    "alt": "A smiling player using a steering wheel in a racing simulator seat.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729891232-2889TSG157J74BZCWY6T/ribboncutting-11.jpg",
+    "width": 750,
+    "height": 731,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "big-screen",
+    "title": "Share the big screen",
+    "alt": "Two people in UESL shirts standing in front of a projected game selection screen.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729370571-52M99AHZSXO659YTSEQS/STGM7580.jpg",
+    "width": 750,
+    "height": 500,
+    "source": "https://www.unifiedesl.com/"
+  }
+]

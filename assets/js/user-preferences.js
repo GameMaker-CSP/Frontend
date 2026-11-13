@@ -26,7 +26,7 @@
     'fa': { name: 'Persian (Farsi)', code: 'fa' },
   };
 
-  // Site Default matches UESL theme tokens (from uesl.html :root)
+  // Site Default matches the shared OCS theme tokens.
   const SITE_DEFAULT = {
     bg: '#0d1117',
     text: '#e6edf3',
@@ -46,7 +46,7 @@
     },
     Light: {
       bg: '#ffffff',
-      text: '#FF80AA',
+      text: '#172b3a',
       font: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
       size: 14,
       accent: '#2563eb',
@@ -103,6 +103,15 @@
     return getLuminance(hex) > 0.5;
   }
 
+  function accentTextColor(hex) {
+    const channels = Object.values(hexToRgb(hex)).map(value => {
+      const channel = value / 255;
+      return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+    });
+    const luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+    return (luminance + 0.05) / 0.05 >= 1.05 / (luminance + 0.05) ? '#000000' : '#ffffff';
+  }
+
   function adjustColor(hex, amt) {
     const { r, g, b } = hexToRgb(hex);
     const clamp = (v) => Math.max(0, Math.min(255, v));
@@ -150,7 +159,7 @@
     const surface2 = adjustColor(bg, 22 * dir);
     const surface3 = adjustColor(bg, 32 * dir);
     const border   = lightBg ? 'rgba(0,0,0,0.10)' : 'rgba(255,255,255,0.08)';
-    const textMuted = lightBg ? '#6b7280' : adjustColor(text, -55);
+    const textMuted = lightBg ? '#4b5563' : adjustColor(text, -55);
     const { r: ar, g: ag, b: ab } = hexToRgb(accent);
     const accentDim = `rgba(${ar},${ag},${ab},0.14)`;
 
@@ -173,6 +182,7 @@
     set('--pref-font-size',       size + 'px');
     set('--pref-accent-color',    accent);
     set('--pref-selection-color', selectionColor);
+    set('--ocs-on-accent', accentTextColor(accent));
 
     // ── Legacy aliases ──
     set('--background',  bg);
@@ -202,159 +212,17 @@
       set('--priority-p3', '#22c55e');
     }
 
-    // Load external web fonts on demand
-    if (font.includes('SimBraille') || font.includes('Swell Braille')) {
-      // SimBraille ships with Windows 10/11 — no CDN needed.
-      // Inject a @font-face alias so browsers that have the system font pick it up correctly.
-      if (!document.getElementById('font-braille')) {
-        const s = document.createElement('style');
-        s.id = 'font-braille';
-        s.textContent = `@font-face { font-family: 'Swell Braille'; src: local('SimBraille'), local('Braille'); }`;
-        document.head.appendChild(s);
-      }
-    }
-
     document.documentElement.classList.add('user-theme-active');
 
-    injectThemeOverrideCSS({
-      bg, text, font, size, accent, accentDim,
-      surface, surface2, surface3,
-      border, textMuted, selectionColor, navColor, buttonStyle, lightBg,
-    });
+    set('--pref-button-radius', buttonStyle === 'square' ? '0' : buttonStyle === 'pill' ? '9999px' : '0.375rem');
 
     applyLanguage(prefs?.language || '');
-  }
-
-  function injectThemeOverrideCSS(opts) {
-    const { bg, text, font, size, accent, accentDim,
-            surface, surface2, surface3,
-            border, textMuted, selectionColor, navColor, buttonStyle, lightBg } = opts;
-
-    const styleId = 'user-theme-override-css';
-    let style = document.getElementById(styleId);
-    if (!style) {
-      style = document.createElement('style');
-      style.id = styleId;
-      document.head.appendChild(style);
-    }
-
-    let btnRadius = '0.375rem';
-    if (buttonStyle === 'square') btnRadius = '0';
-    else if (buttonStyle === 'pill') btnRadius = '9999px';
-
-    style.textContent = `
-      /* ── Navbar ── */
-      html.user-theme-active #nav {
-        background: ${navColor} !important;
-        border-bottom-color: ${border} !important;
-      }
-
-      /* ── Base ── */
-      html.user-theme-active body {
-        background-color: ${bg} !important;
-        color: ${text} !important;
-        font-family: ${font} !important;
-        font-size: ${size}px !important;
-      }
-
-      /* ── Selection ── */
-      html.user-theme-active ::selection      { background-color: ${selectionColor}; color: #fff; }
-      html.user-theme-active ::-moz-selection { background-color: ${selectionColor}; color: #fff; }
-
-      /* ── Button shape ── */
-      html.user-theme-active button,
-      html.user-theme-active .btn,
-      html.user-theme-active input[type="submit"],
-      html.user-theme-active input[type="button"] { border-radius: ${btnRadius} !important; }
-
-      /* ── Tailwind backgrounds — mapped to the correct surface level ── */
-      html.user-theme-active .bg-neutral-950,
-      html.user-theme-active .bg-neutral-900,
-      html.user-theme-active .bg-gray-900     { background-color: ${bg}       !important; }
-      html.user-theme-active .bg-neutral-800,
-      html.user-theme-active .bg-gray-800     { background-color: ${surface}  !important; }
-      html.user-theme-active .bg-neutral-700,
-      html.user-theme-active .bg-gray-700     { background-color: ${surface2} !important; }
-      html.user-theme-active .bg-neutral-600,
-      html.user-theme-active .bg-gray-600     { background-color: ${surface3} !important; }
-
-      /* ── Tailwind text ── */
-      html.user-theme-active .text-white,
-      html.user-theme-active .text-neutral-50,
-      html.user-theme-active .text-neutral-100,
-      html.user-theme-active .text-neutral-200,
-      html.user-theme-active .text-neutral-300 { color: ${text}      !important; }
-      html.user-theme-active .text-neutral-400,
-      html.user-theme-active .text-neutral-500,
-      html.user-theme-active .text-gray-400,
-      html.user-theme-active .text-gray-500    { color: ${textMuted} !important; }
-      html.user-theme-active .text-blue-400,
-      html.user-theme-active .text-blue-500,
-      html.user-theme-active .text-cyan-400,
-      html.user-theme-active .text-cyan-500    { color: ${accent}    !important; }
-
-      /* ── Tailwind borders ── */
-      html.user-theme-active .border-neutral-800,
-      html.user-theme-active .border-neutral-700,
-      html.user-theme-active .border-neutral-600 { border-color: ${border} !important; }
-      html.user-theme-active .border-blue-500,
-      html.user-theme-active .border-cyan-500    { border-color: ${accent} !important; }
-
-      /* ── Form controls (exclude color/range/checkbox/radio inputs) ── */
-      html.user-theme-active input:not([type="color"]):not([type="range"]):not([type="checkbox"]):not([type="radio"]),
-      html.user-theme-active select,
-      html.user-theme-active textarea {
-        background-color: ${surface2} !important;
-        color: ${text}               !important;
-        border-color: ${border}      !important;
-      }
-
-      /* ── Ecentricolor layout ── */
-      html.user-theme-active .lesson-main    { background-color: ${bg}      !important; color: ${text} !important; }
-      html.user-theme-active .lesson-sidebar { background-color: ${surface} !important; border-color: ${border} !important; }
-
-      /* ── Lesson / lesson player ── */
-      html.user-theme-active .lesson-player,
-      html.user-theme-active .main-content,
-      html.user-theme-active .lesson-content  { background-color: ${bg}      !important; color: ${text} !important; }
-      html.user-theme-active .sidebar-header,
-      html.user-theme-active .sprint-nav,
-      html.user-theme-active .sprint-section,
-      html.user-theme-active .lesson-item     { background-color: ${surface} !important; color: ${text} !important; }
-      html.user-theme-active .progress-bar-sidebar { background-color: ${surface2} !important; }
-
-      /* ── Links ── */
-      html.user-theme-active a:not([class*="bg-"]):not(.btn) { color: ${accent}; }
-      html.user-theme-active a:not([class*="bg-"]):not(.btn):hover { opacity: 0.8; }
-
-      /* ── Accent hover backgrounds ── */
-      html.user-theme-active .hover\\:bg-neutral-700:hover { background-color: ${surface2} !important; }
-      html.user-theme-active .hover\\:bg-neutral-800:hover { background-color: ${surface}  !important; }
-
-      /* ── Jekyll / Minima prose ── */
-      html.user-theme-active .post-meta,
-      html.user-theme-active .post-meta-description { color: ${textMuted} !important; }
-    `;
   }
 
   // Google Translate integration
   function applyLanguage(langCode) {
     // Store the selected language
     document.documentElement.setAttribute('data-translate-lang', langCode);
-    
-    // Add CSS to hide Google Translate bar (injected once)
-    if (!document.getElementById('google-translate-hide-css')) {
-      const style = document.createElement('style');
-      style.id = 'google-translate-hide-css';
-      style.textContent = `
-        .goog-te-banner-frame, .goog-te-balloon-frame { display: none !important; }
-        body { top: 0 !important; position: static !important; }
-        .skiptranslate { display: none !important; }
-        .goog-te-gadget { display: none !important; }
-        #google_translate_element { display: none !important; }
-      `;
-      document.head.appendChild(style);
-    }
     
     // Clear any existing Google Translate cookies first
     clearGoogleTranslateCookies();
@@ -387,7 +255,6 @@
     if (!document.getElementById('google_translate_element')) {
       const container = document.createElement('div');
       container.id = 'google_translate_element';
-      container.style.cssText = 'position: fixed; top: -9999px; left: -9999px; visibility: hidden;';
       document.body.appendChild(container);
     }
 
@@ -523,23 +390,17 @@
     const root = document.documentElement;
     root.classList.remove('user-theme-active');
 
-    // Remove injected CSS
-    const overrideStyle = document.getElementById('user-theme-override-css');
-    if (overrideStyle) {
-      overrideStyle.remove();
-    }
-
     const props = [
       // UESL tokens
       '--bg', '--surface', '--surface2', '--surface3',
       '--text', '--muted', '--cyan', '--cyan-dim', '--border', '--nav-color',
       // Pref vars
       '--pref-bg-color', '--pref-text-color', '--pref-font-family',
-      '--pref-font-size', '--pref-accent-color', '--pref-selection-color', '--pref-cursor-style',
+      '--pref-font-size', '--pref-button-radius', '--pref-accent-color', '--pref-selection-color', '--pref-cursor-style',
       // Legacy aliases
       '--background', '--bg-0', '--bg-1', '--bg-2', '--bg-3',
       '--text-strong', '--text-muted', '--white1',
-      '--panel', '--panel-mid', '--ui-bg', '--ui-border',
+      '--panel', '--panel-mid', '--ui-bg', '--ui-border', '--theme', '--ocs-on-accent',
       // Priority
       '--priority-p0', '--priority-p1', '--priority-p2', '--priority-p3',
     ];

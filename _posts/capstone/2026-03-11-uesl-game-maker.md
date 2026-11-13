@@ -67,7 +67,7 @@ All settings can be toggled at any time and take effect immediately in Play mode
 ---
 
 <div style="text-align:center;margin:20px 0;">
-  <a href="/game-maker/" style="display:inline-block;padding:16px 40px;background:#FFD700;color:#000;font-size:1.2rem;font-weight:bold;border-radius:30px;text-decoration:none;">
+  <a href="{{ '/play/' | relative_url }}#game-builder" style="display:inline-block;padding:16px 40px;background:#FFD700;color:#000;font-size:1.2rem;font-weight:bold;border-radius:30px;text-decoration:none;">
     🎮 Open the Game Maker
   </a>
 </div>

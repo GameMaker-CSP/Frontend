@@ -48,9 +48,9 @@
   - user-preferences.js exposes window.SitePreferences used by the
     dashboard Preferences tab.
 
-  Styles now come from the main compiled custom-styles.css.
+  Styles come from the explicit shared OCS entry point.
 {%- endcomment -%}
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+{% include ocs-styles.html %}
 <script src="{{ site.baseurl }}/assets/js/user-preferences.js"></script>
 <!-- Set up javaURI globally -->
 <script>

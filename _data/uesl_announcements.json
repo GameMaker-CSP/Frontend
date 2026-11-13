@@ -1,0 +1,24 @@
+[
+  {
+    "id": "thanksgiving-2026",
+    "category": "2026 operating calendar",
+    "title": "Thanksgiving closure",
+    "dates": "November 25–27, 2026",
+    "starts_on": "2026-11-25",
+    "ends_on": "2026-11-27",
+    "body": "UESL lists these three days as closed. Check with your location before planning a visit.",
+    "source": "https://www.unifiedesl.com/",
+    "verified_on": "2026-11-12"
+  },
+  {
+    "id": "christmas-2026",
+    "category": "2026 operating calendar",
+    "title": "Christmas closure",
+    "dates": "December 24–25, 2026",
+    "starts_on": "2026-12-24",
+    "ends_on": "2026-12-25",
+    "body": "UESL lists these two days as closed. Contact client services for your next session.",
+    "source": "https://www.unifiedesl.com/",
+    "verified_on": "2026-11-12"
+  }
+]

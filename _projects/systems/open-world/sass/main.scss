@@ -1,0 +1,47 @@
+// Game-specific layers; layout and controls live in forms/game-builder.
+.uesl-builder-root[data-builder-kind='open-world'] {
+  .game-frame { position: relative; }
+  .game-frame.drawing-active, .draw-overlay.active { cursor: crosshair; }
+  .draw-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 50; overflow: visible; }
+  .draw-overlay.active { pointer-events: auto; }
+  .draw-overlay.game-running .draw-rect { display: none; }
+  .draw-rect { position: absolute; box-sizing: border-box; border: 2px solid var(--pref-accent-color); background: color-mix(in srgb, var(--pref-accent-color) 18%, transparent); pointer-events: none; }
+  .draw-rect.preview { border-style: dashed; }
+  .draw-rect.barrier { border-color: var(--ocs-danger); background: color-mix(in srgb, var(--ocs-danger) 20%, transparent); }
+  .draw-toolbar { display: flex; flex-direction: column; gap: .5rem; margin-top: .5rem; }
+  .draw-btn-pair { display: flex; gap: .5rem; }
+  .draw-btn-pair .draw-btn { flex: 1; }
+  .draw-btn-pair .finish-btn { flex: 0 0 auto; width: auto; }
+  .draw-section-label { color: var(--text-muted); font-size: .8rem; font-weight: 600; padding-top: .75rem; border-top: 1px solid var(--ui-border); }
+  .draw-section-label:first-child { border: 0; }
+
+  .col-asset { position: relative; }
+  #left-panel-resize { position: absolute; right: -6px; top: 0; width: 12px; height: 100%; cursor: col-resize; z-index: 200; display: flex; align-items: center; justify-content: center; }
+  #left-panel-resize::after { content: ''; width: 3px; height: 40px; background: var(--ui-border); border-radius: 3px; }
+  #left-panel-resize:hover::after, #left-panel-resize.dragging::after { background: var(--pref-accent-color); }
+
+  // Fixed positioning keeps route lines clear of the preview's clipped canvas.
+  #route-vis-layer { position: fixed; pointer-events: none; z-index: 9999; overflow: visible; top: 0; left: 0; width: 0; height: 0; }
+  #route-vis-layer.game-running { display: none; }
+  .route-npc-dot, .attack-npc-dot { position: absolute; width: 13px; height: 13px; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); cursor: pointer; pointer-events: auto; }
+  .route-npc-dot { background: #10b981; }
+  .attack-npc-dot { background: #ef4444; z-index: 60; }
+  .route-npc-dot.start, .attack-npc-dot.start { width: 16px; height: 16px; }
+  .route-npc-dot.start { background: #059669; border-color: #a7f3d0; }
+  .attack-npc-dot.start { background: #b91c1c; border-color: #fca5a5; }
+  .route-npc-label, .attack-npc-label { position: absolute; font-size: 10px; font-weight: 700; border: 1px solid; border-radius: 4px; padding: 1px 5px; white-space: nowrap; transform: translateX(-50%); pointer-events: none; z-index: 61; }
+  .route-npc-label { color: #a7f3d0; background: #05241c; border-color: #10b981; }
+  .attack-npc-label { color: #fca5a5; background: #240505; border-color: #ef4444; }
+
+  .level-tabs-bar { display: flex; align-items: center; gap: .375rem; padding: .5rem; border-bottom: 1px solid var(--ui-border); overflow-x: auto; scrollbar-width: thin; }
+  .level-tab { display: flex; align-items: center; gap: .375rem; min-height: 38px; padding: .375rem .625rem; background: var(--panel-mid); border: 1px solid var(--ui-border); border-radius: var(--ocs-control-radius); color: var(--text-muted); font-size: .8rem; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
+  .level-tab.active { border-color: var(--pref-accent-color); color: var(--pref-text-color); }
+  .level-tab-name { max-width: 100px; overflow: hidden; text-overflow: ellipsis; }
+  .level-tab-del { min-width: 28px; min-height: 28px; padding: 0; border: 0; background: transparent; color: var(--text-muted); cursor: pointer; }
+  .level-tab-del:hover { color: var(--ocs-danger); }
+  .level-tab-add { min-width: 38px; min-height: 38px; background: transparent; border: 1px dashed var(--ui-border); border-radius: var(--ocs-control-radius); color: var(--pref-text-color); cursor: pointer; flex-shrink: 0; }
+  .level-tab-name[contenteditable='true'] { outline: 2px solid var(--pref-accent-color); min-width: 40px; }
+
+  @media (max-width: 760px) { #left-panel-resize { display: none; } }
+}
+

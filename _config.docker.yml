@@ -1,0 +1,20 @@
+# Same-origin API proxy, with no dependency on the final assigned DNS name.
+url: ""
+api_same_origin: true
+exclude:
+  - vendor
+  - Makefile
+  - _notebooks
+  - _docx
+  - venv
+  - tests
+  - reports
+  - docs
+  - scripts
+  - deploy
+  - Dockerfile
+  - Gemfile.local
+  - Gemfile.local.lock
+  - run_frontend.sh
+  - DESIGN.md
+  - PRODUCT.md
