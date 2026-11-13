@@ -413,3 +413,29 @@ tests; they do not claim a new browser flow or full corrupted-save recovery.
   boundary, which was corrected and covered by a real rendering regression check.
 - Screenshots and logs: /private/tmp/uesl-community-20261112/. No CSS/Sass changes
   or dependency changes in these commits. Production deployment remains paused.
+
+## 2026-11-13: OCS site consolidation
+
+- Built with Gemfile.local and _config.yml,_config.local.yml; existing duplicated
+  historical route warnings remain. All 113 frontend Node tests and the real
+  Liquid community template checks passed. `git diff --check` passed.
+- All eleven community/account/Play outputs have unique IDs, shared OCS CSS,
+  no static inline styles or style tags, and no duplicate sign-in modal. Only
+  Play loads the additional game-builder bundle. Social JS targets resolve.
+- Browser: 1440px desktop and 390px mobile home/Play layouts checked; no document
+  horizontal overflow. Shared navigation text and builder-tab corner shapes
+  now agree. Existing high-contrast controls retain dark text on yellow actions.
+- Local demo login succeeded and opened the saved OCS persona survey. Profile
+  fields loaded. Social, Add friend, Create group, group-name validation, Coach,
+  keyboard help and dialog dismissal worked. No chat or friend request sent.
+- Contact inquiry prepared a visible email-app link without sending anything.
+- OpenCS Start/Stop, Open World Run/Stop, Racing Run/Stop and tab switching worked
+  against the existing demo state on 127.0.0.1. No builder drafts were edited.
+- Added coverage for initially hidden and dynamically inserted OCS fields,
+  preserving class-managed hiding, and native keyboard-help open/Escape behavior.
+- Startup scripts were restarted with localhost listening permission after the
+  prior servers stopped; frontend 4700 and backend 8424 were confirmed listening.
+- Mechanical design scan: retained incumbent Inter/OCS typography by request;
+  the lightbox image has no source until a chat image is selected. No placeholders
+  are displayed. Screenshots, task-only diff, logs and metrics are stored outside
+  the project at /private/tmp/uesl-ocs-uniform-20261113/.

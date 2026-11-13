@@ -45,6 +45,10 @@ test('hidden OCS fields stay hidden when added dynamically and can be revealed',
     MutationObserver: class { constructor(callback) { notify = callback; } observe() {} },
   });
   assert.ok(initial.classes.has('ocs__hidden'));
+  const classOnly = element(false);
+  classOnly.classes.add('ocs__hidden');
+  notify([{ type: 'childList', addedNodes: [classOnly] }]);
+  assert.ok(classOnly.classes.has('ocs__hidden'), 'Do not reveal components that manage visibility with classes');
   const added = element(true);
   notify([{ type: 'childList', addedNodes: [added] }]);
   assert.ok(added.classes.has('ocs__hidden'));

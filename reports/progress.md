@@ -340,3 +340,9 @@ Removed the 1,471-line shell and both UESL style entry points. Baseline and audi
 artifacts are outside the workspace at /private/tmp/uesl-ocs-uniform-20261113.
 Initial build and 109 tests passed; browser login, saved survey, profile, help,
 social dialogs and validation passed. Final responsive/game checks are pending.
+
+Final result: 1,518 net Sass lines removed across the affected bundles. Community
+CSS dropped from 77,952 to 19,733 bytes (74.7%); builder CSS dropped from 75,003 to
+71,779 bytes. Final Jekyll build, 113 Node tests, actual Liquid template checks,
+and diff whitespace checks passed. Both startup scripts are running on ports
+4700/8424. Changes are local and uncommitted; prior work was preserved.

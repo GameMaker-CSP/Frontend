@@ -91,3 +91,17 @@ failure and site-wide post_url warnings remain outside this two-file change.
   and inherited Jekyll route/Liquid/Sass warnings remain; test/build results pass.
 - Desktop verification passed; the browser viewport request did not produce a
   phone-sized layout, so responsive profile verification remains outstanding.
+
+## 2026-11-13: styling consolidation scope
+
+The separate UESL website skin is removed. Existing editor/canvas overlays and
+reading-ruler/high-contrast/focus/dyslexia behavior remain in shared Sass. Historical
+course pages and the preserved unpublished guided editor were not rewritten.
+Social direct/group chat remains browser-local as before; live cross-device
+messaging and production deployment are not part of this change.
+
+During iframe navigation the browser logged a generic MutationObserver `observe`
+argument error. Its source was not identified. Temporary diagnostics confirmed
+it was not thrown by the new OCS visibility observer; those diagnostics were
+removed. All tested builder controls still worked. This is not a claim of an
+entirely clean browser console or a full multiplayer test.
