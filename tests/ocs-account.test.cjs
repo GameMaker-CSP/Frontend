@@ -3,12 +3,17 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const root = path.join(__dirname, '..');
-test('account pages share OCS navigation and contain no page-specific CSS', () => {
+test('account pages use a signed-in menu instead of public account tabs and add no CSS', () => {
   for (const route of ['login', 'survey', 'profile']) {
     const html = fs.readFileSync(path.join(root, '_site', route + '.html'), 'utf8');
     assert.match(html, /aria-label="Account menu"/);
-    for (const target of ['login', 'survey', 'profile']) assert.ok(html.includes(`href="/${target}"`));
-    assert.match(html, new RegExp(`href="/${route}" aria-current="page"`));
+    assert.match(html, /id="nav-user-chip" hidden>\s*<details>/);
+    const main = html.slice(html.indexOf('<main'), html.indexOf('</main>'));
+    assert.doesNotMatch(main, /aria-label="Account menu"/);
+    const header = html.slice(html.indexOf('<header'), html.indexOf('</header>'));
+    assert.doesNotMatch(header, /href="\/survey"/);
+    if (route === 'login') assert.doesNotMatch(main, /href="\/(?:profile|survey)"/);
+    else assert.match(main, new RegExp(`id="${route === 'profile' ? 'profileContent' : 'surveyContent'}"[^>]*hidden`));
     assert.equal((html.match(/id="ocs-system-styles"/g) || []).length, 1);
     assert.doesNotMatch(html, /<style\b|\sstyle="|tailwindcss|profile-card|uesl-input/);
   }
@@ -19,7 +24,8 @@ test('survey and profile use the OCS modules and shared backend configuration', 
   assert.match(entry, /import \{ initAccountForm \} from '.\/profile-account.js'/);
   assert.match(entry, /response.status === 401/);
   const login = fs.readFileSync(path.join(root, 'navigation/authentication/login.md'), 'utf8');
-  assert.match(login, /import \{ pythonURI, baseurl \}/);
+  assert.match(login, /import \{ pythonURI, baseurl, fetchOptions \}/);
+  assert.equal((login.match(/await loginPage_afterSignIn\(\)/g) || []).length, 3);
   assert.doesNotMatch(login, /https:\/\/uesl.opencodingsociety.com/);
 });
 test('UESL profile asks for account details without school enrollment fields', () => {

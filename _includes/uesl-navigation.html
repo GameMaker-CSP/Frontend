@@ -7,10 +7,8 @@
     <ul id="nav-links" class="ocs__links">
       {% include uesl-community-links.html %}
       <li><a id="nav-signin-btn" class="ocs__btn" href="{{ '/login' | relative_url }}">Login</a></li>
-      <li><a class="ocs__btn" href="{{ '/survey' | relative_url }}">Survey</a></li>
-      <li><a class="ocs__btn" href="{{ '/profile' | relative_url }}">Profile</a></li>
       <li><button id="nav-social-btn" class="ocs__btn" type="button" hidden>Social</button></li>
-      <li id="nav-user-chip" class="ocs__links" hidden><span id="nav-user-name"></span><button id="nav-dd-logout" class="ocs__btn" type="button">Log out</button></li>
+      <li id="nav-user-chip" hidden>{% include account-menu.html %}</li>
     </ul>
   </nav>
   <details id="toolkit-menu">

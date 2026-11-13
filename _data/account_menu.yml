@@ -1,6 +1,2 @@
-- title: Login
-  url: /login
-- title: Survey
-  url: /survey
-- title: Profile
+- title: Profile settings
   url: /profile

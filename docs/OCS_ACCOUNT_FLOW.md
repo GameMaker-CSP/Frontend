@@ -2,7 +2,10 @@
 
 Login `/login`, survey `/survey`, and profile `/profile` share the existing
 OCS button, card, input, grid, and links classes. No new CSS or Sass is needed.
-The shared menu is `_data/account_menu.yml` plus `_includes/account-menu.html`.
+The signed-in account menu is `_data/account_menu.yml` plus
+`_includes/account-menu.html`. As in OCS, a signed-out visitor sees Login;
+the account menu appears after authentication and contains Profile settings
+and Log out. Survey/Profile are not public tabs or login-page tabs.
 
 Source: Open-Coding-Society/pages, commit
 `35a556de938303d8cba0c17ab46007a91fadacef`, `_projects/systems/profile/`.
@@ -20,7 +23,16 @@ old catalogue rows and answers instead of silently relabeling them. School,
 student-ID, classroom, grade, and superhero framing are absent from the UI.
 
 Answers save to Flask through `/api/user/persona` and appear on `/profile`.
-The user can skip or revisit the survey. Responses record interests; they do
+After login, the server's saved answers determine the next page: missing
+answers open the survey, while completed accounts go to profile settings.
+Direct signed-out visits to survey/profile return to login without exposing
+their forms. A signed-in visit to Login goes to profile settings.
+Answers are read for the authenticated account on each visit, with no shared
+browser cache. Backend tests verify logout/relogin persistence and isolation
+between two accounts. A loading failure is never presented as an empty survey.
+
+The user can skip to profile or revisit preferences from profile settings.
+If skipped, the missing answers are offered at the next login. Responses record interests; they do
 not automatically enable accessibility settings or create multiplayer features.
 Email verification during new-account signup still needs a configured mail
 service. Existing-account password login works locally without mail.

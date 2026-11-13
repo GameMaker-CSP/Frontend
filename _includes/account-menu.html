@@ -1,8 +1,11 @@
-{% comment %}Data-driven account navigation using the existing OCS links/buttons grammar.{% endcomment %}
+<details>
+  <summary class="ocs__btn">Account: <span id="nav-user-name"></span></summary>
 <nav aria-label="Account menu">
   <ul class="ocs__links">
     {% for item in site.data.account_menu %}
     <li><a class="ocs__btn{% if page.permalink == item.url %} accent fill{% endif %}" href="{{ item.url | relative_url }}"{% if page.permalink == item.url %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
     {% endfor %}
+    <li><button id="nav-dd-logout" class="ocs__btn" type="button">Log out</button></li>
   </ul>
 </nav>
+</details>

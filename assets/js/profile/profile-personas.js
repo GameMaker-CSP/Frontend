@@ -77,7 +77,8 @@ export async function initPersonas({ api, container, progress, editButton, onCha
         ]);
         if (!allResponse.ok) throw new Error(`the server answered ${allResponse.status}`);
         personas = await allResponse.json();
-        selected = mineResponse.ok ? ((await mineResponse.json()).personas ?? {}) : {};
+        if (!mineResponse.ok) throw new Error(mineResponse.status === 401 ? 'please sign in again' : 'your saved preferences could not be loaded');
+        selected = (await mineResponse.json()).personas ?? {};
     }
 
     function render() {

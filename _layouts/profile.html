@@ -1,8 +1,9 @@
 ---
 layout: ocs-account
 ---
-<p class="ocs__description">Choose the name you want to use and revisit your game interests anytime.</p>
 <p id="accountStatus" role="status"></p>
+<div id="profileContent" class="ocs__stack" hidden>
+<p class="ocs__description">Choose the name you want to use and revisit your play preferences anytime.</p>
     <form class="ocs__card ocs__stack" id="profileSettingsForm" aria-labelledby="account" novalidate>
         <div class="ocs__links">
             <h2 class="ocs__section-title" id="account">Account</h2>
@@ -29,9 +30,10 @@ layout: ocs-account
         </div>
     </form>
 <section class="ocs__card ocs__stack" aria-labelledby="surveySummaryTitle">
-  <h2 class="ocs__section-title" id="surveySummaryTitle">Your survey</h2>
+  <h2 class="ocs__section-title" id="surveySummaryTitle">Your play preferences</h2>
   <p id="surveySummary" role="status">Loading your choices…</p>
-  <a class="ocs__btn" href="{{ '/survey' | relative_url }}">Open interest survey</a>
+  <a class="ocs__btn" href="{{ '/survey' | relative_url }}">Edit play preferences</a>
 </section>
 <button class="ocs__btn" id="accountLogout" type="button">Log out</button>
+</div>
 <script type="module" src="{{ '/assets/js/profile/account-page.js' | relative_url }}"></script>

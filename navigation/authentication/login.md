@@ -65,7 +65,22 @@ show_reading_time: false
 </div>
 
 <script type="module">
-import { pythonURI, baseurl } from '{{ site.baseurl }}/assets/js/api/config.js';
+import { pythonURI, baseurl, fetchOptions } from '{{ site.baseurl }}/assets/js/api/config.js';
+import { signedInDestination } from '{{ site.baseurl }}/assets/js/profile/account-session.js';
+
+async function loginPage_afterSignIn() {
+  try {
+    location.replace(await signedInDestination({ pythonURI, fetchOptions, baseurl }));
+  } catch (error) {
+    // Authentication succeeded; profile settings can show and retry a survey error.
+    location.replace(`${baseurl}/profile`);
+  }
+}
+
+// A signed-in visitor manages their account on Profile, outside the login form.
+fetch(`${pythonURI}/api/id`, { ...fetchOptions, cache: 'no-store' })
+  .then(response => { if (response.ok) location.replace(`${baseurl}/profile`); })
+  .catch(() => {});
 
 const _LOGIN_PAGE_AUTH = {
   PYTHON_URI: pythonURI,
@@ -104,13 +119,13 @@ async function loginPage_slmSendOtp() {
   try {
     if (loginPage__devMode()) {
       const r = await fetch(`${_LOGIN_PAGE_AUTH.PYTHON_URI}/api/authenticate`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({uid,password:pw}) });
-      if (r.ok) { loginPage__authMsg('login-page-slm-l1-msg','Signed in!','success'); setTimeout(() => { window.location.href = `${baseurl}/survey`; }, 800); return; }
+      if (r.ok) { loginPage__authMsg('login-page-slm-l1-msg','Signed in!','success'); await loginPage_afterSignIn(); return; }
       const d = await r.json(); loginPage__authMsg('login-page-slm-l1-msg',d.message||'Login failed.','error'); btn.disabled=false; btn.textContent='Sign In'; return;
     }
     const r = await fetch(`${_LOGIN_PAGE_AUTH.PYTHON_URI}/api/otp/send`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({uid,password:pw}) });
     const d = await r.json();
     if (r.ok) {
-      if (d.user) { loginPage__authMsg('login-page-slm-l1-msg','Signed in!','success'); setTimeout(() => { window.location.href = `${baseurl}/survey`; }, 800); }
+      if (d.user) { loginPage__authMsg('login-page-slm-l1-msg','Signed in!','success'); await loginPage_afterSignIn(); }
       else {
         document.getElementById('login-page-slm-l1').hidden = true;
         document.getElementById('login-page-slm-l2').hidden = false;
@@ -129,7 +144,7 @@ async function loginPage_slmVerifyOtp() {
   try {
     const r = await fetch(`${_LOGIN_PAGE_AUTH.PYTHON_URI}/api/otp/verify`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body:JSON.stringify({uid,otp}) });
     const d = await r.json();
-    if (r.ok) { loginPage__authMsg('login-page-slm-l2-msg','Verified!','success'); setTimeout(() => { window.location.href = `${baseurl}/survey`; }, 800); }
+    if (r.ok) { loginPage__authMsg('login-page-slm-l2-msg','Verified!','success'); await loginPage_afterSignIn(); }
     else loginPage__authMsg('login-page-slm-l2-msg',d.message||'Invalid code.','error');
   } catch(e) { loginPage__authMsg('login-page-slm-l2-msg','Network error.','error'); }
 }

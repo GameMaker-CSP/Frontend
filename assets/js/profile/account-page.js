@@ -9,17 +9,15 @@ const form = document.getElementById('profileSettingsForm');
 if (form) [...form.elements].forEach(input => { input.disabled = true; });
 const api = { pythonURI, fetchOptions, putUpdate, springEnabled: false, personaURL: `${pythonURI}/api/persona?collection=gamemaker` };
 try {
-  const response = await fetch(`${pythonURI}/api/id`, fetchOptions);
+  const response = await fetch(`${pythonURI}/api/id`, { ...fetchOptions, cache: 'no-store' });
   if (response.status === 401) {
-    status.append('Sign in to load and save your account. ');
-    const link = document.createElement('a');
-    link.className = 'ocs__btn'; link.href = `${baseurl}/login`; link.textContent = 'Login';
-    status.append(link);
+    location.replace(`${baseurl}/login`);
   } else {
     if (!response.ok) throw new Error(`Account request failed (${response.status})`);
     const user = await response.json();
     status.textContent = `Signed in as ${user.name || user.uid}.`;
     if (form) {
+      document.getElementById('profileContent').hidden = false;
       [...form.elements].forEach(input => { input.disabled = false; });
       await initAccountForm({ api, form, saveButton: document.getElementById('saveChangesBtn'), status: document.getElementById('saveStatus') });
       const [all, mine] = await Promise.all([
