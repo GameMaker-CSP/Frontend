@@ -9,10 +9,10 @@ import subprocess
 from hashlib import sha256
 import concurrent.futures, traceback, re
 
-if __name__ == "__main__":
-    from progress_bar import ProgressBar
+if __package__:
+    from .progress_bar import ProgressBar
 else:
-    from scripts.progress_bar import ProgressBar
+    from progress_bar import ProgressBar
 
 
 notebook_directory = "_notebooks"

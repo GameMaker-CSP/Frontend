@@ -23,7 +23,7 @@ export async function setDevMode(enabled, pythonURIParam) {
 export const pythonURI = "{{ site.api_same_origin | default: false }}" === "true"
     ? location.origin
     : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-        ? `http://${location.hostname}:8424` : 'https://uesl.opencodingsociety.com');
+        ? `http://${location.hostname}:8424` : 'https://ueslgame-api.opencodingsociety.com');
 export const javaURI = pythonURI;
 
 export const fetchOptions = {

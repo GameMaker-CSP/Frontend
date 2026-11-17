@@ -440,7 +440,7 @@ permalink: /gamebuilderv1-2
     <!-- Not logged in notice -->
     <div id="gb-save-login-msg" style="display:none;background:#1e2030;border:1px solid #f59e0b;border-radius:10px;padding:14px 16px;font-size:.85rem;color:#fbbf24;text-align:center;margin-bottom:12px;">
       ⚠ You must be logged in to save or load games.<br>
-      <a href="https://uesl.opencodingsociety.com/login" target="_blank" rel="noopener" style="color:#60a5fa;margin-top:6px;display:inline-block;">Log in to UESL →</a>
+      <a href="https://ueslgame-api.opencodingsociety.com/login" target="_blank" rel="noopener" style="color:#60a5fa;margin-top:6px;display:inline-block;">Log in to UESL →</a>
     </div>
 
     <!-- Save current game -->

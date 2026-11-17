@@ -11,7 +11,7 @@
 // Flask backend URI
 export const titanicURI = (location.hostname === "localhost" || location.hostname === "127.0.0.1")
     ? "http://localhost:8424"
-    : "https://uesl.opencodingsociety.com";
+    : "https://ueslgame-api.opencodingsociety.com";
 
 const titanicFetchOptions = {
     mode: 'cors',

@@ -423,7 +423,7 @@
     try {
       const uri = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
         ? 'http://localhost:8424'
-        : 'https://uesl.opencodingsociety.com';
+        : 'https://ueslgame-api.opencodingsociety.com';
       const res = await fetch(`${uri}/api/user/preferences`, {
         method: 'GET', mode: 'cors', cache: 'default', credentials: 'include',
         headers: { 'Content-Type': 'application/json', 'X-Origin': 'client' }

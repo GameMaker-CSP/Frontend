@@ -1,6 +1,5 @@
-# This fork deploys at the repository URL, not the inherited school's domain.
-url: "https://gamemaker-csp.github.io"
-baseurl: "/Frontend"
+url: "https://ueslgame.opencodingsociety.com"
+baseurl: ""
 exclude:
   - vendor
   - Makefile

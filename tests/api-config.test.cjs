@@ -26,8 +26,8 @@ test('loopback API preserves the browser hostname for cookie authentication', ()
   assert.equal(load('127.0.0.1').pythonURI, 'http://127.0.0.1:8424');
 });
 
-test('hosted deployments retain the inherited API endpoint', () => {
-  assert.equal(load('ueslhub.opencodingsociety.com').pythonURI, 'https://uesl.opencodingsociety.com');
+test('the public UESL site uses its deployed API', () => {
+  assert.equal(load('ueslgame.opencodingsociety.com').pythonURI, 'https://ueslgame-api.opencodingsociety.com');
 });
 
 test('failed authentication never invokes the success callback', async () => {

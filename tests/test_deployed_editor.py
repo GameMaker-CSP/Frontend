@@ -9,23 +9,24 @@ import unittest
 SITE = Path(os.environ.get('GAMEMAKER_SITE_OUTPUT', '_site'))
 
 class DeployedEditor(unittest.TestCase):
-    def test_play_modules_styles_and_navigation_use_the_project_path(self):
+    def test_play_modules_styles_and_navigation_use_the_custom_domain_root(self):
         html = (SITE / 'play/index.html').read_text()
-        for url in ['/Frontend/assets/css/ocs.css',
-                    '/Frontend/assets/css/game-builder.css',
-                    '/Frontend/assets/js/uesl-builders/play.mjs']:
+        for url in ['/assets/css/ocs.css',
+                    '/assets/css/game-builder.css',
+                    '/assets/js/uesl-builders/play.mjs']:
             self.assertIn(url, html)
-            self.assertTrue((SITE / url.removeprefix('/Frontend/')).is_file())
+            self.assertTrue((SITE / url.removeprefix('/')).is_file())
+        self.assertNotIn('/Frontend/', html)
         self.assertNotIn('href="/uesl-hub/', html)
-        self.assertIn('href="/Frontend/"', html)
+        self.assertIn('href="/"', html)
         for route in ('gamebuilder/v2/', 'gamebuilderv1-2', 'car-racing-builder'):
-            self.assertIn(f'data-src="/Frontend/{route}?embed=1"', html)
+            self.assertIn(f'data-src="/{route}?embed=1"', html)
             target = SITE / route
             self.assertTrue(target.is_dir() or target.with_suffix('.html').is_file())
 
     def test_old_editor_route_preserves_its_redirect_to_play(self):
         html = (SITE / 'game-maker/index.html').read_text()
-        self.assertIn('/Frontend/play/', html)
+        self.assertIn('/play/', html)
         self.assertIn('destination.search = window.location.search', html)
         self.assertNotIn('id="gm-app"', html)
 

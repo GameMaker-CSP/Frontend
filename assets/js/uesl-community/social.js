@@ -3,7 +3,7 @@
     'use strict';
 
     // ── Config ───────────────────────────────────────────────────────────────
-    const PYTHON_URI = (document.body.dataset.apiSameOrigin === "true" ? location.origin : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? `http://${location.hostname}:8424` : 'https://uesl.opencodingsociety.com'));
+    const PYTHON_URI = (document.body.dataset.apiSameOrigin === "true" ? location.origin : ((location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? `http://${location.hostname}:8424` : 'https://ueslgame-api.opencodingsociety.com'));
     const FETCH_OPTS = { mode: 'cors', cache: 'default', credentials: 'include', headers: { 'Content-Type': 'application/json', 'X-Origin': 'client' } };
 
     // ── Per-user friends in localStorage ─────────────────────────────────────
