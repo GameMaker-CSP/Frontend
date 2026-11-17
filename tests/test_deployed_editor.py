@@ -22,7 +22,7 @@ class DeployedEditor(unittest.TestCase):
         for route in ('gamebuilder/v2/', 'gamebuilderv1-2', 'car-racing-builder'):
             self.assertIn(f'data-src="/{route}?embed=1"', html)
             target = SITE / route
-            self.assertTrue(target.is_dir() or target.with_suffix('.html').is_file())
+            self.assertTrue((target / 'index.html').is_file() or target.with_suffix('.html').is_file(), route)
 
     def test_old_editor_route_preserves_its_redirect_to_play(self):
         html = (SITE / 'game-maker/index.html').read_text()

@@ -1,5 +1,4 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Build and deploy UESL to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
@@ -25,18 +24,16 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: Gemfile.local
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1' # Set this to your desired Ruby version
+          ruby-version: '3.4'
           bundler-cache: true
-      - name: Install Jekyll and dependencies
-        run: |
-          gem install bundler
-          bundle install
       - name: Install Python dependencies
         run: |
           python -m venv venv  # Create virtual environment
@@ -64,7 +61,7 @@ jobs:
           python scripts/split_multi_course_files.py  # Run course splitting
       - name: Build with Jekyll
         run: |
-          bundle exec jekyll build --config _config.yml,_config.pages.yml
+          bundle exec jekyll build --config _config.yml,_config.local.yml,_config.pages.yml
           python -m unittest discover -s tests -p test_prefix_site_urls.py
           python -m unittest discover -s tests -p test_deployed_editor.py
       - name: Upload artifact
