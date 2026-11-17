@@ -1,5 +1,5 @@
 ---
-layout: ocs-account
+layout: uesl
 title: Login
 permalink: /login
 search_exclude: true
@@ -7,8 +7,9 @@ show_reading_time: false
 ---
 
 
-<div id="login-page-wrap">
-  <div class="ocs__card ocs__stack">
+<div class="ocs__links">
+  <div class="login-page-slm-card ocs__stack">
+    <h1 class="ocs__section-title">Login</h1>
     <!-- OCS account form controls -->
     <div class="ocs__links" id="login-page-slm-tabs">
       <button class="ocs__btn accent fill" aria-pressed="true" id="login-page-slm-tab-login" onclick="loginPage_slmSwitchTab('login')">Sign In</button>

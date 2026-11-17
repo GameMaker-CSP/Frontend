@@ -13,3 +13,22 @@
   }));
   observer.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['hidden'] });
 })();
+
+// Keep the logo and controls on one row, with the same links in the compact menu.
+(() => {
+  const button = document.getElementById('nav-menu-toggle');
+  if (!button) return;
+  const nav = document.getElementById('nav');
+  const compact = window.matchMedia('(max-width: 69rem)');
+  function resize() {
+    button.hidden = !compact.matches;
+    nav.hidden = compact.matches;
+    button.setAttribute('aria-expanded', String(!nav.hidden));
+  }
+  button.addEventListener('click', () => {
+    nav.hidden = !nav.hidden;
+    button.setAttribute('aria-expanded', String(!nav.hidden));
+  });
+  compact.addEventListener('change', resize);
+  resize();
+})();
