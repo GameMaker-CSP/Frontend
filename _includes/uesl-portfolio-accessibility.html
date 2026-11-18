@@ -1,0 +1,31 @@
+<section class="ocs__card ocs__stack" aria-labelledby="speech-heading">
+  <h2 class="ocs__section-title" id="speech-heading">Read aloud</h2>
+  <div id="voice-settings" class="ocs__stack">
+    <label class="ocs__field">Voice<select class="ocs__input" id="pref-tts-voice"></select></label>
+    <div class="ocs__grid">
+      {% assign voice_controls = 'rate, pitch, volume' | split: ', ' %}
+      {% for key in voice_controls %}
+      <label class="ocs__field">{% if key == 'rate' %}Speed{% else %}{{ key | capitalize }}{% endif %}
+        <input type="range" id="pref-tts-{{ key }}" min="{% if key == 'volume' %}0{% else %}0.5{% endif %}" max="{% if key == 'volume' %}1{% else %}2{% endif %}" step="0.1" value="1">
+        <output for="pref-tts-{{ key }}">1</output>
+      </label>
+      {% endfor %}
+    </div>
+    <label class="ocs__field">Preview text<input class="ocs__input" id="tts-test-text" value="Welcome to Unified Esports League."></label>
+    <div class="ocs__links"><button class="ocs__btn" id="tts-test-btn">Test voice</button><button class="ocs__btn" id="tts-stop-btn">Stop reading</button></div>
+  </div>
+  <p class="ocs__description" id="voice-note">Read selection uses these settings on this device.</p>
+</section>
+<section class="ocs__card ocs__stack" aria-labelledby="cursor-heading">
+  <h2 class="ocs__section-title" id="cursor-heading">Head tracking</h2>
+  <label class="ocs__field">Movement control<select class="ocs__input" id="head-mode"><option value="scroll">Scroll the page</option><option value="cursor">Move an on-screen pointer</option></select></label>
+  <label class="ocs__field">Pointer sensitivity<input type="range" min="0.10" max="0.90" step="0.05" id="head-sensitivity"><output for="head-sensitivity"></output></label>
+  <div><button class="ocs__btn" id="head-preview" aria-pressed="false">Start camera</button></div>
+  <p class="ocs__description">For a calibrated pointer, start the camera, face each direction and capture its position. Calibration is saved on this device.</p>
+  <div class="ocs__links" id="head-calibration">
+    {% assign directions = 'center,left,right,up,down' | split: ',' %}
+    {% for direction in directions %}<button class="ocs__btn" data-direction="{{ direction }}">Capture {{ direction }}</button>{% endfor %}
+    <button class="ocs__btn" id="head-reset">Reset calibration</button>
+  </div>
+  <p id="head-status" role="status"></p>
+</section>

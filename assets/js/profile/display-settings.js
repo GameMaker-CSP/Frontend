@@ -1,3 +1,4 @@
+import { trackingFrame, clearCursor, showThemeContrast, setupPortfolioControls } from './portfolio-accessibility.js';
 import { pythonURI, fetchOptions, baseurl } from '../api/config.js';
 
 const { PRESETS, LANGUAGES, applyPreferences } = window.SitePreferences;
@@ -9,16 +10,19 @@ let frame;
 let engaged = false;
 
 function stop() {
+    clearCursor();
     cancelAnimationFrame(frame);
     window.FaceTracker?.stop();
     engaged = false;
     nod.setAttribute('aria-pressed', 'false');
-    nod.textContent = 'Start head movement scrolling';
+    nod.textContent = 'Start head tracking';
+    updatePreview(false);
 }
 
 function scrollFrame() {
     const tracker = window.FaceTracker;
-    const direction = tracker.faceData.detected && (tracker.controls.down ? 1 : tracker.controls.up ? -1 : 0);
+    const pointer = trackingFrame(tracker.faceData);
+    const direction = !pointer && tracker.faceData.detected && (tracker.controls.down ? 1 : tracker.controls.up ? -1 : 0);
     if (direction && !engaged) window.scrollBy(0, Math.round(innerHeight * 0.6) * direction);
     engaged = Boolean(direction);
     frame = requestAnimationFrame(scrollFrame);
@@ -34,9 +38,18 @@ function script(src) {
     });
 }
 
+const preview = document.getElementById('head-preview');
+function updatePreview(active) {
+    if (!preview) return;
+    preview.textContent = active ? 'Stop camera' : 'Start camera';
+    preview.setAttribute('aria-pressed', String(active));
+}
+setupPortfolioControls();
+preview?.addEventListener('click', () => nod.click());
 nod?.addEventListener('click', async () => {
     if (window.FaceTracker?.active) return stop();
     nod.disabled = true;
+    if (preview) preview.disabled = true;
     try {
         if (!window.Camera) await script('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3/camera_utils.js');
         if (!window.FaceMesh) await script('https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4/face_mesh.js');
@@ -46,13 +59,16 @@ nod?.addEventListener('click', async () => {
         video.playsInline = true;
         await window.FaceTracker.start(video);
         if (!window.FaceTracker.active) throw new Error();
-        nod.textContent = 'Stop head movement scrolling';
+        nod.textContent = 'Stop head tracking';
+        updatePreview(true);
         nod.setAttribute('aria-pressed', 'true');
         scrollFrame();
     } catch {
         stop();
-        nod.textContent = 'Camera unavailable · Retry head movement scrolling';
-    } finally { nod.disabled = false; }
+        nod.textContent = 'Camera unavailable · Retry head tracking';
+        const status = document.getElementById('head-status');
+        if (status) status.textContent = 'Camera unavailable. Check camera permission and try again.';
+    } finally { nod.disabled = false; if (preview) preview.disabled = false; }
 });
 window.addEventListener('pagehide', () => { if (nod && window.FaceTracker?.active) stop(); });
 
@@ -65,6 +81,7 @@ function show(data) {
     }
     if (form) {
         form.elements.theme.value = data.theme;
+        showThemeContrast(PRESETS[data.theme]);
         form.elements.language.value = data.language;
         form.elements.nod.checked = data.nod;
     }
@@ -73,6 +90,8 @@ function show(data) {
 if (form) {
     for (const name of Object.keys(PRESETS)) form.elements.theme.add(new Option(name, name));
     for (const [code, language] of Object.entries(LANGUAGES)) form.elements.language.add(new Option(code ? language.name : 'English', code));
+    form.elements.theme.onchange = () => showThemeContrast(PRESETS[form.elements.theme.value]);
+    showThemeContrast(PRESETS[form.elements.theme.value]);
     form.onsubmit = async e => {
         e.preventDefault();
         const button = form.querySelector('button');

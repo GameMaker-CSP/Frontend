@@ -328,12 +328,13 @@
 
   // Text-to-Speech functionality
   function getTTSSettings() {
-    const prefs = loadStoredPreferences() || {};
+    let prefs = loadStoredPreferences() || {};
+    try { prefs = { ...prefs, ...JSON.parse(localStorage.getItem('ueslSpeech') || '{}') }; } catch {}
     return {
       voice: prefs.ttsVoice || '',
       rate: parseFloat(prefs.ttsRate) || 1,
       pitch: parseFloat(prefs.ttsPitch) || 1,
-      volume: parseFloat(prefs.ttsVolume) || 1
+      volume: Number(prefs.ttsVolume ?? 1)
     };
   }
 

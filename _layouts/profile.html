@@ -35,7 +35,11 @@ layout: ocs-account
     <label class="ocs__field">Color theme<select class="ocs__input" name="theme"></select></label>
     <label class="ocs__field">Page language<select class="ocs__input" name="language"></select></label>
   </div>
-  <label class="ocs__toggle"><input type="checkbox" name="nod">Show the head scrolling control in the navigation</label>
+  <div class="ocs__links" aria-live="polite">
+    <span>Text contrast <output class="ocs__status-pill" id="text-contrast"></output></span>
+    <span>Accent contrast <output class="ocs__status-pill" id="accent-contrast"></output></span>
+  </div>
+  <label class="ocs__toggle"><input type="checkbox" name="nod">Show the head tracking control in the navigation</label>
   <div><button disabled class="ocs__btn accent fill">Save preferences</button></div>
   <p role="status" id="displayStatus"></p>
 </form>
@@ -52,6 +56,7 @@ layout: ocs-account
       <button class="ocs__btn" id="toolkit-revert"><span>Reset reading settings</span></button>
   </div>
 </section>
+{% include uesl-portfolio-accessibility.html %}
 <section class="ocs__card ocs__stack" aria-labelledby="surveySummaryTitle">
   <h2 class="ocs__section-title" id="surveySummaryTitle">Your play preferences</h2>
   <p id="surveySummary" role="status">Loading your choices…</p>
