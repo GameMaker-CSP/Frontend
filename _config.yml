@@ -121,9 +121,11 @@ minima:
   social_links:
     - { platform: github, user_url: "https://github.com/unified-esports-league" }
   nav_pages:
-    - navigation/blog.md
-    - navigation/courses.md
-    - navigation/search.md
+    - pages/uesl-home.html
+    - pages/uesl-events.html
+    - pages/uesl-gallery.html
+    - pages/uesl-play.html
+    - pages/uesl-contact.html
 
 gemini_api_key: "" # Configure optional AI credentials on the backend, never in the public site.
 

@@ -16,7 +16,7 @@ All additions reuse the UESL shell and OCS components; no CSS or Sass was added.
 | `/locations/` | Verified addresses and map links | `_data/uesl_locations.json` |
 | `/contact/` | Official contact form, contacts, and email drafts | `pages/uesl-contact.html`, `assets/js/uesl-community/inquiry.mjs` |
 
-Main site and app navigation share `_data/uesl_navigation.json` and
+Main site and app navigation follow the source paths in `minima.nav_pages` in `_config.yml`, in order. Set `nav_title` on a page for a shorter menu label. The shared renderer is
 `_includes/uesl-community-links.html`. About, locations, announcements, and the
 existing organization/donation links remain in the footer. The old newsletter
 button that falsely claimed a successful subscription has been removed.
