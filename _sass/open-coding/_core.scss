@@ -489,10 +489,11 @@ html.tk-dyslexia label, html.tk-dyslexia input, html.tk-dyslexia textarea {
 }
 
 // Shared UESL navigation. Disclosure panels float below their triggers.
-html:has(.uesl-topbar) { scroll-padding-top: 5rem; }
+html:has(.uesl-topbar) { scroll-padding-top: calc(var(--uesl-header-height, 3.875rem) + .5rem); }
+body.ocs-site:has(> .uesl-topbar) { margin: 0; padding-top: var(--uesl-header-height, 3.875rem); }
 .uesl-topbar {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset: 0 0 auto;
   z-index: 70;
   background: var(--panel);
   border-bottom: 1px solid var(--ui-border);

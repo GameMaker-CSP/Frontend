@@ -18,6 +18,10 @@
 (() => {
   const button = document.getElementById('nav-menu-toggle');
   if (!button) return;
+  const header = button.closest('header');
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--uesl-header-height', header.offsetHeight + 'px');
+  }).observe(header);
   const nav = document.getElementById('nav');
   const compact = window.matchMedia('(max-width: 69rem)');
   function resize() {
