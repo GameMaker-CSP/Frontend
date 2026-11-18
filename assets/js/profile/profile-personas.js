@@ -1,7 +1,4 @@
-// The persona card on /profile: a summary of the four choices and, for each group
-// still open (or every group while changing), a row of persona cards. Clicking a card
-// saves that choice right away.
-import { firstSentence, personaDescription, personaSections, personaTitle, personaTraits } from './profile-model.js';
+import { firstSentence, personaDescription, personaSections, personaTitle } from './profile-model.js';
 
 function element(tag, className, text) {
     const node = document.createElement(tag);
@@ -10,65 +7,11 @@ function element(tag, className, text) {
     return node;
 }
 
-function pill(text, tone) {
-    return element('span', `ocs__status-pill ocs__status-pill--${tone}`, text);
-}
-
-// The choices made so far, two to a row. Open groups show their cards below instead.
-function summaryList(sections) {
-    const list = element('ul', 'ocs__stack');
-    for (const section of sections.filter(entry => entry.chosen)) {
-        const item = element('li');
-        item.append(
-            element('small', null, section.label),
-            document.createElement('br'),
-            element('strong', null, personaTitle(section.chosen)),
-        );
-        list.append(item);
-    }
-    return list;
-}
-
-function personaCard(persona, section) {
-    const isChosen = section.chosen?.id === persona.id;
-    const card = element('button', isChosen ? 'ocs__btn ocs__card accent' : 'ocs__btn ocs__card');
-    card.type = 'button';
-    card.dataset.personaId = String(persona.id);
-    card.setAttribute('aria-pressed', String(isChosen));
-    card.title = personaDescription(persona);
-
-    const traits = element('span', 'ocs__links');
-    if (isChosen) traits.append(pill('Your pick', 'good'));
-    for (const trait of personaTraits(persona)) traits.append(pill(trait, 'neutral'));
-
-    const body = element('span', 'ocs__stack');
-    body.append(
-        element('strong', 'ocs__section-title', personaTitle(persona)),
-        element('small', null, firstSentence(personaDescription(persona))),
-        traits,
-    );
-    card.append(body);
-    return card;
-}
-
-function pickerGroup(section) {
-    const group = element('div');
-    group.id = `category-${section.key}`;
-    group.setAttribute('role', 'group');
-    group.setAttribute('aria-labelledby', `category-${section.key}-title`);
-    const title = element('h3', 'ocs__section-title', section.label);
-    title.id = `category-${section.key}-title`;
-    const grid = element('div', 'ocs__grid');
-    grid.append(...section.options.map(persona => personaCard(persona, section)));
-    group.append(title, element('p', 'ocs__text', section.prompt), grid);
-    return group;
-}
-
 export async function initPersonas({ api, container, progress, editButton, onChange }) {
     const { pythonURI, fetchOptions } = api;
     let personas = [];
     let selected = {};
-    let editing = false;
+    let step = 0;
 
     async function load() {
         const [allResponse, mineResponse] = await Promise.all([
@@ -81,67 +24,83 @@ export async function initPersonas({ api, container, progress, editButton, onCha
         selected = (await mineResponse.json()).personas ?? {};
     }
 
-    function render() {
+    function render(moveFocus = false) {
         const sections = personaSections(personas, selected);
-        const chosen = sections.filter(section => section.chosen).length;
-        const complete = chosen === sections.length;
-        progress.textContent = `${chosen} of ${sections.length} chosen`;
-        progress.className = `ocs__status-pill ocs__status-pill--${complete ? 'good' : 'neutral'}`;
-        editButton.hidden = chosen === 0;
-        editButton.textContent = editing ? 'Done' : 'Change';
-        // Open groups are always shown; chosen ones only while changing.
-        const shown = sections.filter(section => editing || !section.chosen);
-        container.replaceChildren(...(chosen && !editing ? [summaryList(sections)] : []), ...shown.map(pickerGroup));
-        onChange?.(chosen, complete);
-    }
-
-    async function choose(card) {
-        const group = card.closest('[role="group"]');
-        const cards = [...group.querySelectorAll('button')];
-        cards.forEach(button => { button.disabled = true; });
-        card.setAttribute('aria-busy', 'true');
-        card.querySelector('.ocs__links')?.prepend(pill('Saving…', 'good'));
-        try {
-            const response = await fetch(`${pythonURI}/api/user/persona`, {
-                ...fetchOptions,
-                method: 'POST',
-                body: JSON.stringify({ persona_id: Number(card.dataset.personaId) }),
-            });
-            const data = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(data.message || `the server answered ${response.status}`);
-            await load();
-            render();
-        } catch (error) {
-            console.error('Persona selection failed:', error);
-            cards.forEach(button => { button.disabled = false; });
-            card.removeAttribute('aria-busy');
-            card.querySelector('.ocs__links')?.firstElementChild?.remove();
-            let alert = group.querySelector('[role="alert"]');
-            if (!alert) {
-                alert = element('p', 'ocs__text');
-                alert.setAttribute('role', 'alert');
-                group.append(alert);
+        const section = sections[step];
+        container.replaceChildren();
+        editButton.hidden = Boolean(section);
+        onChange?.(sections.filter(s => s.chosen).length, sections.every(s => s.chosen));
+        if (!section) {
+            progress.textContent = 'Survey complete';
+            const list = element('dl', 'ocs__stack');
+            for (const item of sections) {
+                const row = element('div');
+                row.append(element('dt', 'ocs__description', item.label), element('dd', null, personaTitle(item.chosen)));
+                list.append(row);
             }
-            alert.textContent = `Couldn't save that choice: ${error.message}.`;
+            container.append(list);
+            if (moveFocus) editButton.focus();
+            return;
         }
+        progress.textContent = `Question ${step + 1} of ${sections.length}`;
+        const form = element('form', 'ocs__stack');
+        const fieldset = element('fieldset', 'ocs__card ocs__stack');
+        const legend = element('legend', 'ocs__section-title', section.prompt);
+        legend.tabIndex = -1;
+        fieldset.append(legend);
+        for (const option of section.options) {
+            const label = element('label', 'ocs__card ocs__toggle');
+            const radio = element('input');
+            Object.assign(radio, { type: 'radio', name: 'answer', value: String(option.id), required: true, checked: section.chosen?.id === option.id });
+            const copy = element('span', 'ocs__stack');
+            copy.append(element('strong', null, personaTitle(option)), element('small', null, firstSentence(personaDescription(option))));
+            label.append(radio, copy);
+            fieldset.append(label);
+        }
+        const actions = element('div', 'ocs__links');
+        const back = element('button', 'ocs__btn', 'Back');
+        back.type = 'button';
+        back.disabled = step === 0;
+        back.onclick = () => { step--; render(true); };
+        const save = element('button', 'ocs__btn accent fill', step === sections.length - 1 ? 'Save and finish' : 'Save and continue');
+        save.disabled = !section.options.length;
+        const status = element('p', 'ocs__description', section.options.length ? '' : 'Choices are unavailable. Reload to try again.');
+        status.setAttribute('role', 'status');
+        actions.append(back, save);
+        form.append(fieldset, actions, status);
+        form.onsubmit = async event => {
+            event.preventDefault();
+            if (save.disabled) return;
+            const id = Number(new FormData(form).get('answer'));
+            fieldset.disabled = back.disabled = save.disabled = true;
+            status.textContent = 'Saving…';
+            try {
+                const response = await fetch(`${pythonURI}/api/user/persona`, {
+                    ...fetchOptions, method: 'POST', body: JSON.stringify({ persona_id: id }),
+                });
+                if (!response.ok) throw new Error('Save failed');
+                selected[section.key] = { persona_id: id };
+                step++;
+                render(true);
+            } catch {
+                status.textContent = 'Your answer could not be saved. Try again.';
+                fieldset.disabled = save.disabled = false;
+                back.disabled = step === 0;
+            }
+        };
+        container.append(form);
+        if (moveFocus) legend.focus();
     }
 
-    container.addEventListener('click', event => {
-        const card = event.target.closest('button[data-persona-id]');
-        if (card && card.getAttribute('aria-pressed') !== 'true') choose(card);
-    });
-    editButton.addEventListener('click', () => {
-        editing = !editing;
-        render();
-    });
-
+    editButton.onclick = () => { step = 0; render(true); };
     try {
         await load();
-    } catch (error) {
-        console.error('Error loading personas:', error);
-        container.replaceChildren(element('p', 'ocs__text', `Couldn't load personas: ${error.message}.`));
+        const sections = personaSections(personas, selected);
+        const first = sections.findIndex(section => !section.chosen);
+        step = first < 0 ? sections.length : first;
+        render();
+    } catch {
         progress.textContent = 'Unavailable';
-        return;
+        container.textContent = 'Your preferences could not be loaded. Reload to try again.';
     }
-    render();
 }
