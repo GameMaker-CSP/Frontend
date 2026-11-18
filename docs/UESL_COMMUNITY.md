@@ -87,3 +87,7 @@ All requested community features and verification are complete locally. Public
 event publication awaits real dates from UESL; production deployment remains
 paused. Earlier builder, account, and deployment changes in the working tree
 are separate from these focused community commits.
+
+### Shared event and photo components
+
+Pass a verified event to `uesl-event-card.html` as `event`, plus the current ISO calendar date as `today`. The input supplies title, starts_at, ends_on, when, location, description and the registration URL. The list owns ordering and empty states. Pass a credited photo to `uesl-photo-row.html` as `photo`, with title, alt, image URL, width, height and source URL. The image and caption stay together. On narrow screens the OCS grid collapses to a single column. A keyboard user can tab to registration, the full photo, and its source.

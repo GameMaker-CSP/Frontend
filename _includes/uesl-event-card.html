@@ -1,0 +1,6 @@
+<article class="ocs__card ocs__stack{% if include.event.ends_on < include.today %} ocs__hidden{% endif %}" data-event-end="{{ include.event.ends_on | escape }}">
+    <h3>{{ include.event.title | escape }}</h3>
+    <p><time datetime="{{ include.event.starts_at | escape }}">{{ include.event.when | escape }}</time> · {{ include.event.location | escape }}</p>
+    <p class="ocs__description">{{ include.event.description | escape }}</p>
+    <div><a class="ocs__btn accent" href="{{ include.event.url | escape }}">Event details &amp; registration</a></div>
+  </article>
