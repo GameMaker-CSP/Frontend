@@ -30,10 +30,11 @@
     button.setAttribute('aria-expanded', String(!nav.hidden));
   }
   button.addEventListener('click', () => {
+    closeMenus();
     nav.hidden = !nav.hidden;
     button.setAttribute('aria-expanded', String(!nav.hidden));
   });
-  const menus = [...nav.querySelectorAll('details')];
+  const menus = [...header.querySelectorAll('details')];
   const hover = matchMedia('(hover: hover) and (pointer: fine)');
   let timer;
   function closeMenus(except) {
@@ -54,6 +55,7 @@
       }, 200);
     });
     trigger.addEventListener('click', event => {
+      if (compact.matches && !nav.hidden) dismissMobile();
       closeMenus(menu);
       if (openedByHover && menu.open && event.detail > 0) event.preventDefault();
       openedByHover = false;
