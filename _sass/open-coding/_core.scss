@@ -487,3 +487,38 @@ html.tk-dyslexia label, html.tk-dyslexia input, html.tk-dyslexia textarea {
   font-family: 'OpenDyslexic', 'Comic Sans MS', sans-serif !important;
   letter-spacing: .04em; word-spacing: .1em; line-height: 1.7 !important;
 }
+
+// Shared UESL navigation. Disclosure panels float below their triggers.
+html:has(.uesl-topbar) { scroll-padding-top: 5rem; }
+.uesl-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  background: var(--panel);
+  border-bottom: 1px solid var(--ui-border);
+  > .ocs__container { position: relative; flex-wrap: nowrap; justify-content: space-between; padding-block: .45rem; min-height: 3.75rem; }
+  ul { margin: 0; }
+  #nav-links { flex-wrap: nowrap; gap: .2rem; }
+  li:has(> [hidden]):not(:has(> :not([hidden]))) { display: none; }
+  .ocs__btn { background: transparent; border-color: transparent; padding-inline: .65rem; white-space: nowrap; }
+  .ocs__btn:hover, details[open] > summary, .ocs__btn[aria-current="page"] { background: var(--panel-mid); color: var(--pref-text-color); }
+  details { position: relative; }
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: ''; width: .4em; height: .4em; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: translateY(-.1em) rotate(45deg); }
+  #nav-user-name { max-width: 10ch; overflow: hidden; text-overflow: ellipsis; }
+  details > nav, details > div {
+    position: absolute; inset: 100% 0 auto auto; min-width: 11rem; padding: .35rem;
+    background: var(--panel); border: 1px solid var(--ui-border); border-radius: var(--ocs-radius);
+    box-shadow: 0 .5rem 1.5rem rgba(0,0,0,.18);
+  }
+  details > div, details > nav ul { display: grid; gap: .15rem; }
+  details .ocs__btn:not(summary) { width: 100%; justify-content: flex-start; }
+  > a:focus-visible { position: absolute; z-index: 2; background: var(--panel); padding: .65rem; }
+  @media (max-width: 69rem) {
+    #nav { position: absolute; inset: 100% 0 auto; background: var(--panel); border-bottom: 1px solid var(--ui-border); max-height: calc(100dvh - 4rem); overflow-y: auto; }
+    #nav-links { display: grid; padding: .5rem 1rem; }
+    #nav-links .ocs__btn { width: 100%; justify-content: space-between; }
+    details > nav, details > div { position: static; box-shadow: none; }
+  }
+}

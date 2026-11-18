@@ -29,6 +29,48 @@
     nav.hidden = !nav.hidden;
     button.setAttribute('aria-expanded', String(!nav.hidden));
   });
+  const menus = [...nav.querySelectorAll('details')];
+  const hover = matchMedia('(hover: hover) and (pointer: fine)');
+  let timer;
+  function closeMenus(except) {
+    clearTimeout(timer);
+    menus.forEach(menu => { if (menu !== except) menu.open = false; });
+  }
+  for (const menu of menus) {
+    let openedByHover = false;
+    const trigger = menu.querySelector('summary');
+    menu.addEventListener('pointerenter', event => {
+      if (compact.matches || !hover.matches || event.pointerType !== 'mouse') return;
+      closeMenus(menu);
+      if (!menu.open) { menu.open = true; openedByHover = true; }
+    });
+    menu.addEventListener('pointerleave', () => {
+      if (openedByHover) timer = setTimeout(() => {
+        if (!menu.contains(document.activeElement)) menu.open = false;
+      }, 200);
+    });
+    trigger.addEventListener('click', event => {
+      closeMenus(menu);
+      if (openedByHover && menu.open && event.detail > 0) event.preventDefault();
+      openedByHover = false;
+    });
+    menu.addEventListener('focusout', event => {
+      if (!menu.contains(event.relatedTarget)) menu.open = false;
+    });
+  }
+  function dismissMobile() {
+    if (compact.matches && !nav.hidden) button.click();
+  }
+  document.addEventListener('pointerdown', event => {
+    if (!event.target.closest('.uesl-topbar details')) closeMenus();
+    if (!event.target.closest('.uesl-topbar')) dismissMobile();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    const open = menus.find(menu => menu.open);
+    if (open) { closeMenus(); open.querySelector('summary').focus(); }
+    else if (compact.matches && !nav.hidden) { dismissMobile(); button.focus(); }
+  });
   compact.addEventListener('change', resize);
   resize();
 })();
