@@ -13,6 +13,7 @@
   try { settings = JSON.parse(localStorage.getItem('uesl_toolkit') || '{}'); } catch (_) {}
   function save() { try { localStorage.setItem('uesl_toolkit', JSON.stringify(settings)); } catch (_) {} }
   function pressed(button, active) {
+    if (!button) return;
     button.setAttribute('aria-pressed', String(active));
     button.classList.toggle('accent', active);
   }
@@ -37,13 +38,17 @@
     });
     if (settings.dyslexia) loadDyslexiaFont();
   }
-  toggles.forEach(([id, key]) => $(id).addEventListener('click', () => {
+  toggles.forEach(([id, key]) => $(id)?.addEventListener('click', () => {
     settings[key] = !settings[key]; applyToggles(); save();
   }));
   applyToggles();
 
-  $('toolkit-ruler').addEventListener('click', () => {
+  ruler.hidden = !settings.ruler;
+  pressed($('toolkit-ruler'), !ruler.hidden);
+  if (settings.fontSize) document.documentElement.style.fontSize = settings.fontSize;
+  $('toolkit-ruler')?.addEventListener('click', () => {
     ruler.hidden = !ruler.hidden;
+    settings.ruler = !ruler.hidden; save();
     pressed($('toolkit-ruler'), !ruler.hidden);
   });
   document.addEventListener('pointermove', event => {
@@ -53,9 +58,10 @@
     const html = document.documentElement;
     const current = parseFloat(getComputedStyle(html).fontSize) || 16;
     html.style.fontSize = `${Math.min(28, Math.max(10, current + delta))}px`;
+    settings.fontSize = html.style.fontSize; save();
   }
-  $('toolkit-font-up').addEventListener('click', () => changeSize(2));
-  $('toolkit-font-down').addEventListener('click', () => changeSize(-2));
+  $('toolkit-font-up')?.addEventListener('click', () => changeSize(2));
+  $('toolkit-font-down')?.addEventListener('click', () => changeSize(-2));
   const readingButton = $('toolkit-tts');
   let readingPoll;
   function stopReading() {
@@ -79,12 +85,10 @@
     }
   });
   $('toolkit-shortcuts').addEventListener('click', () => { menu.open = false; window.showKeyboardHelp?.(); });
-  $('toolkit-revert').addEventListener('click', () => {
+  $('toolkit-revert')?.addEventListener('click', () => {
     settings = {}; save(); applyToggles(); stopReading();
     ruler.hidden = true; pressed($('toolkit-ruler'), false);
     document.documentElement.style.removeProperty('font-size');
-    window.SitePreferences?.resetPreferences();
-    document.documentElement.classList.add('user-theme-active');
   });
 
   function openCoach() { menu.open = false; if (!coach.open) coach.showModal(); input.focus(); }

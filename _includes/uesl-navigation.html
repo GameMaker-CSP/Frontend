@@ -9,22 +9,15 @@
       <li><a id="nav-signin-btn" class="ocs__btn" href="{{ '/login' | relative_url }}">Login</a></li>
       <li><button id="nav-social-btn" class="ocs__btn" type="button" hidden>Social</button></li>
       <li id="nav-user-chip" hidden>{% include account-menu.html %}</li>
+      <li><button type="button" class="ocs__btn" id="nod-scroll" aria-pressed="false" hidden>Start head movement scrolling</button></li>
       <li><details id="toolkit-menu">
     <summary id="uesl-chat-btn" class="ocs__btn" aria-label="Accessibility and help">Help</summary>
     <div class="ocs__links">
-      <button type="button" class="ocs__btn" id="nod-scroll" aria-pressed="false" hidden>Start head movement scrolling</button>
       <button class="ocs__btn" id="toolkit-tts"><span class="tk-label">Read selection</span></button>
-      <button class="ocs__btn" id="toolkit-dyslexia" aria-pressed="false">Dyslexia font</button>
-      <button class="ocs__btn" id="toolkit-high-contrast" aria-pressed="false">High contrast</button>
-      <button class="ocs__btn" id="toolkit-focus" aria-pressed="false">Focus mode</button>
-      <button class="ocs__btn" id="toolkit-font-up">Larger text</button>
-      <button class="ocs__btn" id="toolkit-font-down">Smaller text</button>
-      <button class="ocs__btn" id="toolkit-ruler" aria-pressed="false">Reading ruler</button>
       <button class="ocs__btn" id="toolkit-shortcuts">Keyboard shortcuts</button>
       <button class="ocs__btn" id="toolkit-summarize">Summarize page</button>
       <button class="ocs__btn" id="toolkit-chatbot">Ask UESL Coach</button>
       <button class="ocs__btn" id="toolkit-friends">Active friends</button>
-      <button class="ocs__btn" id="toolkit-revert"><span>Reset preferences</span></button>
     </div>
       </details></li>
     </ul>
