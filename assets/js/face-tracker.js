@@ -164,7 +164,7 @@ window.FaceTracker = (() => {
     });
 
     _active = true;
-    _camera.start();
+    await _camera.start();
     _setStatus('Face tracking active');
   }
 

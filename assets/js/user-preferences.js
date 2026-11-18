@@ -245,7 +245,7 @@
         new google.translate.TranslateElement({
           pageLanguage: 'en',
           includedLanguages: Object.keys(LANGUAGES).filter(k => k).join(','),
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL,
           autoDisplay: false
         }, 'google_translate_element');
       };
@@ -262,7 +262,7 @@
     if (!document.getElementById('google-translate-script')) {
       const script = document.createElement('script');
       script.id = 'google-translate-script';
-      script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
       document.head.appendChild(script);
     }
@@ -419,61 +419,9 @@
     }
   }
 
-  async function syncFromBackend() {
-    try {
-      const uri = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-        ? 'http://localhost:8424'
-        : 'https://ueslgame-api.opencodingsociety.com';
-      const res = await fetch(`${uri}/api/user/preferences`, {
-        method: 'GET', mode: 'cors', cache: 'default', credentials: 'include',
-        headers: { 'Content-Type': 'application/json', 'X-Origin': 'client' }
-      });
-      if (!res.ok) return null;
-      const data = await res.json();
-      if (!data || !data.id) return null;
-      if (!data.backgroundColor && !data.textColor) return null;
-      const prefs = {
-        bg: data.backgroundColor || SITE_DEFAULT.bg,
-        text: data.textColor || SITE_DEFAULT.text,
-        font: data.fontFamily || SITE_DEFAULT.font,
-        size: data.fontSize || SITE_DEFAULT.size,
-        accent: data.accentColor || SITE_DEFAULT.accent,
-        selectionColor: data.selectionColor || data.accentColor || SITE_DEFAULT.accent,
-        buttonStyle: data.buttonStyle || 'rounded',
-        language: data.language || '',
-        ttsVoice: data.ttsVoice || '',
-        ttsRate: data.ttsRate || 1.0,
-        ttsPitch: data.ttsPitch || 1.0,
-        ttsVolume: data.ttsVolume || 1.0,
-      };
-      localStorage.setItem(storageKey, JSON.stringify(prefs));
-      return prefs;
-    } catch (e) {
-      return null;
-    }
-  }
-
   async function init() {
-    if (typeof window === 'undefined') return;
-
-    // Check if user explicitly reset preferences - if so, don't load anything
-    const wasReset = window.localStorage.getItem('preferencesReset');
-    if (wasReset === 'true') {
-      // Don't clear the flag here - let the dashboard page handle that
-      // Just don't apply any preferences
-      return;
-    }
-
-    const prefs = loadStoredPreferences();
-    if (prefs) {
-      applyPreferences(prefs);
-    } else {
-      // No local prefs — try backend for logged-in users (cross-device sync)
-      const backendPrefs = await syncFromBackend();
-      if (backendPrefs) {
-        applyPreferences(backendPrefs);
-      }
-    }
+    const local = loadStoredPreferences();
+    if (local) applyPreferences(local);
   }
 
   // Expose helpers for dashboard.html to reuse

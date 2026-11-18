@@ -29,6 +29,16 @@ layout: ocs-account
             </div>
         </div>
     </form>
+<form id="displayPreferences" class="ocs__card ocs__stack">
+  <h2 class="ocs__section-title">Display and accessibility</h2>
+  <div class="ocs__grid cols-2">
+    <label class="ocs__field">Color theme<select class="ocs__input" name="theme"></select></label>
+    <label class="ocs__field">Page language<select class="ocs__input" name="language"></select></label>
+  </div>
+  <label class="ocs__toggle"><input type="checkbox" name="nod">Offer head movement scrolling in Help</label>
+  <div><button disabled class="ocs__btn accent fill">Save preferences</button></div>
+  <p role="status" id="displayStatus"></p>
+</form>
 <section class="ocs__card ocs__stack" aria-labelledby="surveySummaryTitle">
   <h2 class="ocs__section-title" id="surveySummaryTitle">Your play preferences</h2>
   <p id="surveySummary" role="status">Loading your choices…</p>
