@@ -1,5 +1,18 @@
-<div class="ocs__grid cols-3">
-  {% for photo in site.data.uesl_gallery %}
-  {% include uesl-photo-row.html photo=photo %}
-  {% endfor %}
-</div>
+{% assign shared_play = site.data.uesl_gallery | where: "collection", "shared-play" %}
+{% assign racing = site.data.uesl_gallery | where: "collection", "racing" %}
+<section class="ocs__stack" id="shared-play" aria-labelledby="shared-play-heading">
+  <h3 id="shared-play-heading">Playing on the big screen</h3>
+  <div class="ocs__grid cols-2">
+    {% for photo in shared_play %}
+    {% include uesl-photo-row.html photo=photo %}
+    {% endfor %}
+  </div>
+</section>
+<section class="ocs__stack" id="racing" aria-labelledby="racing-heading">
+  <h3 id="racing-heading">Inside a racing simulator</h3>
+  <div class="ocs__grid cols-2">
+    {% for photo in racing %}
+    {% include uesl-photo-row.html photo=photo %}
+    {% endfor %}
+  </div>
+</section>

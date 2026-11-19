@@ -10,9 +10,11 @@ All additions reuse the UESL shell and OCS components; no CSS or Sass was added.
 | Route | Purpose | Content source |
 | --- | --- | --- |
 | `/` | Community homepage and between-events activity | `pages/uesl-home.html` and the includes below |
-| `/events/` | Gatherings, parties, venue inquiries, and tours | `_data/uesl_events.json`, `_includes/uesl-events.html` |
+| `/events/` | Live gathering list, parties, venue inquiries, and tours | `/api/events`, with `_data/uesl_events.json` as a static fallback |
+| `/events/detail/?event=<id>` | Event occurrence, album, and discussion | `assets/js/uesl-community/event-detail.mjs`, `/api/events/<id>` |
+| `/events/photos/manage/` | Staff photo manager | `assets/js/uesl-community/photo-manager.mjs`, authorized event and photo endpoints |
 | `/announcements/` | Dated operating notices | `_data/uesl_announcements.json`, `_includes/uesl-announcements.html` |
-| `/gallery/` | Existing UESL community photographs | `_data/uesl_gallery.json`, `_includes/uesl-gallery.html` |
+| `/gallery/` | Event album index and community photos grouped by activity | `/api/events?albums=true`, `_data/uesl_gallery.json` |
 | `/locations/` | Verified addresses and map links | `_data/uesl_locations.json` |
 | `/contact/` | Official contact form, contacts, and email drafts | `pages/uesl-contact.html`, `assets/js/uesl-community/inquiry.mjs` |
 
@@ -34,9 +36,10 @@ Photos remain hosted by UESL’s Squarespace CDN, with visible attribution and
 descriptive alt text. No participant names or unverified event dates are added.
 Remote photos and PDF guides require an internet connection.
 
-There are no confirmed public event dates in the supplied material. The event
-list intentionally starts empty and offers a real inquiry path. When the team
-confirms an event, add a JSON object with these fields:
+There are no confirmed public event dates in the supplied material. Staff can
+add confirmed occurrences from the photo manager without a repository edit.
+The static event list is an optional fallback; if using it, a JSON object has
+these fields:
 
 | Field | Value to supply |
 | --- | --- |
@@ -91,3 +94,31 @@ are separate from these focused community commits.
 ### Shared event and photo components
 
 Pass a verified event to `uesl-event-card.html` as `event`, plus the current ISO calendar date as `today`. The input supplies title, starts_at, ends_on, when, location, description and the registration URL. The list owns ordering and empty states. Pass a credited photo to `uesl-photo-row.html` as `photo`, with title, alt, image URL, width, height and source URL. The image and caption stay together. On narrow screens the OCS grid collapses to a single column. A keyboard user can tab to registration, the full photo, and its source.
+
+## Event photo and discussion review (#82, #83, #84)
+
+1. Sign in with an existing UESL staff account (Teacher or Admin) and open
+   **Staff: manage event photos** from `/events/`. Choose a confirmed event or
+   create a draft. Upload two approved JPEG, PNG, or WebP photos. Enter what is
+   actually shown, concise alt text, the public credit, and an internal
+   permission reference. Keep participant names out unless approved.
+2. Reorder the photos with **Move earlier/later** and use **Set as cover**.
+   Publish the event when its logistics and photos are approved. Open its public
+   gallery and check the cover, captions, and credits. Tab to a photo, press
+   Enter to enlarge it, and press Escape to close it and return to the link.
+3. Verify that a regular member cannot manage photos. On the public event
+   page, post and reply as a member, edit or remove your own text, then verify
+   staff can remove someone else’s post but cannot edit it. The static
+   community collections are not evidence of a specific event occurrence.
+
+Checks:
+
+```sh
+BUNDLE_GEMFILE=Gemfile.local bundle exec jekyll build --config _config.yml,_config.local.yml
+node --test tests/community-pages.test.cjs tests/rendered-pages.test.cjs
+(cd ../Backend && venv/bin/python -m unittest discover -s tests -p test_community_events.py)
+```
+
+The frontend and Backend must be deployed together to use live event features.
+Keep the issues in review until the relevant PRs and browser evidence have been
+reviewed. No unconfirmed UESL dates or new public photos are seeded by this work.

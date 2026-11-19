@@ -1,0 +1,55 @@
+---
+layout: uesl
+title: Event details
+description: Find the details, photos, and conversation for a UESL gathering.
+permalink: /events/detail/
+---
+<header class="ocs__card ocs__stack">
+  <p class="ocs__caption"><a href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a></p>
+  <h1 id="event-title" class="ocs__section-title">Event details</h1>
+  <p id="event-load" role="status">Loading event…</p>
+  <button type="button" class="ocs__btn" id="event-retry" hidden>Retry event</button>
+  <div id="event-info" class="ocs__stack" hidden>
+    <p id="event-cancelled" class="ocs__callout" hidden>This event was cancelled.</p>
+    <p id="event-time"></p>
+    <p id="event-place"></p>
+    <p id="event-description" class="ocs__description"></p>
+    <ul class="ocs__links">
+      <li><a class="ocs__btn fill" id="event-inquire" href="{{ '/contact/?topic=event' | relative_url }}">Ask the team about attending</a></li>
+      <li><a class="ocs__btn" href="#event-photos">Photos</a></li>
+      <li><a class="ocs__btn" href="#discussion">Discussion</a></li>
+    </ul>
+  </div>
+</header>
+<div id="event-content" class="ocs__stack" hidden>
+  <section id="event-photos" class="ocs__stack" aria-labelledby="event-photos-heading">
+    <header>
+      <h2 class="ocs__section-title" id="event-photos-heading">Event photos</h2>
+      <a href="#event-title">Back to event details</a>
+    </header>
+    <p id="album-status" role="status">Loading photos…</p>
+    <div id="event-cover" class="ocs__grid cols-2" hidden></div>
+    <div id="event-album" class="ocs__grid cols-3"></div>
+    <button type="button" class="ocs__btn" id="album-retry" hidden>Retry photos</button>
+  </section>
+  <section id="discussion" class="ocs__stack" aria-labelledby="discussion-heading">
+    <h2 id="discussion-heading" class="ocs__section-title">Discussion</h2>
+    <p class="ocs__description">Comments are public. Share what you enjoyed, but leave out private information or anyone’s name without permission.</p>
+    <p id="discussion-status" role="status">Loading discussion…</p>
+    <div id="discussion-comments" class="ocs__stack"></div>
+    <div class="ocs__links"><button type="button" id="comments-more" class="ocs__btn" hidden>Load more comments</button></div>
+    <p id="discussion-login" class="ocs__callout" hidden><a href="{{ '/login' | relative_url }}">Sign in</a> to comment or reply.</p>
+    <form id="comment-form" class="ocs__card ocs__stack" hidden>
+      <h3 id="comment-action">Add a comment</h3>
+      <label class="ocs__field">Comment <textarea class="ocs__input" name="text" rows="4" maxlength="1000" required></textarea></label>
+      <div class="ocs__links">
+        <button type="submit" class="ocs__btn fill">Post comment</button>
+        <button id="cancel-comment-action" type="button" class="ocs__btn" hidden>Cancel</button>
+      </div>
+    </form>
+    <p id="comment-feedback" role="status"></p>
+  </section>
+</div>
+{% include uesl-photo-viewer.html %}
+
+<script type="module" src="{{ '/assets/js/uesl-community/event-detail.mjs' | relative_url }}"></script>

@@ -1,8 +1,9 @@
 [
   {
     "id": "play-together",
-    "title": "A game to gather around",
-    "alt": "A group seated together watching a game on a projected screen.",
+    "collection": "shared-play",
+    "title": "The group watches as the game stage “Princess Peach’s Castle” is highlighted on the projector.",
+    "alt": "Rows of seated spectators face a projected video game stage-selection screen.",
     "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729311924-C6ZI8KZG6XQI7XELIJRA/IMG_9057.jpeg",
     "width": 750,
     "height": 562,
@@ -10,8 +11,9 @@
   },
   {
     "id": "racing-seat",
-    "title": "Take the wheel",
-    "alt": "A smiling player using a steering wheel in a racing simulator seat.",
+    "collection": "racing",
+    "title": "A player tries a racing simulator with a mounted steering wheel and a dedicated seat.",
+    "alt": "A smiling player holds a steering wheel while sitting in a red and black simulator seat.",
     "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729891232-2889TSG157J74BZCWY6T/ribboncutting-11.jpg",
     "width": 750,
     "height": 731,
@@ -19,8 +21,9 @@
   },
   {
     "id": "big-screen",
-    "title": "Share the big screen",
-    "alt": "Two people in UESL shirts standing in front of a projected game selection screen.",
+    "collection": "shared-play",
+    "title": "Two people in UESL shirts look up at game stages projected above the stage.",
+    "alt": "Two people seen from behind stand below a large screen filled with small game-stage thumbnails.",
     "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729370571-52M99AHZSXO659YTSEQS/STGM7580.jpg",
     "width": 750,
     "height": 500,

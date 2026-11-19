@@ -25,30 +25,10 @@ permalink: /about/
         </p>
       </div>
 
-      <!-- Photo row: left = real image, right = placeholder for second photo -->
-      <div class="ocs__grid cols-2 ocs__stack">
-
-        <!-- LEFT: UESL team photo -->
-        <div class="ocs__grid-cell">
-          <img class="ocs__image-frame"
-            src="{{ "/images/UESL-piuc.png" | relative_url }}"
-            alt="UESL team group photo"
-            loading="lazy"
-          />
-        </div>
-
-        <!-- RIGHT: UESL and coach photo -->
-        <div class="ocs__grid-cell">
-          <img class="ocs__image-frame"
-            src="{{ "/images/UESLandcoeac.png" | relative_url }}"
-            alt="UESL and coach"
-            loading="lazy"
-          />
-        </div>
-
-      </div>
+      <p><a class="ocs__btn" href="{{ '/gallery/' | relative_url }}">Explore captioned community photos</a></p>
 
       <!-- Team -->
+      <h2 class="ocs__section-title">Meet the team</h2>
       <div class="ocs__stack">
         <h2 class="ocs__section-title">Management</h2>
         <div class="ocs__grid">
@@ -120,9 +100,10 @@ permalink: /about/
       <!-- Client Services -->
       <div class="ocs__stack">
         <h2 class="ocs__section-title">Client Services</h2>
-        <div>
+        <figure class="ocs__card ocs__container ocs__stack">
           <img class="ocs__image-frame" src="{{ "/images/WEndy.png" | relative_url }}" alt="Wendy Munoz" loading="lazy" />
-        </div>
+          <figcaption>Wendy Munoz · Client Services</figcaption>
+        </figure>
       </div>
 
       <!-- Advisory Board -->
@@ -170,11 +151,12 @@ permalink: /about/
       <!-- Partners -->
       <div class="ocs__stack">
         <h2 class="ocs__section-title">Trusted Partners &amp; Affiliations</h2>
-        <div class="ocs__grid-cell">
+        <figure class="ocs__card ocs__container ocs__stack">
           <img class="ocs__image-frame"
             src="https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/de1f0ba7-3472-4964-ac4b-fce208880050/UESL+Logos.png"
             alt="UESL Partner Logos" loading="lazy"
           />
-        </div>
+          <figcaption>Organizations shown on UESL’s official partner and affiliations graphic.</figcaption>
+        </figure>
       </div>
     </section>
