@@ -2,6 +2,7 @@
 {% assign today = site.time | date: '%Y-%m-%d' %}
 {% assign event_count = 0 %}
 <div class="ocs__stack" data-events-list>
+  <div class="ocs__stack" data-community-feed="events"{% if page.url == "/" %} data-limit="2"{% endif %}></div>
   {% for event in events %}
   {% if event.ends_on >= today %}
   {% assign event_count = event_count | plus: 1 %}

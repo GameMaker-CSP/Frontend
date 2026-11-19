@@ -25,5 +25,113 @@
     "width": 750,
     "height": 500,
     "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "gaming-room",
+    "title": "Inside the gaming room",
+    "alt": "Two gaming chairs face the monitors beneath the illuminated Game Time sign.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/7fbc8e87-a61f-4a6e-b80a-f85f909399d0/IMG_4323.jpg",
+    "width": 750,
+    "height": 574,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "controller-group",
+    "title": "Gathering around a game",
+    "alt": "A player holds a controller at a monitor while others watch from beside the desk.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729831744-2AYUJEBJEQVYQ49GKR9F/ribboncutting-8.jpg",
+    "width": 750,
+    "height": 500,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "drawing",
+    "title": "From screen to paper",
+    "alt": "A participant leans over a drawing at a table beside the computer stations.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729442419-GU5ECH4XJYS29MJ0PACA/IMG_2295.jpg",
+    "width": 750,
+    "height": 1000,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "outdoor-court",
+    "title": "Outside on the court",
+    "alt": "Participants spread out across an outdoor court beside a net.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729412623-WT9LLGQ97UJEO2W3TX33/IMG_1791.jpg",
+    "width": 750,
+    "height": 1000,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "desk-game",
+    "title": "At the keyboard",
+    "alt": "A player sits at a desktop game beneath two wall lights.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1760729436787-L44PRUEXBA7VS17YJKZ5/IMG_2302.jpg",
+    "width": 750,
+    "height": 1000,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "audience",
+    "title": "Watching together",
+    "alt": "Spectators fill several rows of seats facing a stage.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353092869-8LDU0L8V6B5A3P5Q1CPX/DSC01809.jpg",
+    "width": 750,
+    "height": 1123,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "stage-player",
+    "title": "On stage with a controller",
+    "alt": "Under blue stage lights, a player holds a controller in front of a game screen.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353092969-UT4LU457V80V9DVVH0BJ/DSC01881.jpg",
+    "width": 750,
+    "height": 1123,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "stage-setup",
+    "title": "Side by side on stage",
+    "alt": "Two people stand beside gaming monitors under the stage lights.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353114655-RZ9OM9D91ZQ8HWD9PP1X/DSC01919.jpg",
+    "width": 750,
+    "height": 1123,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "controller",
+    "title": "Hands on the controller",
+    "alt": "A close-up shows a player holding a white game controller.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353109543-HMKO4JFS47YTPLP279VC/IMG_1064.JPG",
+    "width": 750,
+    "height": 1000,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "community-room",
+    "title": "A roomful of players",
+    "alt": "Participants gather around tables facing a projected screen.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353115263-VI41922B7DZRSH0IVODZ/IMG_1245.jpg",
+    "width": 750,
+    "height": 562,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "teri-suns",
+    "title": "TERI Suns team",
+    "alt": "Team members in blue shirts pose together for a group photo.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353161164-3C86Q6K9JZXTFL40VOSX/Playstation+donation+for+TERI+Suns+Team..jpg",
+    "width": 750,
+    "height": 587,
+    "source": "https://www.unifiedesl.com/"
+  },
+  {
+    "id": "san-marcos",
+    "title": "A stretch break in San Marcos",
+    "alt": "Participants stretch together outside on a green field.",
+    "image": "https://images.squarespace-cdn.com/content/v1/62745a437b7f84059eb84a95/1776353164219-238ZNNQGFC57GHRRSLDV/San+Marcos+Clients+Stretching.png",
+    "width": 750,
+    "height": 522,
+    "source": "https://www.unifiedesl.com/"
   }
 ]

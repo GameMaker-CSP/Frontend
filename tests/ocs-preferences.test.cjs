@@ -29,7 +29,7 @@ test('repeated theme changes replace tokens and reset restores CSS defaults with
   assert.equal(properties.get('--pref-button-radius'), '9999px');
   assert.equal(properties.get('--ocs-on-accent'), '#000000');
   api.applyPreferences({ ...api.PRESETS.Light, size: 18, buttonStyle: 'square' });
-  assert.equal(properties.get('--pref-text-color'), '#172b3a');
+  assert.equal(properties.get('--pref-text-color'), api.PRESETS.Light.text);
   assert.equal(properties.get('--pref-font-size'), '18px');
   assert.equal(properties.get('--pref-button-radius'), '0');
   assert.equal(properties.get('--ocs-on-accent'), '#ffffff');

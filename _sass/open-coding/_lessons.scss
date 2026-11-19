@@ -1,3 +1,4 @@
+@use "floating-menu";
 // Course and post layout
 /* === Post Header === */
   .post-header h3 {
@@ -321,7 +322,7 @@
 .ocs-document .timeline-modal-overlay.open { display: block; position: fixed; inset: 0; z-index: 90; background: rgba(0,0,0,.65); }
 .ocs-document .timeline-modal.open { display: block; position: fixed; inset: 5vh 1rem; z-index: 100; overflow: auto; padding: 1rem; background: var(--panel); color: var(--pref-text-color); border-radius: var(--ocs-radius); }
 .ocs-document .timeline-modal-header { display: flex; align-items: center; justify-content: space-between; }
-.ocs-document .floating-menu-btn { position: fixed; right: 1rem; bottom: 1rem; z-index: 80; }
+
 .ocs-document .modal-sprint-header, .ocs-document .modal-lesson-item { display: block; padding: .75rem; }
 @media (max-width: 48rem) {
   .ocs-document .lesson-player { grid-template-columns: minmax(0, 1fr); }
