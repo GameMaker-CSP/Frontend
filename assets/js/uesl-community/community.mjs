@@ -97,7 +97,7 @@ export async function command(text, slot) {
         } while (batch.length === 50);
         if (!select.length) { form.replaceChildren(node('p','Create an event with /event first.')); return; }
         field(form,'image','Photo (up to 5 MB)','file').accept='image/jpeg,image/png,image/webp';
-        field(form,'caption','Gallery caption'); field(form,'alt','Image description'); field(form,'credit','Photo credit');
+        field(form,'caption','Event or venue for the public caption'); field(form,'alt','Image description'); field(form,'credit','Photo credit');
         field(form,'permission','I have permission to publish this photo','checkbox').value='yes';
         submit = () => request('/events/'+select.value+'/photos','POST',new FormData(form));
     }
