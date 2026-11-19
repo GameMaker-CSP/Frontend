@@ -1,0 +1,17 @@
+---
+layout: opencs
+---
+{% if page.portfolio_style %}
+  {% assign stylesheet = '/assets/css/portfolio-preview/' | append: page.portfolio_style | append: '.css' %}
+  <link rel="stylesheet" href="{{ stylesheet | relative_url }}">
+{% endif %}
+<style>
+  .portfolio-preview [hidden], .portfolio-preview .hidden { display: none !important; }
+</style>
+<div class="portfolio-preview">
+  <p><a href="{{ '/portfolio-systems/' | relative_url }}">Portfolio systems preview</a></p>
+  {% if page.portfolio_backend %}
+    <p>This preview requires a compatible Portfolio backend. Your regular UESL account does not sign you into that backend.</p>
+  {% endif %}
+  {{ content }}
+</div>

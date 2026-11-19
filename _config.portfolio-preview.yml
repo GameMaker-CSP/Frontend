@@ -1,0 +1,6 @@
+# Append to the local Jekyll config list to try the imported systems.
+# Use only with backends you control; production UESL does not load this file.
+portfolio_systems_preview: true
+portfolio_spring_url: "http://127.0.0.1:8585"
+portfolio_chat_url: "http://127.0.0.1:8589"
+portfolio_flask_url: "http://127.0.0.1:8587"
