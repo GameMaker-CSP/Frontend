@@ -1,5 +1,8 @@
 <div class="ocs__grid cols-3">
-  {% for photo in site.data.uesl_gallery %}
+  {% if page.url == '/' %}{% assign photo_limit = 3 %}{% else %}{% assign photo_limit = site.data.uesl_gallery.size %}{% endif %}
+  {% for photo in site.data.uesl_gallery limit:photo_limit %}
   {% include uesl-photo-row.html photo=photo %}
   {% endfor %}
 </div>
+
+<div class="ocs__grid cols-3" data-community-feed="photos"{% if page.url == "/" %} data-limit="3"{% endif %}></div>

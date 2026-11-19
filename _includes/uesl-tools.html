@@ -6,11 +6,13 @@
     <form method="dialog"><button class="ocs__btn">Close</button></form>
   </div>
 </dialog>
-<dialog id="uesl-chat-window" class="ocs__card" aria-labelledby="coach-title">
+<button class="ocs__btn accent fill floating-menu-btn" id="open-community-chat" type="button" aria-haspopup="dialog" aria-controls="uesl-chat-window">Chat</button>
+<dialog id="uesl-chat-window" class="ocs__card floating-menu-btn" aria-labelledby="coach-title">
   <div class="ocs__stack">
     <div class="ocs__links"><h2 id="coach-title" class="ocs__section-title">UESL Coach</h2><button id="uesl-chat-close" class="ocs__btn">Close</button></div>
-    <div id="uesl-chat-messages" class="ocs__stack" aria-live="polite"><p class="ocs__description">Ask about UESL locations, joining, or games.</p></div>
+    <div id="uesl-chat-messages" class="ocs__stack" aria-live="polite"><p class="ocs__description">Ask about UESL or type /event to see upcoming events. Staff can also publish an event or add a photo.</p></div>
+    <div id="community-command" class="ocs__stack"></div>
     <label class="ocs__field" for="uesl-chat-input">Your question<input class="ocs__input" id="uesl-chat-input" type="text" autocomplete="off" maxlength="300"></label>
-    <button id="uesl-chat-send" class="ocs__btn accent">Send question</button>
+    <button id="uesl-chat-send" class="ocs__btn accent">Send</button>
   </div>
 </dialog>

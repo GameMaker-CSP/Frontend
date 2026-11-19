@@ -8,6 +8,9 @@
   const ruler = $('reading-ruler');
   const backend = document.body.dataset.apiSameOrigin === 'true' ? location.origin
     : (['localhost', '127.0.0.1'].includes(location.hostname) ? `http://${location.hostname}:8424` : 'https://ueslgame-api.opencodingsociety.com');
+  if (document.querySelector('[data-community-feed]')) {
+    import('./community.mjs').then(module => module.refreshCommunity()).catch(() => {});
+  }
   const history = [];
   let settings = {};
   try { settings = JSON.parse(localStorage.getItem('uesl_toolkit') || '{}'); } catch (_) {}
@@ -41,6 +44,19 @@
   toggles.forEach(([id, key]) => $(id)?.addEventListener('click', () => {
     settings[key] = !settings[key]; applyToggles(); save();
   }));
+  document.addEventListener('uesl:reading-preferences', ({detail}) => {
+    for (const key of ['dyslexia','highContrast','focus','ruler']) {
+      if (typeof detail[key] === 'boolean') settings[key] = detail[key];
+    }
+    if (Object.hasOwn(detail, 'readingSize')) {
+      settings.fontSize = detail.readingSize ? detail.readingSize + 'px' : '';
+      document.documentElement.style.fontSize = settings.fontSize;
+    }
+    applyToggles();
+    ruler.hidden = !settings.ruler;
+    pressed($('toolkit-ruler'), !ruler.hidden);
+    save();
+  });
   applyToggles();
 
   ruler.hidden = !settings.ruler;
@@ -92,6 +108,7 @@
   });
 
   function openCoach() { menu.open = false; if (!coach.open) coach.showModal(); input.focus(); }
+  $('open-community-chat').addEventListener('click', openCoach);
   $('toolkit-chatbot').addEventListener('click', openCoach);
   $('uesl-chat-close').addEventListener('click', () => coach.close());
   $('toolkit-summarize').addEventListener('click', () => {
@@ -110,7 +127,17 @@
     const text = input.value.trim();
     if (!text || send.disabled) return;
     input.value = ''; send.disabled = true;
-    addMessage(text, 'You'); history.push({ role: 'user', content: text });
+    addMessage(text, 'You');
+    if (text.startsWith('/')) {
+      try {
+        const {command} = await import('./community.mjs');
+        await command(text, $('community-command'));
+      } catch { addMessage('Community service unavailable. Please try again.', 'Coach'); }
+      finally { send.disabled = false; }
+      return;
+    }
+    $('community-command').replaceChildren();
+    history.push({ role: 'user', content: text });
     const pending = addMessage('Thinking…', 'Coach');
     try {
       const response = await fetch(`${backend}/api/uesl-chat`, {

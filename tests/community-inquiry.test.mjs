@@ -27,7 +27,7 @@ test('past events disappear and the inquiry fallback returns when none remain', 
   const element = end => ({ dataset: { eventEnd: end }, classList: { toggle(_name, hidden) { this.hidden = hidden; } } });
   const cards = [element('2026-11-11'), element('2026-11-12')];
   const empty = element();
-  const root = { querySelectorAll: () => cards, querySelector: () => empty };
+  const root = { querySelectorAll: () => cards, querySelector: selector => selector === "[data-events-empty]" ? empty : null };
   refreshEvents(root, '2026-11-12');
   assert.deepEqual(cards.map(card => card.classList.hidden), [true, false]);
   assert.equal(empty.classList.hidden, true);

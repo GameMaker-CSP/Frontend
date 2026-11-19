@@ -35,8 +35,7 @@ descriptive alt text. No participant names or unverified event dates are added.
 Remote photos and PDF guides require an internet connection.
 
 There are no confirmed public event dates in the supplied material. The event
-list intentionally starts empty and offers a real inquiry path. When the team
-confirms an event, add a JSON object with these fields:
+list intentionally starts empty and offers a real inquiry path. Staff can publish confirmed gatherings using **Chat → /event**. **/photo** attaches an approved photo, caption, image description and credit to an event. Published records load from the backend alongside the curated entries. The calendar reads `GET /api/community/events?from=…&until=…` with ISO timestamps; the gallery reads `GET /api/community/photos`. Drafts are visible only to staff. The fields below describe the older curated event format:
 
 | Field | Value to supply |
 | --- | --- |

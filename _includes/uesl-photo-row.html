@@ -2,5 +2,5 @@
     <a href="{{ include.photo.image | escape }}" target="_blank" rel="noopener" aria-label="View full photo: {{ include.photo.title | escape }} (new tab)">
       <img class="ocs__image-frame" src="{{ include.photo.image | escape }}?format=750w" alt="{{ include.photo.alt | escape }}" width="{{ include.photo.width }}" height="{{ include.photo.height }}" loading="lazy" decoding="async">
     </a>
-    <figcaption><strong>{{ include.photo.title | escape }}</strong><br><a href="{{ include.photo.source | escape }}">Photo: Unified Esports League</a></figcaption>
+    <figcaption><strong>{{ include.photo.title | escape }}</strong><p>{{ include.photo.context | escape }}</p><a href="{{ include.photo.source | escape }}">Photo and source: Unified Esports League</a></figcaption>
   </figure>

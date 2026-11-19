@@ -35,17 +35,32 @@ layout: ocs-account
     <label class="ocs__field">Color theme<select class="ocs__input" name="theme"></select></label>
     <label class="ocs__field">Page language<select class="ocs__input" name="language"></select></label>
   </div>
+  <details class="ocs__stack">
+    <summary>Customize appearance</summary>
+    <div class="ocs__grid cols-2">
+      {% assign color_fields = 'bg:Background,text:Text,accent:Accent,selectionColor:Text selection' | split: ',' %}
+      {% for item in color_fields %}{% assign field = item | split: ':' %}
+      <label class="ocs__field">{{ field[1] }}<input type="color" name="{{ field[0] }}"></label>
+      {% endfor %}
+      <label class="ocs__field">Font<select class="ocs__input" name="fontName"></select></label>
+      <label class="ocs__field">Text size<input type="range" name="size" min="12" max="22"><output id="appearance-size"></output></label>
+      <label class="ocs__field">Button shape<select class="ocs__input" name="buttonStyle"><option value="rounded">Rounded</option><option value="square">Square</option><option value="pill">Pill</option></select></label>
+    </div>
+    <label class="ocs__field">Describe a color palette<input class="ocs__input" name="paletteIdea" maxlength="160" placeholder="For example, a retro arcade"></label>
+    <button type="button" class="ocs__btn" id="generate-palette">Generate palette</button>
+    <span role="status" id="palette-status"></span>
+  </details>
   <div class="ocs__links" aria-live="polite">
     <span>Text contrast <output class="ocs__status-pill" id="text-contrast"></output></span>
     <span>Accent contrast <output class="ocs__status-pill" id="accent-contrast"></output></span>
   </div>
   <label class="ocs__toggle"><input type="checkbox" name="nod">Show the head tracking control in the navigation</label>
-  <div><button disabled class="ocs__btn accent fill">Save preferences</button></div>
+  <div><button type="submit" disabled class="ocs__btn accent fill">Save preferences</button></div>
   <p role="status" id="displayStatus"></p>
 </form>
 <section class="ocs__card ocs__stack" aria-labelledby="readingPreferences">
   <h2 id="readingPreferences" class="ocs__section-title">Reading settings</h2>
-  <p class="ocs__description">These settings apply on this device.</p>
+  <p class="ocs__description">Use Save preferences to keep these choices with your profile.</p>
   <div class="ocs__links">
       <button class="ocs__btn" id="toolkit-dyslexia" aria-pressed="false">Dyslexia font</button>
       <button class="ocs__btn" id="toolkit-high-contrast" aria-pressed="false">High contrast</button>

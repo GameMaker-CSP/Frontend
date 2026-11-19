@@ -62,7 +62,10 @@ test('announcements and gallery retain source attribution and complete records',
   for (const photo of JSON.parse(read('_data/uesl_gallery.json'))) {
     assert.equal(new URL(photo.image).hostname, 'images.squarespace-cdn.com');
     assert.ok(photo.alt.length > 20 && photo.width > 0 && photo.height > 0);
-    assert.ok(read('_site/gallery/index.html').includes(photo.image));
+    const gallery = read('_site/gallery/index.html');
+    assert.ok(gallery.includes(photo.image));
+    assert.ok(photo.context && gallery.includes(photo.context));
+    assert.ok(!gallery.includes('<p>' + photo.alt + '</p>'));
   }
   for (const event of JSON.parse(read('_data/uesl_events.json'))) {
     for (const field of ['title', 'starts_at', 'ends_on', 'when', 'location', 'description', 'url']) assert.ok(event[field], `Missing ${field}`);
