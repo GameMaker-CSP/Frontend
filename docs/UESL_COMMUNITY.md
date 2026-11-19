@@ -93,9 +93,16 @@ are separate from these focused community commits.
 
 ### Shared event and photo components
 
-Pass a verified event to `uesl-event-card.html` as `event`, plus the current ISO calendar date as `today`. The input supplies title, starts_at, ends_on, when, location, description and the registration URL. The list owns ordering and empty states. Pass a credited photo to `uesl-photo-row.html` as `photo`, with title, alt, image URL, width, height and source URL. The image and caption stay together. On narrow screens the OCS grid collapses to a single column. A keyboard user can tab to registration, the full photo, and its source.
+Pass a verified event to `uesl-event-card.html` as `event`, plus the current ISO calendar date as `today`. The input supplies title, starts_at, ends_on, when, location, description and the registration URL. The list owns ordering and empty states. Pass a credited photo to `uesl-photo-row.html` as `photo`, with `title` (the visible caption), `alt`, `image`, `width`, `height` and `source`. Live album cards and the manager use `photoFigure` from `photo-gallery.mjs`: pass the API record with `caption`, `alt`, `credit`, `thumbnail`, `image`, `width` and `height`. The album index uses `photoPreview` for the selected cover. The image, caption and credit stay together if the thumbnail fails. On narrow screens the OCS grid collapses to a single column. On the detail page a keyboard user can open the viewer with Enter, close it with Escape or its Close button, and return to the opening link.
 
 ## Event photo and discussion review (#82, #83, #84)
+
+Browser evidence from an isolated database with synthetic photos:
+[mobile album](evidence/event-photos-discussion/event-album-mobile.jpg),
+[staff manager](evidence/event-photos-discussion/staff-photo-manager.jpg), and
+[mobile discussion](evidence/event-photos-discussion/event-discussion-mobile.jpg).
+The walkthrough also checked rejected uploads, broken thumbnails, member
+access denial, a failed discussion read, and a failed post that kept its draft.
 
 1. Sign in with an existing UESL staff account (Teacher or Admin) and open
    **Staff: manage event photos** from `/events/`. Choose a confirmed event or
@@ -104,7 +111,8 @@ Pass a verified event to `uesl-event-card.html` as `event`, plus the current ISO
    permission reference. Keep participant names out unless approved.
 2. Reorder the photos with **Move earlier/later** and use **Set as cover**.
    Publish the event when its logistics and photos are approved. Open its public
-   gallery and check the cover, captions, and credits. Tab to a photo, press
+   gallery and check the cover, captions, and credits. The Gallery index
+   should show the same selected cover. Tab to a photo, press
    Enter to enlarge it, and press Escape to close it and return to the link.
 3. Verify that a regular member cannot manage photos. On the public event
    page, post and reply as a member, edit or remove your own text, then verify
@@ -115,7 +123,8 @@ Checks:
 
 ```sh
 BUNDLE_GEMFILE=Gemfile.local bundle exec jekyll build --config _config.yml,_config.local.yml
-node --test tests/community-pages.test.cjs tests/rendered-pages.test.cjs
+node --test tests/community-pages.test.cjs tests/community-inquiry.test.mjs tests/rendered-pages.test.cjs
+BUNDLE_GEMFILE=Gemfile.local bundle exec ruby tests/community_render_test.rb
 (cd ../Backend && venv/bin/python -m unittest discover -s tests -p test_community_events.py)
 ```
 

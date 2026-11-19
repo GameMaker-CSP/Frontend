@@ -126,13 +126,16 @@ export function mountDiscussion(eventId) {
     setBusy(true);
     feedback.textContent = 'Saving comment…';
     try {
-      if (mode.edit) await request(`${path}/${mode.edit}`, 'PUT', { text: text.value });
-      else await request(path, 'POST', { text: text.value, parent_id: mode.parent ?? null });
+      const posted = mode.edit ? await request(`${path}/${mode.edit}`, 'PUT', { text: text.value }) :
+        await request(path, 'POST', { text: text.value, parent_id: mode.parent ?? null });
       const message = mode.edit ? 'Changes saved.' : 'Comment posted.';
       text.value = '';
       switchMode({ key: 'new' });
       feedback.textContent = message;
       await load(true);
+      if (posted?.id && cursor && !records.some(record => record.id === posted.id)) {
+        feedback.textContent = 'Comment posted. Use “Load more comments” to see it in the discussion.';
+      }
     } catch (error) {
       feedback.textContent = `${error.message} Your draft has been kept.`;
       if (error.status === 401) $('discussion-login').hidden = false;

@@ -1,4 +1,5 @@
 import { button, eventLink, node, request, timestamp } from './event-api.mjs';
+import { photoPreview } from './photo-gallery.mjs';
 
 for (const section of document.querySelectorAll('[data-event-feed]')) {
   const feed = section.dataset.eventFeed;
@@ -26,7 +27,9 @@ for (const section of document.querySelectorAll('[data-event-feed]')) {
         link.setAttribute('aria-label', `${link.textContent}: ${event.title}`);
         const actions = node('div', '', 'ocs__links');
         actions.append(link);
-        card.append(title, date, node('p', event.location), actions);
+        card.append(title, date, node('p', event.location));
+        if (feed === 'albums' && event.cover) card.append(photoPreview(event.cover));
+        card.append(actions);
         if (event.state === 'cancelled') title.append(' · Cancelled');
         list.append(card);
       }

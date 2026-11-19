@@ -4,15 +4,17 @@ title: Event details
 description: Find the details, photos, and conversation for a UESL gathering.
 permalink: /events/detail/
 ---
-<header class="ocs__card ocs__stack">
+<header class="ocs__card ocs__infograph-header">
   <p class="ocs__caption"><a href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a></p>
   <h1 id="event-title" class="ocs__section-title">Event details</h1>
   <p id="event-load" role="status">Loading event…</p>
   <button type="button" class="ocs__btn" id="event-retry" hidden>Retry event</button>
   <div id="event-info" class="ocs__stack" hidden>
     <p id="event-cancelled" class="ocs__callout" hidden>This event was cancelled.</p>
-    <p id="event-time"></p>
-    <p id="event-place"></p>
+    <div class="ocs__case-meta">
+      <span id="event-time"></span>
+      <span class="ocs__badge" id="event-place"></span>
+    </div>
     <p id="event-description" class="ocs__description"></p>
     <ul class="ocs__links">
       <li><a class="ocs__btn fill" id="event-inquire" href="{{ '/contact/?topic=event' | relative_url }}">Ask the team about attending</a></li>

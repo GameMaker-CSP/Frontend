@@ -1,24 +1,40 @@
 import { node, photoURL } from './event-api.mjs';
 
 export function photoFigure(photo) {
-  const figure = node('figure', '', 'ocs__card ocs__container ocs__stack');
+  return photoPreview(photo, true);
+}
+
+export function photoPreview(photo, enlarge = false) {
+  const figure = node('figure', '', enlarge ? 'ocs__card ocs__stack ocs__grid-cell' : 'ocs__stack ocs__grid-cell');
   const image = node('img', '', 'ocs__image-frame ocs__module-image');
-  const link = node('a', '', 'ocs__grid-cell');
-  link.href = photoURL(photo.image);
-  link.dataset.photoOpen = '';
   image.alt = photo.alt;
-  link.setAttribute('aria-label', `Enlarge photo: ${photo.alt}`);
   image.width = photo.width;
   image.height = photo.height;
   image.loading = 'lazy';
   image.decoding = 'async';
-  image.src = photoURL(photo.thumbnail);
-  link.append(image);
+  const thumbnail = photoURL(photo.thumbnail);
+  const full = photoURL(photo.image);
+  let media = image;
+  if (enlarge && full) {
+    const link = node('a', '', 'ocs__grid-cell');
+    link.href = full;
+    link.dataset.photoOpen = '';
+    link.setAttribute('aria-label', `Enlarge photo: ${photo.alt}`);
+    link.append(image);
+    media = link;
+  }
   const caption = node('figcaption', '', 'ocs__stack');
   caption.append(node('strong', photo.caption), node('span', `Photo: ${photo.credit}`, 'ocs__caption'));
-  figure.append(link, node('p', 'Photo unavailable.', 'ocs__callout'), caption);
-  figure.children[1].hidden = true;
-  figure.children[1].dataset.photoFailed = '';
+  const failure = node('p', 'Photo unavailable.', 'ocs__callout');
+  failure.dataset.photoFailed = '';
+  failure.hidden = Boolean(thumbnail);
+  media.hidden = !thumbnail;
+  image.addEventListener('error', () => {
+    media.hidden = true;
+    failure.hidden = false;
+  });
+  if (thumbnail) image.src = thumbnail;
+  figure.append(media, failure, caption);
   return figure;
 }
 
