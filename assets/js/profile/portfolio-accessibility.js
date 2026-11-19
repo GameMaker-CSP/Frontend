@@ -68,6 +68,20 @@ export function showThemeContrast(preset) {
     updateCheck(document.getElementById('accent-contrast'), contrastRatio(preset.bg, preset.accent));
 }
 
+export function restoreTrackingOptions({mode, sensitivity}) {
+    Object.assign(head, {mode, sensitivity});
+    localStorage.setItem('ueslHeadTracking', JSON.stringify(head));
+    const select = document.getElementById('head-mode');
+    if (!select) return;
+    select.value = mode;
+    const range = document.getElementById('head-sensitivity');
+    range.value = sensitivity;
+    range.nextElementSibling.value = range.value;
+}
+export function restoreSpeechOptions({ttsVoice, ttsRate, ttsPitch, ttsVolume}) {
+    localStorage.setItem('ueslSpeech', JSON.stringify({ttsVoice, ttsRate, ttsPitch, ttsVolume}));
+    document.dispatchEvent(new Event('uesl:speech-preferences'));
+}
 export function setupPortfolioControls() {
     const mode = document.getElementById('head-mode');
     if (!mode) return;
@@ -110,6 +124,15 @@ export function setupPortfolioControls() {
         voice.value = settings.voice;
         if (voice.selectedIndex < 0) voice.selectedIndex = 0;
     }
+    document.addEventListener('uesl:speech-preferences', () => {
+        Object.assign(settings, window.SitePreferences.getTTSSettings());
+        voices();
+        for (const key of ['rate','pitch','volume']) {
+            const input = document.getElementById('pref-tts-' + key);
+            input.value = settings[key];
+            input.nextElementSibling.value = input.value;
+        }
+    });
     voices();
     synth.addEventListener('voiceschanged',voices);
     const persist = () => localStorage.setItem('ueslSpeech', JSON.stringify({
