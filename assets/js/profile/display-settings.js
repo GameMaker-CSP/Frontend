@@ -151,6 +151,7 @@ try {
     const response = await fetch(endpoint + '?extended=1', { ...fetchOptions, cache: 'no-store' });
     if (response.ok) {
         const data = await response.json();
+        if (!data.options && form) form.elements.theme.querySelector('option[value="Sunset"]')?.remove();
         if (!data.options || !Object.keys(data.options).length) {
             const identity = await fetch(pythonURI + '/api/id', {...fetchOptions, cache:'no-store'});
             if (!identity.ok) throw Error();
