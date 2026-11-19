@@ -41,6 +41,19 @@
   toggles.forEach(([id, key]) => $(id)?.addEventListener('click', () => {
     settings[key] = !settings[key]; applyToggles(); save();
   }));
+  document.addEventListener('uesl:reading-preferences', ({detail}) => {
+    for (const key of ['dyslexia','highContrast','focus','ruler']) {
+      if (typeof detail[key] === 'boolean') settings[key] = detail[key];
+    }
+    if (Object.hasOwn(detail, 'readingSize')) {
+      settings.fontSize = detail.readingSize ? detail.readingSize + 'px' : '';
+      document.documentElement.style.fontSize = settings.fontSize;
+    }
+    applyToggles();
+    ruler.hidden = !settings.ruler;
+    pressed($('toolkit-ruler'), !ruler.hidden);
+    save();
+  });
   applyToggles();
 
   ruler.hidden = !settings.ruler;

@@ -38,46 +38,39 @@
   const PRESETS = {
     'Site Default': SITE_DEFAULT,
     Midnight: {
-      bg: '#0b1220',
-      text: '#e6eef8',
+      bg: '#0b1220', text: '#e6eef8',
       font: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-      size: 14,
-      accent: '#3b82f6',
+      size: 14, accent: '#5392f7',
     },
     Light: {
-      bg: '#ffffff',
-      text: '#172b3a',
+      bg: '#ffffff', text: '#9d174d',
       font: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-      size: 14,
-      accent: '#2563eb',
+      size: 14, accent: '#1759ea',
     },
     Green: {
-      bg: '#154734',
-      text: '#e6f6ef',
+      bg: '#154734', text: '#e6f6ef',
       font: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
-      size: 14,
-      accent: '#10b981',
+      size: 14, accent: '#16eba4',
     },
     Sepia: {
-      bg: '#f4ecd8',
-      text: '#A52A2A',
+      bg: '#f4ecd8', text: '#8b1e1e',
       font: "Georgia, 'Times New Roman', Times, serif",
-      size: 14,
-      accent: '#b45309',
+      size: 14, accent: '#924307',
     },
     Cyberpunk: {
-      bg: '#0a0a0f',
-      text: '#f0f0f0',
+      bg: '#0a0a0f', text: '#f0f0f0',
       font: "'Source Code Pro', monospace",
-      size: 14,
-      accent: '#f72585',
+      size: 14, accent: '#f84396',
     },
     Ocean: {
-      bg: '#0c1929',
-      text: '#e0f2fe',
+      bg: '#0c1929', text: '#e0f2fe',
       font: "'Open Sans', Arial, sans-serif",
-      size: 15,
-      accent: '#06b6d4',
+      size: 15, accent: '#06b6d4',
+    },
+    Sunset: {
+      bg: '#2a1433', text: '#fbe7d4',
+      font: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+      size: 14, accent: '#ff7f6b',
     },
   };
 
@@ -138,7 +131,7 @@
     document.head.appendChild(link);
   }
 
-  function applyPreferences(prefs) {
+  function applyPreferences(prefs, {preview = false} = {}) {
     const base = SITE_DEFAULT;
     const bg       = prefs?.bg       || base.bg;
     const text     = prefs?.text     || base.text;
@@ -216,7 +209,7 @@
 
     set('--pref-button-radius', buttonStyle === 'square' ? '0' : buttonStyle === 'pill' ? '9999px' : '0.375rem');
 
-    applyLanguage(prefs?.language || '');
+    if (!preview) applyLanguage(prefs?.language || '');
   }
 
   // Google Translate integration
