@@ -1,6 +1,7 @@
-<figure class="ocs__stack ocs__grid-cell">
-    <a href="{{ include.photo.image | escape }}" target="_blank" rel="noopener" aria-label="View full photo: {{ include.photo.title | escape }} (new tab)">
-      <img class="ocs__image-frame" src="{{ include.photo.image | escape }}?format=750w" alt="{{ include.photo.alt | escape }}" width="{{ include.photo.width }}" height="{{ include.photo.height }}" loading="lazy" decoding="async">
+<figure class="ocs__card ocs__container ocs__stack">
+    <a class="ocs__grid-cell" href="{{ include.photo.image | escape }}?format=1500w" data-photo-open aria-label="Enlarge photo: {{ include.photo.alt | escape }}">
+      <img class="ocs__image-frame{% unless include.featured %} ocs__module-image{% endunless %}" src="{{ include.photo.image | escape }}?format=500w" srcset="{{ include.photo.image | escape }}?format=500w 500w, {{ include.photo.image | escape }}?format=750w 750w" sizes="(max-width: 768px) 90vw, 500px" alt="{{ include.photo.alt | escape }}" width="{{ include.photo.width }}" height="{{ include.photo.height }}" {% if include.featured %}fetchpriority="high"{% else %}loading="lazy"{% endif %} decoding="async">
     </a>
-    <figcaption><strong>{{ include.photo.title | escape }}</strong><br><a href="{{ include.photo.source | escape }}">Photo: Unified Esports League</a></figcaption>
-  </figure>
+    <p class="ocs__callout" data-photo-failed hidden>Photo unavailable.</p>
+    <figcaption class="ocs__stack"><strong>{{ include.photo.title | escape }}</strong><a class="ocs__caption" href="{{ include.photo.source | escape }}">Photo source: Unified Esports League</a></figcaption>
+</figure>

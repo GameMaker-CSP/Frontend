@@ -5,37 +5,28 @@ description: Get together, play games, and connect with the Unified Esports Leag
 permalink: /
 ---
 <!-- Community gatherings lead; Game Maker continues the experience between events. -->
-<section id="home" aria-labelledby="hero-heading">
+<section id="home" class="ocs__infograph" aria-labelledby="hero-heading" data-photo-gallery>
   <div class="ocs__grid cols-2">
-    <div class="ocs__grid-cell">
+    <div class="ocs__card ocs__infograph-header">
       <p class="ocs__caption">Unified Esports League</p>
-      <h1 class="ocs__section-title" id="hero-heading">Good games. New friends. Time together.</h1>
-      <p class="ocs__description">Get together to play, cheer each other on, and belong. UESL brings people with intellectual and developmental disabilities together through gaming and technology.</p>
+      <h1 class="ocs__section-title" id="hero-heading">Find your next game day.</h1>
+      <p class="ocs__description">UESL brings people with intellectual and developmental disabilities together through games and technology. Join a gathering in person or arrange a first visit.</p>
       <div class="ocs__links">
         <a href="{{ '/events/' | relative_url }}" class="ocs__btn fill large">Explore events &amp; gatherings</a>
         <a href="{{ '/contact/?topic=tour' | relative_url }}" class="ocs__btn large">Arrange a visit</a>
       </div>
     </div>
     {% assign hero_photo = site.data.uesl_gallery | first %}
-    <figure class="ocs__stack ocs__grid-cell">
-      <img class="ocs__image-frame" src="{{ hero_photo.image }}?format=1000w" alt="{{ hero_photo.alt | escape }}" width="{{ hero_photo.width }}" height="{{ hero_photo.height }}" fetchpriority="high">
-      <figcaption><a href="{{ '/gallery/' | relative_url }}">Meet the community in photos →</a></figcaption>
-    </figure>
+    {% include uesl-photo-row.html photo=hero_photo featured=true %}
   </div>
 </section>
 
-<section class="ocs__stack" id="gatherings" aria-labelledby="gatherings-heading">
-  <div class="ocs__grid cols-2">
-    <div class="ocs__stack">
-      <h2 class="ocs__section-title" id="gatherings-heading">The next time we get together</h2>
-      <p class="ocs__description">Find out what’s happening, ask about a gaming party, or explore a gathering at your venue. The team can help you work out the details.</p>
-      <ul class="ocs__links">
-        <li><a class="ocs__btn" href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a></li>
-        <li><a class="ocs__btn" href="{{ '/contact/?topic=party' | relative_url }}">Ask about hosting</a></li>
-      </ul>
-    </div>
+<section class="ocs__stack" id="gatherings" aria-labelledby="gatherings-heading" data-event-feed="upcoming">
+    <h2 class="ocs__section-title" id="gatherings-heading">Upcoming gatherings</h2>
+    <p data-event-status role="status">Loading upcoming gatherings…</p>
+    <div class="ocs__grid cols-2" data-event-items></div>
     {% include uesl-events.html %}
-  </div>
+    <p><a href="{{ '/events/' | relative_url }}">See all events &amp; gatherings</a></p>
 </section>
 
 <section class="ocs__stack" id="announcements" aria-labelledby="updates-heading">
@@ -44,11 +35,17 @@ permalink: /
   <div><a class="ocs__btn" href="{{ '/announcements/' | relative_url }}">All notices &amp; visit information</a></div>
 </section>
 
-<section class="ocs__stack" aria-labelledby="photos-heading">
-  <h2 class="ocs__section-title" id="photos-heading">This is what together looks like.</h2>
-  {% include uesl-gallery.html %}
-  <div><a class="ocs__btn" href="{{ '/gallery/' | relative_url }}">Explore the gallery</a></div>
+<section class="ocs__card ocs__stack" aria-labelledby="photos-heading">
+  <h2 class="ocs__section-title" id="photos-heading">Photos from the community</h2>
+  <p class="ocs__description">See what happened at a specific gathering, or browse UESL’s collections by activity.</p>
+  <ul class="ocs__links">
+    <li><a class="ocs__btn accent" href="{{ '/gallery/#event-albums' | relative_url }}">Browse event albums</a></li>
+    <li><a class="ocs__btn" href="{{ '/gallery/#shared-play' | relative_url }}">See more big-screen photos</a></li>
+  </ul>
 </section>
+{% include uesl-photo-viewer.html %}
+<script type="module" src="{{ '/assets/js/uesl-community/community-gallery.mjs' | relative_url }}"></script>
+<script type="module" src="{{ '/assets/js/uesl-community/event-lists.mjs' | relative_url }}"></script>
 
 <section class="ocs__stack" aria-labelledby="getting-started-heading">
   <h2 class="ocs__section-title" id="getting-started-heading">Your first visit starts here.</h2>
