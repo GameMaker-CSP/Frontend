@@ -16,12 +16,15 @@
 
 // Keep the logo and controls on one row, with the same links in the compact menu.
 (() => {
+  const header = document.querySelector('.uesl-topbar, .site-header');
+  if (!header) return;
+  const measureHeader = () => {
+    document.documentElement.style.setProperty('--uesl-header-height', header.offsetHeight + 'px');
+  };
+  measureHeader();
+  new ResizeObserver(measureHeader).observe(header);
   const button = document.getElementById('nav-menu-toggle');
   if (!button) return;
-  const header = button.closest('header');
-  new ResizeObserver(() => {
-    document.documentElement.style.setProperty('--uesl-header-height', header.offsetHeight + 'px');
-  }).observe(header);
   const nav = document.getElementById('nav');
   const compact = window.matchMedia('(max-width: 69rem)');
   function resize() {
