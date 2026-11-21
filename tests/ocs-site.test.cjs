@@ -41,7 +41,7 @@ test('hidden OCS fields stay hidden when added dynamically and can be revealed',
   const initial = element(true);
   let notify;
   vm.runInNewContext(read('assets/js/uesl-community/site.js'), {
-    document: { body: {}, getElementById: () => null, querySelectorAll: () => [initial] },
+    document: { body: {}, querySelector: () => null, getElementById: () => null, querySelectorAll: () => [initial] },
     MutationObserver: class { constructor(callback) { notify = callback; } observe() {} },
   });
   assert.ok(initial.classes.has('ocs__hidden'));
