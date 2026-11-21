@@ -11,7 +11,7 @@ export function refreshEvents(root, today = pacificDate()) {
     card.classList.toggle('ocs__hidden', past);
     if (!past) visible += 1;
   }
-  root.querySelector('[data-events-empty]').classList.toggle('ocs__hidden', visible > 0 || !!root.querySelector('[data-community-feed="events"] article'));
+  root.querySelector('[data-events-empty]').classList.toggle('ocs__hidden', visible > 0 || Number(root.dataset?.liveCount) > 0 || !!root.querySelector('[data-community-feed="events"] article'));
 }
 
 if (typeof document !== 'undefined') {

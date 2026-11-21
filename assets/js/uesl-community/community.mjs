@@ -105,7 +105,7 @@ export async function command(text, slot) {
     const status = node('p'); status.setAttribute('role','status'); form.append(btn,status);
     form.onsubmit = async event => {
         event.preventDefault(); if (btn.disabled) return; btn.disabled=true;
-        try { await submit(); form.replaceChildren(node('p',eventMode?'Event published.':'Photo saved to the event.')); await refreshCommunity(); }
+        try { await submit(); form.replaceChildren(node('p',eventMode?'Event published.':'Photo saved to the event.')); document.dispatchEvent(new Event("uesl-community-updated")); }
         catch (error) { status.textContent=error.message; btn.disabled=false; }
     };
 }

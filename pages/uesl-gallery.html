@@ -5,14 +5,29 @@ title: Community gallery
 description: See people playing and spending time together in UESL’s community photos.
 permalink: /gallery/
 ---
-<section class="ocs__stack" aria-labelledby="gallery-heading">
-  <header class="ocs__stack">
-    <h1 class="ocs__section-title" id="gallery-heading">Good games. Shared moments.</h1>
-    <p class="ocs__description">A look at the people and play behind UESL. Select a photo to open the full image.</p>
+<section class="ocs__stack ocs__infograph" aria-labelledby="gallery-heading" data-photo-gallery>
+  <header class="ocs__card ocs__infograph-header">
+    <p class="ocs__caption">Unified Esports League</p>
+    <h1 class="ocs__section-title" id="gallery-heading">Community photo gallery</h1>
+    <p class="ocs__description">Browse photos by event or explore UESL’s community collections. Select a photo to enlarge it.</p>
+    <ul class="ocs__links">
+      <li><a class="ocs__btn fill" href="#event-albums">Event albums</a></li>
+      <li><a class="ocs__btn" href="#community-collections">Community collections</a></li>
+    </ul>
   </header>
-  {% include uesl-gallery.html %}
-  <ul class="ocs__links">
-    <li><a class="ocs__btn fill" href="{{ '/events/' | relative_url }}">Join a gathering</a></li>
-    <li><a class="ocs__btn" href="https://www.unifiedesl.com/">More photos on UESL’s website</a></li>
-  </ul>
+  <section class="ocs__stack" id="event-albums" data-event-feed="albums" aria-labelledby="event-albums-heading">
+    <h2 class="ocs__section-title" id="event-albums-heading">Event albums</h2>
+    <p data-event-status role="status">Loading event albums…</p>
+    <div class="ocs__grid cols-2" data-event-items></div>
+    <div class="ocs__grid cols-3" data-community-feed="photos"></div>
+    <p><a href="{{ '/events/' | relative_url }}">Browse all events &amp; gatherings</a></p>
+  </section>
+  <section class="ocs__stack" id="community-collections" aria-labelledby="community-collections-heading">
+    <h2 class="ocs__section-title" id="community-collections-heading">Community collections</h2>
+    <p class="ocs__description">Explore photos from UESL’s San Marcos arena opening, San Diego FC tournament, and community programs.</p>
+    {% include uesl-gallery.html %}
+  </section>
 </section>
+{% include uesl-photo-viewer.html %}
+<script type="module" src="{{ '/assets/js/uesl-community/event-lists.mjs' | relative_url }}"></script>
+<script type="module" src="{{ '/assets/js/uesl-community/community-gallery.mjs' | relative_url }}"></script>

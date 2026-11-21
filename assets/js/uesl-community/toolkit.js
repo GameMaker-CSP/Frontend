@@ -8,9 +8,6 @@
   const ruler = $('reading-ruler');
   const backend = document.body.dataset.apiSameOrigin === 'true' ? location.origin
     : (['localhost', '127.0.0.1'].includes(location.hostname) ? `http://${location.hostname}:8424` : 'https://ueslgame-api.opencodingsociety.com');
-  if (document.querySelector('[data-community-feed]')) {
-    import('./community.mjs').then(module => module.refreshCommunity()).catch(() => {});
-  }
   const history = [];
   let settings = {};
   try { settings = JSON.parse(localStorage.getItem('uesl_toolkit') || '{}'); } catch (_) {}

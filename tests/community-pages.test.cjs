@@ -4,7 +4,7 @@ const path = require('node:path');
 const test = require('node:test');
 const root = path.join(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
-const routes = ['index.html', ...['events', 'announcements', 'gallery', 'contact', 'locations'].map(route => `${route}/index.html`)];
+const routes = ['index.html', ...['events', 'events/detail', 'events/photos/manage', 'announcements', 'gallery', 'contact', 'locations'].map(route => `${route}/index.html`)];
 
 test('community routes render one title, valid section targets, and working local links', () => {
   for (const route of routes) {
@@ -45,11 +45,43 @@ test('event and contact empty states do not promise registrations or message del
 });
 
 test('new community markup uses existing shared styles without inline CSS', () => {
-  for (const name of ['home', 'events', 'announcements', 'gallery', 'contact', 'locations']) {
+  assert.match(read('_site/assets/css/ocs.css'), /\.ocs__card\s*\{/, 'Use the Gemfile.local build; the old Sass toolchain ships uncompiled @use rules.');
+  for (const name of ['home', 'events', 'event-detail', 'photo-manager', 'announcements', 'gallery', 'contact', 'locations']) {
     const source = read(`pages/uesl-${name}.html`);
     assert.doesNotMatch(source, /<style\b|\sstyle=|<link[^>]+\.css/);
     assert.match(source, /ocs__/);
   }
+});
+
+test('community collections keep each image with its own caption and do not repeat the gallery on home', () => {
+  const gallery = read('_site/gallery/index.html');
+  const home = read('_site/index.html');
+  const photos = JSON.parse(read('_data/uesl_gallery.json'));
+  for (const photo of photos) {
+    const collection = gallery.match(new RegExp(`<section[^>]+id="${photo.collection.toLowerCase().replaceAll(' ', '-')}"[\\s\\S]*?</section>`))[0];
+    const figure = [...collection.matchAll(/<figure[\s\S]*?<\/figure>/g)].find(([content]) => content.includes(photo.image))[0];
+    assert.ok(figure.includes(photo.alt) && figure.includes(photo.title));
+    assert.match(figure, /<figcaption[\s\S]*?Photo source: Unified Esports League/);
+    assert.match(figure, /srcset=/);
+    assert.match(figure, /data-photo-failed hidden/);
+  }
+  assert.equal((home.match(/data-photo-open/g) || []).length, 1);
+  assert.match(gallery, /TERI Campus of Life/);
+  assert.match(gallery, /18 Threads/);
+});
+
+test('event details include an album and discussion, and staff upload stays hidden until authorized', () => {
+  const event = read('_site/events/detail/index.html');
+  const staff = read('_site/events/photos/manage/index.html');
+  assert.ok(event.indexOf('id="event-info"') < event.indexOf('id="event-photos"'));
+  assert.ok(event.indexOf('id="event-photos"') < event.indexOf('id="discussion"'));
+  assert.match(event, /<dialog[^>]+id="photo-viewer"[\s\S]*?<form method="dialog"/);
+  assert.match(event, /id="discussion-login"[\s\S]*?<a href="\/login"/);
+  assert.match(staff, /id="manager"[^>]*hidden/);
+  for (const field of ['image', 'caption', 'alt', 'credit', 'permission', 'approved']) {
+    assert.match(staff, new RegExp(`name="${field}"[^>]*required`));
+  }
+  assert.match(staff, /<progress[^>]+id="upload-progress"/);
 });
 
 test('announcements and gallery retain source attribution and complete records', () => {

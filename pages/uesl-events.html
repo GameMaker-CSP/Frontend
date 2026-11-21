@@ -6,19 +6,22 @@ description: Meet up, play together, and ask about a UESL event or party.
 permalink: /events/
 ---
 <section class="ocs__stack" aria-labelledby="events-heading">
-  <header class="ocs__stack">
+  <header class="ocs__card ocs__infograph-header">
     <p class="ocs__caption">Together, in person</p>
     <h1 class="ocs__section-title" id="events-heading">Make time to play together.</h1>
     <p class="ocs__description">Meet people, try games, and enjoy being part of a team. Find your next UESL gathering or talk with the team about bringing a gaming event to your community.</p>
     <ul class="ocs__links">
       <li><a class="ocs__btn fill" href="#dates">Find a gathering</a></li>
-      <li><a class="ocs__btn" href="{{ '/contact/?topic=party' | relative_url }}">Ask about a party or venue</a></li>
+      <li><a class="ocs__btn" href="{{ '/gallery/#event-albums' | relative_url }}">Browse event albums</a></li>
     </ul>
   </header>
-  <section class="ocs__stack" id="dates" aria-labelledby="dates-heading">
+  <section class="ocs__stack" id="dates" aria-labelledby="dates-heading" data-event-feed="all">
     <h2 id="dates-heading">Event dates</h2>
+    <p data-event-status role="status">Loading live events…</p>
+    <div class="ocs__grid cols-2" data-event-items></div>
     {% include uesl-events.html %}
   </section>
+  <p><a href="{{ '/events/photos/manage/' | relative_url }}">Staff: manage event photos</a></p>
   <div class="ocs__grid cols-2">
     <section class="ocs__card ocs__stack" aria-labelledby="party-heading">
       <h2 id="party-heading">Bring people together</h2>
@@ -41,3 +44,4 @@ permalink: /events/
   </details>
   <p class="ocs__description">For program information, visit <a href="https://www.unifiedesl.com/">UESL’s official website</a>.</p>
 </section>
+<script type="module" src="{{ '/assets/js/uesl-community/event-lists.mjs' | relative_url }}"></script>

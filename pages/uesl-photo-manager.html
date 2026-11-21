@@ -1,0 +1,66 @@
+---
+layout: uesl
+title: Staff photo manager
+description: Manage approved UESL event photos.
+permalink: /events/photos/manage/
+---
+<header class="ocs__card ocs__stack">
+  <p class="ocs__caption"><a href="{{ '/events/' | relative_url }}">Events &amp; gatherings</a> / Staff</p>
+  <h1 class="ocs__section-title">Event photo manager</h1>
+  <p class="ocs__description">Choose an event, then add approved photos and set the order they appear in.</p>
+  <p id="manager-access" role="status">Checking staff access…</p>
+  <div class="ocs__links">
+    <a class="ocs__btn" id="manager-login" href="{{ '/login' | relative_url }}" hidden>Sign in with a staff account</a>
+    <button type="button" id="manager-retry" class="ocs__btn" hidden>Try again</button>
+  </div>
+</header>
+<div id="manager" class="ocs__stack" hidden>
+  <section class="ocs__card ocs__stack" aria-labelledby="choose-event">
+    <h2 id="choose-event">Choose an event</h2>
+    <label class="ocs__field">Event <select id="managed-event" class="ocs__input"></select></label>
+    <div class="ocs__links">
+      <a class="ocs__btn" id="view-managed-event" hidden>Open public event gallery</a>
+      <button type="button" class="ocs__btn accent" id="publish-managed-event" hidden>Publish event and its approved photos</button>
+    </div>
+    <details>
+      <summary>Create an event draft</summary>
+      <form id="create-event" class="ocs__stack">
+        <p class="ocs__description">Use confirmed event details. Start and end use your device’s time zone. Public event pages display Pacific time.</p>
+        <div class="ocs__grid cols-2">
+          <label class="ocs__field">Event title <input class="ocs__input" name="title" maxlength="160" required></label>
+          <label class="ocs__field">Venue <input class="ocs__input" name="location" maxlength="200" required></label>
+          <label class="ocs__field">Start <input class="ocs__input" type="datetime-local" name="starts_at" required></label>
+          <label class="ocs__field">End <input class="ocs__input" type="datetime-local" name="ends_at" required></label>
+        </div>
+        <label class="ocs__field">Description <textarea class="ocs__input" name="description" rows="3" maxlength="2000" required></textarea></label>
+        <div><button class="ocs__btn" type="submit">Save draft</button></div>
+      </form>
+    </details>
+  </section>
+  <p id="manager-status" role="status"></p>
+  <section id="manage-album" class="ocs__stack" aria-labelledby="manage-album-heading" hidden>
+    <form id="upload-photo" class="ocs__card ocs__stack">
+      <h2 id="manage-album-heading">Add a photo</h2>
+      <label class="ocs__field">JPEG, PNG or WebP (up to 4 MB) <input class="ocs__input" type="file" name="image" accept="image/jpeg,image/png,image/webp" required></label>
+      <label class="ocs__field">Public caption (event, venue, or program) <textarea class="ocs__input" name="caption" rows="2" maxlength="400" required></textarea></label>
+      <div class="ocs__grid cols-2">
+        <label class="ocs__field">Alt text (what the image shows) <input class="ocs__input" name="alt" maxlength="240" required></label>
+        <label class="ocs__field">Public photo credit <input class="ocs__input" name="credit" maxlength="160" required></label>
+      </div>
+      <label class="ocs__field">Permission reference (staff only; don’t include private records) <input class="ocs__input" name="permission" maxlength="400" required></label>
+      <label class="ocs__toggle"><input type="checkbox" name="approved" value="yes" required> Approved for public display by UESL and the people shown or their guardians.</label>
+      <div><button class="ocs__btn fill" type="submit">Upload photo</button></div>
+      <progress id="upload-progress" max="1" aria-label="Photo upload progress" hidden></progress>
+      <p id="upload-status" role="status"></p>
+    </form>
+    <section class="ocs__stack" aria-labelledby="album-tools">
+      <h2 id="album-tools">Cover and photo order</h2>
+      <p class="ocs__description">Use the buttons to move photos earlier or later. Changes are saved to this event.</p>
+      <p id="managed-album-status" role="status"></p>
+      <div id="managed-album" class="ocs__grid cols-2"></div>
+    </section>
+  </section>
+</div>
+{% include uesl-photo-viewer.html %}
+
+<script type="module" src="{{ '/assets/js/uesl-community/photo-manager.mjs' | relative_url }}"></script>
